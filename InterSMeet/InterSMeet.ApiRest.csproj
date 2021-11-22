@@ -16,6 +16,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\InterSMeet.BL\InterSMeet.BLL.csproj" />
 	  <ProjectReference Include="..\InterSMeet.Core\InterSMeet.Core.csproj" />
+	  <ProjectReference Include="..\InterSMeet.DAL\InterSMeet.DAL.csproj" />
 	</ItemGroup>
 
 </Project>

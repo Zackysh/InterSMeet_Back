@@ -36,3 +36,7 @@ C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\Inte
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\InterSMeet.Core.dll
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\InterSMeet.BLL.pdb
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\InterSMeet.Core.pdb
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\Humanizer.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\InterSMeet.DAL.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\InterSMeet.DAL.pdb
