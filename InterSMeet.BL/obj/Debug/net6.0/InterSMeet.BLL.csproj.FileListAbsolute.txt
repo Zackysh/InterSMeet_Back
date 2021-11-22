@@ -1,0 +1,11 @@
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.BLL.deps.json
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.BLL.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\ref\InterSMeet.BLL.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.BLL.pdb
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.AssemblyInfoInputs.cache
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.AssemblyInfo.cs
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.csproj.CoreCompileInputs.cache
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\ref\InterSMeet.BLL.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.pdb

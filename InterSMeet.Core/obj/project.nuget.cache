@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "kH4y7znO5YqnjnLVPA/kXWvFQtjOyTXt8/cjsANi5mYdm4rA037UEp1Yrl8GAhHdM/sIETfKFg/JIoQtBPqEpQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\adrig\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
+    "C:\\Users\\adrig\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\adrig\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}
