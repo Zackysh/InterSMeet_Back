@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "InterSMeet.BL/1.0.0": {
+        "runtime": {
+          "InterSMeet.BL.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "InterSMeet.BL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

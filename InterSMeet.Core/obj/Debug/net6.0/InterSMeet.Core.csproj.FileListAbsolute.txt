@@ -1,0 +1,11 @@
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Debug\net6.0\InterSMeet.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Debug\net6.0\InterSMeet.Core.AssemblyInfoInputs.cache
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Debug\net6.0\InterSMeet.Core.AssemblyInfo.cs
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Debug\net6.0\InterSMeet.Core.csproj.CoreCompileInputs.cache
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\InterSMeet.Core.deps.json
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\InterSMeet.Core.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\ref\InterSMeet.Core.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\InterSMeet.Core.pdb
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Debug\net6.0\InterSMeet.Core.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Debug\net6.0\ref\InterSMeet.Core.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Debug\net6.0\InterSMeet.Core.pdb

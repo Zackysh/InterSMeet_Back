@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "6zEjtGbSFCgrU+SzUM3CVjmfMSMsYgF4I3b09jwHPdc=",
+  "Source": "InterSMeet.ApiRest",
+  "BasePath": "_content/InterSMeet.ApiRest",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
