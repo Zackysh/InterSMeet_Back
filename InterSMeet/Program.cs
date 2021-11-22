@@ -1,9 +1,11 @@
 using InterSMeet.BLL.Contracts;
 using InterSMeet.BLL.Implementations;
 using InterSMeet.Core.MapperProfiles;
+using InterSMeet.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -12,7 +14,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Dependency injection
 builder.Services.AddScoped<IUserBL, UserB>();
+builder.Services.AddScoped<IConfiguration>();
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new AutoMapperProfile()));
+
 // Cors
 builder.Services.AddCors(options =>
 {
@@ -36,14 +40,14 @@ if (app.Environment.IsDevelopment())
 
 // Configure DbContext
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
-//builder.Services.AddDbContext<ottgenixContext>(
-//            dbContextOptions => dbContextOptions
-//                .UseMySql(builder.Configuration["ConnectionStrings:OTTgenixDb"], serverVersion)
-//                // Disable on prod
-//                .LogTo(Console.WriteLine, LogLevel.Information)
-//                .EnableSensitiveDataLogging()
-//                .EnableDetailedErrors()
-//                );
+builder.Services.AddDbContext<InterSMeetDbContext>(
+            dbContextOptions => dbContextOptions
+                .UseMySql(builder.Configuration["ConnectionStrings:InterSMeetDb"], serverVersion)
+                // Disable on prod
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors()
+                );
 
 app.UseCors("AllowSetOrigins");
 
