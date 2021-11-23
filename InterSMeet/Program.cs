@@ -2,6 +2,8 @@ using InterSMeet.BLL.Contracts;
 using InterSMeet.BLL.Implementations;
 using InterSMeet.Core.MapperProfiles;
 using InterSMeet.DAL.Entities;
+using InterSMeet.DAL.Repositories.Contracts;
+using InterSMeet.DAL.Repositories.Implementations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -15,9 +17,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-// Dependency injection
-builder.Services.AddScoped<IUserBL, UserB>();
-builder.Services.AddScoped<IConfiguration>();
+// Dependency 
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new AutoMapperProfile()));
 
 // Configure authentication
@@ -52,8 +52,9 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddScoped<IUserBL, UserB>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

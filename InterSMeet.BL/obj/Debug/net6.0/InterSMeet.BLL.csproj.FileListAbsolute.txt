@@ -10,3 +10,8 @@ C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\I
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\ref\InterSMeet.BLL.dll
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.pdb
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.csproj.AssemblyReference.cache
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.Core.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.DAL.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.Core.pdb
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.DAL.pdb
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.csproj.CopyComplete

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InterSMeet.Core\InterSMeet.Core.csproj" />
+  </ItemGroup>
+
 </Project>

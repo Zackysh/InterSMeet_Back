@@ -1,5 +1,8 @@
-﻿using InterSMeet.BLL.Contracts;
+﻿using AutoMapper;
+using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
+using InterSMeet.DAL.Entities;
+using InterSMeet.DAL.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +13,24 @@ namespace InterSMeet.BLL.Implementations
 {
     public class UserB : IUserBL
     {
+        public IUserRepository UserRepository { get; set; }
+        public IMapper Mapper { get; set; }
 
-        public UserDTO Delete(int userId)
+        public UserB(IUserRepository userRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            UserRepository = userRepository;
+            Mapper = mapper;
         }
 
         public IEnumerable<UserDTO> FindAll()
+        {
+
+            var entityList = UserRepository.FindAll();
+            var dtoList = Mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(entityList);
+            return dtoList;
+        }
+
+        public UserDTO Delete(int userId)
         {
             throw new NotImplementedException();
         }

@@ -21,7 +21,7 @@ namespace InterSMeet.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<UserDTO>> FindAll()
         {
-            return null;
+            return Ok(UserBL.FindAll());
         }
 
         // GET api/users/:userId
