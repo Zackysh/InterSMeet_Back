@@ -9,3 +9,4 @@ C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\I
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.dll
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\ref\InterSMeet.BLL.dll
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.pdb
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.csproj.AssemblyReference.cache

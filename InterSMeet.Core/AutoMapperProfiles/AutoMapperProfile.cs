@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using InterSMeet.Core.DTO;
+using InterSMeet.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,8 @@ namespace InterSMeet.Core.MapperProfiles
 
         public AutoMapperProfile()
         {
-            
+            CreateMap<UserDTO, User>();
+            CreateMap<User, UserDTO>();
         }
 
     }

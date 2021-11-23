@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace InterSMeet.Core.DTO
 {
-    internal class SignInDTO
+    public class SignInDTO
     {
-
+        public string? Username { get; set; }
+        public string? Email { get; set; }
+        public string Password { get; set; } = null!;
     }
 }
