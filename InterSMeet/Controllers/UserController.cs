@@ -19,42 +19,42 @@ namespace InterSMeet.Controllers
 
         // GET: api/users
         [HttpGet]
-        public ActionResult<IEnumerable<UserDTO>> FindAll()
+        public ActionResult<IEnumerable<UserRoleDTO>> FindAll()
         {
             return Ok(UserBL.FindAll());
         }
 
         // GET api/users/:userId
         [HttpGet("{userId}")]
-        public ActionResult<UserDTO> FindById(int userId)
+        public ActionResult<UserRoleDTO> FindById(int userId)
         {
             return null;
         }
 
         // POST api/users/sign-up
         [HttpPost("sign-up")]
-        public ActionResult<UserDTO> SignUp(SignUpDTO value)
+        public ActionResult<UserRoleDTO> SignUp(SignUpDTO signUpDto)
         {
-            return null;
+            return Ok(UserBL.SignUp(signUpDto));
         }
 
         // POST api/users/sign-in
         [HttpPost("sign-in")]
-        public ActionResult<UserDTO> SignIn(SignInDTO value)
+        public ActionResult<UserRoleDTO> SignIn(SignInDTO value)
         {
             return null;
         }
 
         // POST api/users
         [HttpPost]
-        public ActionResult<UserDTO> Create(UserDTO value)
+        public ActionResult<UserRoleDTO> Create(UserRoleDTO value)
         {
             return null;
         }
 
         // PUT api/users/:userId
         [HttpPut("{userId}")]
-        public ActionResult<UserDTO> Update(int userId, UserDTO useerDto)
+        public ActionResult<UserRoleDTO> Update(int userId, UserRoleDTO useerDto)
         {
             return null;
         }

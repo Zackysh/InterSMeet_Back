@@ -14,8 +14,8 @@ namespace InterSMeet.Core.MapperProfiles
 
         public AutoMapperProfile()
         {
-            CreateMap<UserDTO, User>();
-            CreateMap<User, UserDTO>();
+            CreateMap<UserRoleDTO, User>();
+            CreateMap<User, UserRoleDTO>();
         }
 
     }

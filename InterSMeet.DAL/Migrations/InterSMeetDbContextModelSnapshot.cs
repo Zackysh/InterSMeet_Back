@@ -37,6 +37,7 @@ namespace InterSMeet.DAL.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("email");
 
@@ -52,18 +53,21 @@ namespace InterSMeet.DAL.Migrations
                         .HasColumnType("varchar(5)")
                         .HasColumnName("language");
 
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(70)
+                        .HasColumnType("varchar(70)")
+                        .HasColumnName("last_name");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("password");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("enum('admin','manager','customer','guest')")
-                        .HasColumnName("role")
-                        .HasDefaultValueSql("'guest'");
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int")
+                        .HasColumnName("role_id");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -79,10 +83,39 @@ namespace InterSMeet.DAL.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("RoleId");
+
                     b.HasIndex(new[] { "Email" }, "IDX_97672ac88f789774dd47f7c8be")
                         .IsUnique();
 
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("InterSMeet.DAL.Entities.UserRole", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("role_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)")
+                        .HasColumnName("name");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("user_roles");
+                });
+
+            modelBuilder.Entity("InterSMeet.DAL.Entities.User", b =>
+                {
+                    b.HasOne("InterSMeet.DAL.Entities.UserRole", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,7 +1,14 @@
-﻿namespace InterSMeet.Core.Security
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+
+namespace InterSMeet.Core.Security
 {
-    public interface IPasswordGenerators
+    public interface IJwtGenerator
     {
-        public string Hash(string password);
+        public JwtSecurityToken GetJwtToken(
+                string username,
+                string signingKey,
+                TimeSpan expiration,
+                Claim[]? additionalClaims = null);
     }
 }

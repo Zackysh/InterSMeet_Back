@@ -11,9 +11,9 @@ namespace InterSMeet.BLL.Contracts
     {
         public AuthenticatedDTO SignIn(SignInDTO signInDTO);
         public AuthenticatedDTO SignUp(SignUpDTO signUpDTO);
-        public IEnumerable<UserDTO> FindAll();
-        public UserDTO FindById(int userId);
-        public UserDTO Delete(int userId);
-        public UserDTO Update(UserDTO userDTO, int userId);
+        public IEnumerable<UserRoleDTO> FindAll();
+        public UserRoleDTO FindById(int userId);
+        public UserRoleDTO Delete(int userId);
+        public UserRoleDTO Update(UserRoleDTO userDTO, int userId);
     }
 }

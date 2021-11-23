@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace InterSMeet.Core.DTO
 {
-    public class SignUpDTO
+    public class CreateUserDTO
     {
         public string Username { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
         public string Language { get; set; } = null!;
+        public string Role { get; set; } = null!;
     }
 }

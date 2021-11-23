@@ -1,27 +1,60 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace InterSMeet.Core.Security
 {
-    public class JwtGenerator : IPasswordGenerator
+    public class JwtGenerator : IJwtGenerator
     {
-        public JwtGenerator()
+        internal IConfiguration Configuration;
+        public JwtGenerator(IConfiguration configuration)
         {
+            Configuration = configuration;
         }
-        public string Hash(string password)
-        {
-            // generate a 128-bit salt
-            byte[] salt = Encoding.UTF8.GetBytes("ACCESS_SECRET"); // FIX THIS
 
-            // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: password,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 98765,
-                numBytesRequested: 256 / 8));
-            return hashed;
+        /// <summary>
+        /// Generate JwtSecurityToken with provided information.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="signingKey"></param>
+        /// <param name="issuer"></param>
+        /// <param name="audience"></param>
+        /// <param name="expiration"></param>
+        /// <param name="additionalClaims"></param>
+        /// <returns></returns>
+        public JwtSecurityToken GetJwtToken(
+                string username,
+                string signingKey,
+                TimeSpan expiration,
+                Claim[]? additionalClaims = null)
+        {
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, username),
+                // this guarantees the token is unique
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            if (additionalClaims is not null)
+            {
+                var claimList = new List<Claim>(claims);
+                claimList.AddRange(additionalClaims);
+                claims = claimList.ToArray();
+            }
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            return new JwtSecurityToken(
+                issuer: Configuration["Jwt:Issuer"],
+                audience: Configuration["Jwt:Audience"],
+                expires: DateTime.UtcNow.Add(expiration),
+                claims: claims,
+                signingCredentials: creds
+            );
         }
     }
 }

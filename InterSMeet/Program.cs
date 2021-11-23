@@ -1,6 +1,7 @@
 using InterSMeet.BLL.Contracts;
 using InterSMeet.BLL.Implementations;
 using InterSMeet.Core.MapperProfiles;
+using InterSMeet.Core.Security;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
 using InterSMeet.DAL.Repositories.Implementations;
@@ -12,13 +13,17 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-// Dependency 
+// Configure AutoMapper
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new AutoMapperProfile()));
+// Dependency injection (oder matters)
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPasswordGenerator, PasswordGenerator>();
+builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
+builder.Services.AddScoped<IUserBL, UserBL>();
 
 // Configure authentication
 builder.Services.AddAuthentication(auth =>
@@ -52,16 +57,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddScoped<IUserBL, UserB>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-var app = builder.Build();
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 // Configure DbContext
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
 builder.Services.AddDbContext<InterSMeetDbContext>(
@@ -72,6 +67,15 @@ builder.Services.AddDbContext<InterSMeetDbContext>(
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors()
                 );
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseCors("AllowSetOrigins");
 

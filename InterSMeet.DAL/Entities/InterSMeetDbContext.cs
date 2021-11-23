@@ -17,6 +17,7 @@ namespace InterSMeet.DAL.Entities
         }
 
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -60,10 +61,8 @@ namespace InterSMeet.DAL.Entities
                     .HasMaxLength(255)
                     .HasColumnName("password");
 
-                entity.Property(e => e.Role)
-                    .HasColumnType("enum('admin','manager','customer','guest')")
-                    .HasColumnName("role")
-                    .HasDefaultValueSql("'guest'");
+                entity.Property(e => e.RoleId)
+                    .HasColumnName("role_id");
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("timestamp(3)")
