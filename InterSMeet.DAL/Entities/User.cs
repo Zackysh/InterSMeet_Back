@@ -17,13 +17,18 @@ namespace InterSMeet.DAL.Entities
         [MaxLength(255)]
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
-        [MaxLength(10)]
-        public string Language { get; set; } = null!;
-        [Column("role")]
-        [ForeignKey("role_id")]
+
+        // Language FK
+        [Column("language_id")]
+        [ForeignKey("Language")]
+        public int LanguageId { get; set; }
+        public Language Lang { get; set; } = null!;
+
+        // Role FK
+        [Column("role_id")]
+        [ForeignKey("Role")]
         public int? RoleId { get; set; }
-        public UserRole? Role { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public string? CreatedAt { get; set; }
+        public string? UpdatedAt { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,7 +12,7 @@ namespace InterSMeet.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        internal IUserBL UserBL{ get; set; }
+        internal IUserBL UserBL { get; set; }
 
         public UserController(IUserBL UserBL)
         {
@@ -19,50 +21,67 @@ namespace InterSMeet.Controllers
 
         // GET: api/users
         [HttpGet]
-        public ActionResult<IEnumerable<UserRoleDTO>> FindAll()
+        public ActionResult<IEnumerable<UserDTO>> FindAll()
         {
             return Ok(UserBL.FindAll());
         }
 
         // GET api/users/:userId
         [HttpGet("{userId}")]
-        public ActionResult<UserRoleDTO> FindById(int userId)
+        public ActionResult<UserDTO> FindById(int userId)
         {
-            return null;
+            return UserBL.FindById(userId);
         }
 
         // POST api/users/sign-up
         [HttpPost("sign-up")]
-        public ActionResult<UserRoleDTO> SignUp(SignUpDTO signUpDto)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public ActionResult<AuthenticatedDTO> SignUp(SignUpDTO signUpDto)
         {
             return Ok(UserBL.SignUp(signUpDto));
         }
 
         // POST api/users/sign-in
         [HttpPost("sign-in")]
-        public ActionResult<UserRoleDTO> SignIn(SignInDTO value)
+        public ActionResult<AuthenticatedDTO> SignIn(SignInDTO signInDto)
         {
-            return null;
+            return Ok(UserBL.SignIn(signInDto));
         }
 
         // POST api/users
         [HttpPost]
-        public ActionResult<UserRoleDTO> Create(UserRoleDTO value)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public ActionResult<UserDTO> Create(CreateUserDTO createUserDto)
         {
-            return null;
+            return Ok(UserBL.Create(createUserDto));
         }
 
         // PUT api/users/:userId
         [HttpPut("{userId}")]
-        public ActionResult<UserRoleDTO> Update(int userId, UserRoleDTO useerDto)
+        public ActionResult<UserDTO> Update(int userId, UpdateUserDTO updateDto)
         {
-            return null;
+            return Ok(UserBL.Update(updateDto, userId));
         }
 
         // DELETE api/users/:userId
         [HttpDelete("{userId}")]
-        public void Delete(int userId)
+        public ActionResult<UserDTO> Delete(int userId)
         {
+            return Ok(UserBL.Delete(userId));
+        }
+
+        // Foreing
+        [HttpGet("languages")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<IEnumerable<LanguageDTO>> FindAllLanguages()
+        {
+            return Ok(UserBL.FindAllLanguages());
+        }
+
+        [HttpPost("languages")]
+        public ActionResult<LanguageDTO> CreateLanguage(LanguageDTO languageDto)
+        {
+            return Ok(UserBL.CreateLanguage(languageDto));
         }
     }
 }

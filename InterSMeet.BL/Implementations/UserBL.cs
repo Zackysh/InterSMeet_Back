@@ -5,6 +5,7 @@ using InterSMeet.Core.DTO;
 using InterSMeet.Core.Security;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Configuration;
 using ObjectDesign;
 using System;
@@ -40,50 +41,109 @@ namespace InterSMeet.BLL.Implementations
 
         public AuthenticatedDTO SignUp(SignUpDTO signUpDto)
         {
-            Ensure.NotNull(signUpDto);
+            Ensure.NotNull(signUpDto, nameof(signUpDto));
+
+            var user = Mapper.Map<SignUpDTO, User>(signUpDto);
+
+            if (UserRepository.Exists(user)) throw new BLConflictException("User already exists, provide different username or email");
+            if (UserRepository.FindLanguageById(signUpDto.LanguageId) is null)
+                throw new BLNotFoundException("Specified language doesn't exists");
 
             // hash password
             signUpDto.Password = PasswordGenerator.Hash(signUpDto.Password);
-            var user = Mapper.Map<SignUpDTO, User>(signUpDto);
-            if (!UserRepository.Exists(user))
-            {
-                var userDto = Mapper.Map<User, UserDTO>(UserRepository.Create(user));
-                return new()
-                {
-                    User = userDto,
-                    AccessToken = JwtGenerator.GetJwtToken(userDto.Username, Configuration["Jwt:AccessSecret"], TimeSpan.FromMinutes(15)),
-                    RefreshToken = JwtGenerator.GetJwtToken(userDto.Username, Configuration["Jwt:RefreshSecret"], TimeSpan.FromMinutes(15))
-                };
-            }
 
-            throw new BLConflictException("User already exists, provide different username or password");
+            var userDto = Mapper.Map<User, UserDTO>(UserRepository.Create(user));
+            return new()
+            {
+                User = userDto,
+                AccessToken = JwtGenerator.GetJwtToken(userDto.Username, Configuration["Jwt:AccessSecret"], TimeSpan.FromMinutes(15)).InnerToken,
+                RefreshToken = JwtGenerator.GetJwtToken(userDto.Username, Configuration["Jwt:RefreshSecret"], TimeSpan.FromDays(7)).InnerToken
+            };
         }
 
-        public IEnumerable<UserRoleDTO> FindAll()
+        public IEnumerable<UserDTO> FindAll()
         {
             var entityList = UserRepository.FindAll();
-            var dtoList = Mapper.Map<IEnumerable<User>, IEnumerable<UserRoleDTO>>(entityList);
+            var dtoList = Mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(entityList);
             return dtoList;
         }
 
-        public UserRoleDTO FindById(int userId)
+        public UserDTO FindById(int userId)
         {
-            throw new NotImplementedException();
+            var user = UserRepository.FindById(userId);
+            if (user is null) throw new BLNotFoundException($"User not found with ID: {userId}");
+            return Mapper.Map<User, UserDTO>(user);
         }
 
-        public AuthenticatedDTO Create(SignUpDTO signUpDTO)
+        public UserDTO Create(CreateUserDTO createDto)
         {
-            throw new NotImplementedException();
+            Ensure.NotNull(createDto, nameof(createDto));
+
+            var user = Mapper.Map<CreateUserDTO, User>(createDto);
+
+            if (UserRepository.Exists(user)) throw new BLConflictException("User already exists, provide different username or email");
+            // Language should exist
+            if (UserRepository.FindLanguageById(createDto.LanguageId) is null)
+                throw new BLNotFoundException("Specified language doesn't exists");
+            // If role is provided, validate if exists
+            if (createDto.RoleId is not null && UserRepository.FindRoleById((int)createDto.RoleId) is null)
+                throw new BLNotFoundException("Specified role doesn't exists");
+
+            // Hash password
+            createDto.Password = PasswordGenerator.Hash(createDto.Password);
+
+            var userDto = Mapper.Map<User, UserDTO>(UserRepository.Create(user));
+            return userDto;
         }
 
-        public UserRoleDTO Update(UserRoleDTO userDTO, int userId)
+        public UserDTO Update(UpdateUserDTO userDto, int userId)
         {
-            throw new NotImplementedException();
+            Ensure.NotNull(userDto, nameof(userDto));
+            if (UserRepository.FindById(userId) is null) throw new BLNotFoundException("User doesn't exists");
+
+            // If role is provided, validate if exists
+            if (userDto.RoleId is not null && UserRepository.FindRoleById((int)userDto.RoleId) is null)
+                throw new BLNotFoundException("Specified role doesn't exists");
+            // If language is provided, validate if exists
+            if (userDto.LanguageId is not null && UserRepository.FindLanguageById((int)userDto.LanguageId) is null)
+                throw new BLNotFoundException("Specified language doesn't exists");
+
+            var user = Mapper.Map<UpdateUserDTO, User>(userDto);
+            user.UserId = userId;
+
+            // Ensure user has been updated correctly
+            var updated = UserRepository.Update(user);
+            if (updated is null) throw new Exception("Couldn't update user");
+
+            return Mapper.Map<User, UserDTO>(updated);
         }
 
-        public UserRoleDTO Delete(int userId)
+        public UserDTO Delete(int userId)
         {
-            throw new NotImplementedException();
+            var user = UserRepository.FindById(userId);
+            if (user is null) throw new BLNotFoundException($"User not found with ID:{userId}");
+
+            UserRepository.Delete(userId);
+
+            return Mapper.Map<User, UserDTO>(user);
+        }
+
+        // Foreign
+
+        public IEnumerable<LanguageDTO> FindAllLanguages()
+        {
+            var entityList = UserRepository.FindAllLanguages();
+            var dtoList = Mapper.Map<IEnumerable<Language>, IEnumerable<LanguageDTO>>(entityList);
+            return dtoList;
+        }
+        public LanguageDTO CreateLanguage(LanguageDTO languageDto)
+        {
+            Ensure.NotNull(languageDto, nameof(languageDto));
+            if (UserRepository.FindLanguageByName(languageDto.Name) is not null)
+                throw new BLConflictException("Language already exists, provide different language name");
+
+            var language = Mapper.Map<LanguageDTO, Language>(languageDto);
+            return Mapper.Map<Language, LanguageDTO>(UserRepository.CreateLanguage(language));
         }
     }
 }

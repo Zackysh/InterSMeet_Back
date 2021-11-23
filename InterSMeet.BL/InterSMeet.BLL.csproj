@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,7 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Contracts\IUserBL.cs~RF4d90cbd.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\InterSMeet.Core\InterSMeet.Core.csproj" />
+    <ProjectReference Include="..\InterSMeet.DAL\InterSMeet.DAL.csproj" />
   </ItemGroup>
 
 </Project>

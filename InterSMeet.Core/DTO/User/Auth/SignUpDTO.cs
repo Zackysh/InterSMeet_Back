@@ -20,6 +20,6 @@ namespace InterSMeet.Core.DTO
         [MaxLength(40)]
         [MinLength(6)]
         public string Password { get; set; } = null!;
-        public string Language { get; set; } = null!;
+        public int LanguageId { get; set; }
     }
 }

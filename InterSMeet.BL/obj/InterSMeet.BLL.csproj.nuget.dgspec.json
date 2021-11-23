@@ -30,6 +30,9 @@
             "projectReferences": {
               "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj": {
                 "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj"
+              },
+              "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
+                "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
               }
             }
           }
@@ -43,6 +46,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -107,6 +116,10 @@
               "version": "[10.1.1, )"
             },
             "Microsoft.AspNetCore.Cryptography.KeyDerivation": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.AspNetCore.JsonPatch": {
               "target": "Package",
               "version": "[6.0.0, )"
             },

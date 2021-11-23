@@ -22,6 +22,24 @@ namespace InterSMeet.DAL.Migrations
 
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
 
+            modelBuilder.Entity("InterSMeet.DAL.Entities.Language", b =>
+                {
+                    b.Property<int>("LanguageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("language_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("varchar(5)")
+                        .HasColumnName("name");
+
+                    b.HasKey("LanguageId");
+
+                    b.ToTable("Languages");
+                });
+
             modelBuilder.Entity("InterSMeet.DAL.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -29,11 +47,8 @@ namespace InterSMeet.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("user_id");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp(3)")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(3)");
+                    b.Property<string>("CreatedAt")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -47,11 +62,9 @@ namespace InterSMeet.DAL.Migrations
                         .HasColumnType("varchar(40)")
                         .HasColumnName("first_name");
 
-                    b.Property<string>("Language")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("varchar(5)")
-                        .HasColumnName("language");
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int")
+                        .HasColumnName("language_id");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -69,11 +82,8 @@ namespace InterSMeet.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("role_id");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp(3)")
-                        .HasColumnName("updated_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(3)");
+                    b.Property<string>("UpdatedAt")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -83,7 +93,7 @@ namespace InterSMeet.DAL.Migrations
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex(new[] { "Email" }, "IDX_97672ac88f789774dd47f7c8be")
                         .IsUnique();
@@ -111,11 +121,13 @@ namespace InterSMeet.DAL.Migrations
 
             modelBuilder.Entity("InterSMeet.DAL.Entities.User", b =>
                 {
-                    b.HasOne("InterSMeet.DAL.Entities.UserRole", "Role")
+                    b.HasOne("InterSMeet.DAL.Entities.Language", "Lang")
                         .WithMany()
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Role");
+                    b.Navigation("Lang");
                 });
 #pragma warning restore 612, 618
         }

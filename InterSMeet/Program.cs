@@ -1,3 +1,4 @@
+using InterSMeet.API;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.BLL.Implementations;
 using InterSMeet.Core.MapperProfiles;
@@ -24,6 +25,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordGenerator, PasswordGenerator>();
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddScoped<IUserBL, UserBL>();
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 // Configure authentication
 builder.Services.AddAuthentication(auth =>
@@ -80,6 +82,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowSetOrigins");
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

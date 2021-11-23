@@ -69,7 +69,7 @@ namespace ObjectDesign
         /// <param name="value">Value of the object to test for null reference</param>
         /// <param name="message">Message for the Null Reference Exception</param>
         /// <exception cref="NullReferenceException">Thrown when <paramref name="value"/> is null</exception>
-        public static void NotNull(object value, string message = "")
+        public static void NotNull(object? value, string message = "")
         {
             That<NullReferenceException>(value != null, message);
         }

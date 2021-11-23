@@ -21,6 +21,11 @@ namespace InterSMeet.DAL.Repositories.Implementations
             return _context.Users;
         }
 
+        public User? FindById(int userId)
+        {
+            return _context.Users.Find(userId);
+        }
+
         public User? FindByUsername(string username)
         {
             return _context.Users.FirstOrDefault(u => u.Username == username);
@@ -33,14 +38,67 @@ namespace InterSMeet.DAL.Repositories.Implementations
 
         public User Create(User user)
         {
-            var u = _context.Users.Add(user);
+            var change = _context.Users.Add(user);
             _context.SaveChanges();
-            return u.Entity;
+            return change.Entity;
+        }
+
+        public User? Update(User user)
+        {
+            var existing = _context.Users.Find(user.UserId);
+            if (existing is not null)
+            {
+                existing = EntityPropertyMapper.InjectNonNull(existing, user);
+                _context.SaveChanges();
+                return existing;
+            }
+            return null;
+        }
+
+        public User? Delete(int userId)
+        {
+            var user = _context.Users.Find(userId);
+            if (user is not null)
+            {
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+                return user;
+            }
+            else return null;
+
         }
 
         public bool Exists(User user)
         {
             return _context.Users.Any(u => u.Email == user.Email || u.Username == user.Username);
+        }
+
+        // Foreing
+        public Language? FindLanguageById(int languageId)
+        {
+            return _context.Languages.Find(languageId);
+        }
+
+        public IEnumerable<Language> FindAllLanguages()
+        {
+            return _context.Languages;
+        }
+
+        public Language? FindLanguageByName(string name)
+        {
+            return _context.Languages.FirstOrDefault(l => l.Name == name);
+        }
+
+        public Language CreateLanguage(Language language)
+        {
+            var change = _context.Languages.Add(language);
+            _context.SaveChanges();
+            return change.Entity;
+        }
+
+        public UserRole? FindRoleById(int roleId)
+        {
+            return _context.UserRoles.Find(roleId);
         }
     }
 }

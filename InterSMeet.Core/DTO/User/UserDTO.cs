@@ -11,10 +11,11 @@ namespace InterSMeet.Core.DTO
         public int UserId { get; set; }
         public string Username { get; set; } = null!;
         public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public string Language { get; set; } = null!;
-        public string Role { get; set; } = null!;
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public int LanguageId { get; set; }
+        public int RoleId { get; set; }
+        public string CreatedAt { get; set; } = null!;
+        public string UpdatedAt { get; set; } = null!;
     }
 }
