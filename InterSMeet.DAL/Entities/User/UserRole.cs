@@ -5,13 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InterSMeet.DAL.Entities
 {
-    public partial class Language
+    [Table("user_roles")]
+    public class UserRole
     {
         [Key]
-        [Column("language_id")]
-        public int LanguageId { get; set; }
+        [Column("role_id")]
+        public int RoleId { get; set; }
         [Column("name")]
-        [MaxLength(5)]
+        [MaxLength(40)]
         public string Name { get; set; } = null!;
     }
 }

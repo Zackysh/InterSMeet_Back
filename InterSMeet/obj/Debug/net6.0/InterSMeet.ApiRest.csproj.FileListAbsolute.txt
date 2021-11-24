@@ -102,3 +102,5 @@ C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet\obj\Debug\net6.0\Int
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet\obj\Debug\net6.0\InterSMeet.ApiRest.genruntimeconfig.cache
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\Microsoft.Practices.ServiceLocation.dll
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\XAct.Core.PCL.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\Microsoft.Practices.ServiceLocation.dll
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet\bin\Debug\net6.0\XAct.Core.PCL.dll
