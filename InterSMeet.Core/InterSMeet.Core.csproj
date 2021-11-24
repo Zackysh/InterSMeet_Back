@@ -12,6 +12,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.1" />
+		<PackageReference Include="XAct.Core.PCL" Version="0.0.5014" />
 	</ItemGroup>
 
 

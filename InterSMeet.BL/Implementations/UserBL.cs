@@ -2,6 +2,7 @@
 using InterSMeet.BL.Exception;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
+using InterSMeet.Core.DTO.Validators;
 using InterSMeet.Core.Security;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
@@ -11,6 +12,7 @@ using ObjectDesign;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,7 +38,33 @@ namespace InterSMeet.BLL.Implementations
 
         public AuthenticatedDTO SignIn(SignInDTO signInDTO)
         {
-            throw new NotImplementedException();
+            Ensure.NotNull(signInDTO, nameof(signInDTO));
+
+            User? user;
+            var isEmail = EmailValidator.IsValidEmail(signInDTO.Credential);
+            if (isEmail)
+                user = UserRepository.FindByEmail(signInDTO.Credential);
+            else user = UserRepository.FindByUsername(signInDTO.Credential);
+
+            if (user is null)
+                throw new BLNotFoundException($"User not found with credential: {signInDTO.Credential}");
+
+            if (!PasswordGenerator.CompareHash(signInDTO.Password, user.Password))
+                throw new BLUnauthorizedException("Wrong password");
+
+            var userDto = Mapper.Map<User, UserDTO>(user); // get user
+            var role = UserRepository.FindRoleById(userDto.RoleId); // and its role
+
+            Claim? roleClaim = null;
+            if (role is not null)
+                roleClaim = new Claim(ClaimTypes.Role, role.Name);
+
+            return new()
+            {
+                User = userDto,
+                AccessToken = JwtGenerator.SignAccessToken(userDto, roleClaim),
+                RefreshToken = JwtGenerator.SignRefreshToken(userDto)
+            };
         }
 
         public AuthenticatedDTO SignUp(SignUpDTO signUpDto)
@@ -50,14 +78,20 @@ namespace InterSMeet.BLL.Implementations
                 throw new BLNotFoundException("Specified language doesn't exists");
 
             // hash password
-            signUpDto.Password = PasswordGenerator.Hash(signUpDto.Password);
+            user.Password = PasswordGenerator.Hash(signUpDto.Password);
 
-            var userDto = Mapper.Map<User, UserDTO>(UserRepository.Create(user));
+            var userDto = Mapper.Map<User, UserDTO>(UserRepository.Create(user)); // get user
+            var role = UserRepository.FindRoleById(userDto.RoleId); // and its role
+
+            Claim? roleClaim = null;
+            if (role is not null)
+                roleClaim = new Claim(ClaimTypes.Role, role.Name);
+
             return new()
             {
                 User = userDto,
-                AccessToken = JwtGenerator.GetJwtToken(userDto.Username, Configuration["Jwt:AccessSecret"], TimeSpan.FromMinutes(15)).InnerToken,
-                RefreshToken = JwtGenerator.GetJwtToken(userDto.Username, Configuration["Jwt:RefreshSecret"], TimeSpan.FromDays(7)).InnerToken
+                AccessToken = JwtGenerator.SignAccessToken(userDto, roleClaim),
+                RefreshToken = JwtGenerator.SignRefreshToken(userDto)
             };
         }
 

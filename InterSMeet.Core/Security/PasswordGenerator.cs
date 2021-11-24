@@ -14,7 +14,7 @@ namespace InterSMeet.Core.Security
         public string Hash(string password)
         {
             // generate a 128-bit salt
-            byte[] salt = Encoding.UTF8.GetBytes(Configuration["Jwt:AccessSecret"]);
+            byte[] salt = Encoding.UTF8.GetBytes(Configuration["Salt"]);
 
             // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -25,5 +25,11 @@ namespace InterSMeet.Core.Security
                 numBytesRequested: 256 / 8));
             return hashed;
         }
+
+        public bool CompareHash(string attemptedPassword, string hash)
+        {
+            return hash == Hash(attemptedPassword);
+        }
     }
 }
+

@@ -10,7 +10,7 @@ namespace InterSMeet.Core.DTO
     public class AuthenticatedDTO
     {
         public UserDTO User { get; set; } = null!;
-        public JwtSecurityToken AccessToken { get; set; } = null!;
-        public JwtSecurityToken RefreshToken { get; set; } = null!;
+        public string AccessToken { get; set; } = null!;
+        public string RefreshToken { get; set; } = null!;
     }
 }
