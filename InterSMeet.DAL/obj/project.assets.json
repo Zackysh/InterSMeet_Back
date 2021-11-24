@@ -743,19 +743,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\adrig\\.nuget\\packages\\": {}
+    "C:\\Users\\AdriGB\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
+      "projectUniqueName": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
       "projectName": "InterSMeet.DAL",
-      "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
-      "packagesPath": "C:\\Users\\adrig\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\obj\\",
+      "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
+      "packagesPath": "C:\\Users\\AdriGB\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\adrig\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\AdriGB\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -763,7 +763,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://nuget.org/api/v2/": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {

@@ -1,0 +1,31 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "8e49949e-f8e2-4ac8-bfc1-caa7cfe1af89": {
+      "ProjectGuid": "8e49949e-f8e2-4ac8-bfc1-caa7cfe1af89",
+      "DisplayName": "InterSMeet.ApiRest",
+      "ColorIndex": 0
+    },
+    "70f9dbf9-6613-46de-8852-c78c8ded7317": {
+      "ProjectGuid": "70f9dbf9-6613-46de-8852-c78c8ded7317",
+      "DisplayName": "InterSMeet.Core",
+      "ColorIndex": 1
+    },
+    "421cc0d8-284b-4d59-8dad-dc476ce270ea": {
+      "ProjectGuid": "421cc0d8-284b-4d59-8dad-dc476ce270ea",
+      "DisplayName": "InterSMeet.BLL",
+      "ColorIndex": 2
+    },
+    "5f33d3c9-a0b0-4c0a-87cb-b3350d7a8f06": {
+      "ProjectGuid": "5f33d3c9-a0b0-4c0a-87cb-b3350d7a8f06",
+      "DisplayName": "InterSMeet.DAL",
+      "ColorIndex": 3
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 4
+}

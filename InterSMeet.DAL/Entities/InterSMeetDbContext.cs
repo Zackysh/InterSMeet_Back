@@ -7,6 +7,12 @@ namespace InterSMeet.DAL.Entities
 {
     public partial class InterSMeetDbContext : DbContext
     {
+        [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+        public class SqlDefaultValueAttribute : Attribute
+        {
+            public string DefaultValue { get; set; } = null!;
+        }
+
         public InterSMeetDbContext()
         {
         }
@@ -17,6 +23,8 @@ namespace InterSMeet.DAL.Entities
         }
 
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
+        public virtual DbSet<Language> Languages{ get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,34 +49,21 @@ namespace InterSMeet.DAL.Entities
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnType("timestamp(3)")
-                    .HasColumnName("created_at")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP(3)");
-
                 entity.Property(e => e.Email).HasColumnName("email");
 
                 entity.Property(e => e.FirstName)
                     .HasMaxLength(40)
                     .HasColumnName("first_name");
 
-                entity.Property(e => e.Language)
-                    .HasMaxLength(5)
-                    .HasColumnName("language");
+                entity.Property(e => e.LanguageId)
+                    .HasColumnName("language_id");
 
                 entity.Property(e => e.Password)
                     .HasMaxLength(255)
                     .HasColumnName("password");
 
-                entity.Property(e => e.Role)
-                    .HasColumnType("enum('admin','manager','customer','guest')")
-                    .HasColumnName("role")
-                    .HasDefaultValueSql("'guest'");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnType("timestamp(3)")
-                    .HasColumnName("updated_at")
-                    .HasDefaultValueSql("CURRENT_TIMESTAMP(3)");
+                entity.Property(e => e.RoleId)
+                    .HasColumnName("role_id");
 
                 entity.Property(e => e.Username)
                     .HasMaxLength(40)

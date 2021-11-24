@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet\\InterSMeet.ApiRest.csproj": {}
+    "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet\\InterSMeet.ApiRest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj": {
+    "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj",
+        "projectUniqueName": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj",
         "projectName": "InterSMeet.BLL",
-        "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj",
-        "packagesPath": "C:\\Users\\adrig\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\obj\\",
+        "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj",
+        "packagesPath": "C:\\Users\\AdriGB\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\adrig\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AdriGB\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,12 +22,19 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://nuget.org/api/v2/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj": {
+                "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj"
+              },
+              "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
+                "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -39,6 +46,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -58,17 +71,17 @@
         }
       }
     },
-    "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj": {
+    "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
+        "projectUniqueName": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
         "projectName": "InterSMeet.Core",
-        "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
-        "packagesPath": "C:\\Users\\adrig\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\obj\\",
+        "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
+        "packagesPath": "C:\\Users\\AdriGB\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\adrig\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AdriGB\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -76,12 +89,16 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://nuget.org/api/v2/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
+                "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -97,6 +114,26 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[10.1.1, )"
+            },
+            "Microsoft.AspNetCore.Cryptography.KeyDerivation": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.14.1, )"
+            },
+            "XAct.Core.PCL": {
+              "target": "Package",
+              "version": "[0.0.5014, )"
             }
           },
           "imports": [
@@ -118,17 +155,17 @@
         }
       }
     },
-    "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
+    "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
         "projectName": "InterSMeet.DAL",
-        "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
-        "packagesPath": "C:\\Users\\adrig\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\obj\\",
+        "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
+        "packagesPath": "C:\\Users\\AdriGB\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\adrig\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AdriGB\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -136,7 +173,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://nuget.org/api/v2/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -193,17 +230,17 @@
         }
       }
     },
-    "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet\\InterSMeet.ApiRest.csproj": {
+    "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet\\InterSMeet.ApiRest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet\\InterSMeet.ApiRest.csproj",
+        "projectUniqueName": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet\\InterSMeet.ApiRest.csproj",
         "projectName": "InterSMeet.ApiRest",
-        "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet\\InterSMeet.ApiRest.csproj",
-        "packagesPath": "C:\\Users\\adrig\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet\\obj\\",
+        "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet\\InterSMeet.ApiRest.csproj",
+        "packagesPath": "C:\\Users\\AdriGB\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\adrig\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AdriGB\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -211,20 +248,20 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://nuget.org/api/v2/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj": {
-                "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj"
+              "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj": {
+                "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj"
               },
-              "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj": {
-                "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj"
+              "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj": {
+                "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj"
               },
-              "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
-                "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
+              "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
+                "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
               }
             }
           }
@@ -246,6 +283,18 @@
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
               "version": "[8.1.1, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",

@@ -1,18 +1,52 @@
+using InterSMeet.API;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.BLL.Implementations;
 using InterSMeet.Core.MapperProfiles;
+using InterSMeet.Core.Security;
+using InterSMeet.DAL.Entities;
+using InterSMeet.DAL.Repositories.Contracts;
+using InterSMeet.DAL.Repositories.Implementations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
 
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-// Dependency injection
-builder.Services.AddScoped<IUserBL, UserB>();
+// Configure AutoMapper
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new AutoMapperProfile()));
+// Dependency injection (oder matters)
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPasswordGenerator, PasswordGenerator>();
+builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
+builder.Services.AddScoped<IUserBL, UserBL>();
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
+// Configure authentication
+builder.Services.AddAuthentication(auth =>
+{
+    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:AccessSecret"]))
+    };
+});
+
 // Cors
 builder.Services.AddCors(options =>
 {
@@ -25,6 +59,17 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Configure DbContext
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
+builder.Services.AddDbContext<InterSMeetDbContext>(
+            dbContextOptions => dbContextOptions
+                .UseMySql(builder.Configuration["ConnectionStrings:InterSMeetDb"], serverVersion)
+                // Disable on prod
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors()
+                );
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,21 +79,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Configure DbContext
-var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
-//builder.Services.AddDbContext<ottgenixContext>(
-//            dbContextOptions => dbContextOptions
-//                .UseMySql(builder.Configuration["ConnectionStrings:OTTgenixDb"], serverVersion)
-//                // Disable on prod
-//                .LogTo(Console.WriteLine, LogLevel.Information)
-//                .EnableSensitiveDataLogging()
-//                .EnableDetailedErrors()
-//                );
-
 app.UseCors("AllowSetOrigins");
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
