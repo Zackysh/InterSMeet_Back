@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using InterSMeet.DAL.Entities;
+﻿using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
 
 namespace InterSMeet.DAL.Repositories.Implementations
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository 
     {
         public InterSMeetDbContext _context { get; set; }
 
@@ -20,6 +16,8 @@ namespace InterSMeet.DAL.Repositories.Implementations
         {
             return _context.Users;
         }
+
+        // @ CRUD        
 
         public User? FindById(int userId)
         {
@@ -73,17 +71,46 @@ namespace InterSMeet.DAL.Repositories.Implementations
             return _context.Users.Any(u => u.Email == user.Email || u.Username == user.Username);
         }
 
-        // Foreing
-        public Language? FindLanguageById(int languageId)
+        // @ Foreing
+
+        // ------------------------------------------------------------------------------
+        // @ Role
+        // ------------------------------------------------------------------------------
+
+        public UserRole? FindRoleById(int roleId)
         {
-            return _context.Languages.Find(languageId);
+            return _context.UserRoles.Find(roleId);
         }
+
+
+        // ------------------------------------------------------------------------------
+        // @ Province
+        // ------------------------------------------------------------------------------
+
+        public IEnumerable<Province> FindAllProvinces()
+        {
+            return _context.Provinces;
+        }
+
+        public Province? FindProvinceById(int provinceId)
+        {
+            return _context.Provinces.Find(provinceId);
+        }
+
+
+        // ------------------------------------------------------------------------------
+        // @ Language
+        // ------------------------------------------------------------------------------
 
         public IEnumerable<Language> FindAllLanguages()
         {
             return _context.Languages;
         }
 
+        public Language? FindLanguageById(int languageId)
+        {
+            return _context.Languages.Find(languageId);
+        }
         public Language? FindLanguageByName(string name)
         {
             return _context.Languages.FirstOrDefault(l => l.Name == name);
@@ -94,11 +121,6 @@ namespace InterSMeet.DAL.Repositories.Implementations
             var change = _context.Languages.Add(language);
             _context.SaveChanges();
             return change.Entity;
-        }
-
-        public UserRole? FindRoleById(int roleId)
-        {
-            return _context.UserRoles.Find(roleId);
         }
     }
 }

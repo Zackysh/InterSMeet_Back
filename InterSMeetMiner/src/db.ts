@@ -7,3 +7,5 @@ export const Configuration: ConnectionOptions = {
   password: '',
   database: 'mining'
 }
+
+// mining

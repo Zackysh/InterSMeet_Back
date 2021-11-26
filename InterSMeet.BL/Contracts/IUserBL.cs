@@ -11,13 +11,11 @@ namespace InterSMeet.BLL.Contracts
     public interface IUserBL
     {
         public AuthenticatedDTO SignIn(SignInDTO signInDTO);
-        public AuthenticatedDTO SignUp(SignUpDTO signUpDTO);
-        public IEnumerable<UserDTO> FindAll();
-        public UserDTO FindById(int userId);
-        public UserDTO Create(CreateUserDTO createUserDTO);
-        public UserDTO Update(UpdateUserDTO userDTO, int userId);
-        public UserDTO Delete(int userId);
+        public AuthenticatedDTO StudentSignUp(StudentSignUpDTO signUpDTO);
+        public AuthenticatedDTO CompanySignUp(CompanySignUpDTO signUpDTO);
+        public UserDTO FindProfile(string username);
+        public IEnumerable<ProvinceDTO> FindAllProvinces();
         public IEnumerable<LanguageDTO> FindAllLanguages();
-        public LanguageDTO CreateLanguage(LanguageDTO languageDto);
+        public LanguageDTO CreateLanguage(LanguageDTO languageDTO);
     }
 }

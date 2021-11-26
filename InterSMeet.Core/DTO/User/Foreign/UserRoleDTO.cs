@@ -10,6 +10,7 @@ namespace InterSMeet.Core.DTO
     public class UserRoleDTO
     {
         public int RoleId { get; set; }
+
         [MaxLength(40)]
         public string Name { get; set; } = null!;
     }

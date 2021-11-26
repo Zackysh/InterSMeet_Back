@@ -1,8 +1,11 @@
-﻿using InterSMeet.BLL.Contracts;
+﻿using InterSMeet.BL.Exception;
+using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,29 +22,31 @@ namespace InterSMeet.Controllers
             this.UserBL = UserBL;
         }
 
-        // GET api/users
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public ActionResult<IEnumerable<UserDTO>> FindAll()
-        {
-            return Ok(UserBL.FindAll());
-        }
-
-        // GET api/users/:userId
-        [HttpGet("{userId}")]
-        [AllowAnonymous]
-        public ActionResult<UserDTO> FindById(int userId)
-        {
-            return UserBL.FindById(userId);
-        }
-
-        // POST api/users/sign-up
-        [HttpPost("sign-up")]
+        // POST api/users/sign-up/student
+        [HttpPost("sign-up/student")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
-        public ActionResult<AuthenticatedDTO> SignUp(SignUpDTO signUpDto)
+        public ActionResult<AuthenticatedDTO> StudentSignUp(StudentSignUpDTO signUpDto)
         {
-            return Ok(UserBL.SignUp(signUpDto));
+            return Ok(UserBL.StudentSignUp(signUpDto));
+        }
+
+        // POST api/users/sign-up/company
+        [HttpPost("sign-up/company")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [AllowAnonymous]
+        public ActionResult<AuthenticatedDTO> CompanySignUp(CompanySignUpDTO signUpDto)
+        {
+            return Ok(UserBL.CompanySignUp(signUpDto));
+        }
+
+        // GET api/users/profile
+        [HttpGet("profile")]
+        [Authorize]
+        public ActionResult<StudentDTO> FindProfile()
+        {
+            var username = GetUserIdentity(HttpContext);
+            return Ok(UserBL.FindProfile(username));
         }
 
         // POST api/users/sign-in
@@ -52,39 +57,22 @@ namespace InterSMeet.Controllers
             return Ok(UserBL.SignIn(signInDto));
         }
 
-        // POST api/users
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [Authorize(Roles = "Admin")]
-        public ActionResult<UserDTO> Create(CreateUserDTO createUserDto)
-        {
-            return Ok(UserBL.Create(createUserDto));
-        }
-
-        // PUT api/users/:userId
-        [HttpPut("{userId}")]
-        [Authorize(Roles = "Admin")]
-        public ActionResult<UserDTO> Update(int userId, UpdateUserDTO updateDto)
-        {
-            return Ok(UserBL.Update(updateDto, userId));
-        }
-
-        // DELETE api/users/:userId
-        [HttpDelete("{userId}")]
-        [Authorize]
-        public ActionResult<UserDTO> Delete(int userId)
-        {
-            return Ok(UserBL.Delete(userId));
-        }
-
         // Foreing
 
         // GET api/users/languages
         [HttpGet("languages")]
-        [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<LanguageDTO>> FindAllLanguages()
         {
             return Ok(UserBL.FindAllLanguages());
+        }
+
+        // GET api/users/provinces
+        [HttpGet("provinces")]
+        [AllowAnonymous]
+        public ActionResult<IEnumerable<ProvinceDTO>> FindAllProvinces()
+        {
+            return Ok(UserBL.FindAllProvinces());
         }
 
         // CREATE api/users/languages
@@ -93,6 +81,15 @@ namespace InterSMeet.Controllers
         public ActionResult<LanguageDTO> CreateLanguage(LanguageDTO languageDto)
         {
             return Ok(UserBL.CreateLanguage(languageDto));
+        }
+
+        public static string GetUserIdentity(HttpContext context)
+        {
+            if (context.User.Identity is not ClaimsIdentity claims) throw new BLUnauthorizedException("Invalid token");
+            var authUsernameClaim = claims.FindFirst(ClaimTypes.Name);
+            if (authUsernameClaim is null) throw new BLUnauthorizedException("Invalid token");
+            var username = authUsernameClaim.Value;
+            return username;
         }
     }
 }

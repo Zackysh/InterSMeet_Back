@@ -20,11 +20,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Configure AutoMapper
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new AutoMapperProfile()));
-// Dependency injection (oder matters)
+// Dependency injection
+// User (oder matters)
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordGenerator, PasswordGenerator>();
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddScoped<IUserBL, UserBL>();
+// Student
+builder.Services.AddScoped<IStudentBL, StudentBL>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+// Company
+builder.Services.AddScoped<ICompanyBL, CompanyBL>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+// Exception handling
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 // Configure authentication

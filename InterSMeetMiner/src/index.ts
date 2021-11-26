@@ -1,6 +1,8 @@
 import { Configuration } from "./db";
 import mysql from "mysql2/promise";
 import { DegreeMiner } from "./miner/degree_miner";
+import { Family } from "./models/Family";
+import { Level } from "./models/Level";
 
 /**
  * @param clean true to clean existing records
@@ -14,6 +16,14 @@ async function main(clean?: boolean) {
   const families = s.getFamilies();
   const levels = s.getLevels();
   const degrees = s.getDegrees(families, levels);
+
+  for (const degree of degrees) {
+    const existF = families.find((f) => f.familyId === degree.familyId);
+    const existL = levels.find((l) => l.levelId === degree.levelId);
+
+    if (!existF) console.log("Family reference fails");
+    if (!existL) console.log("Level reference fails");
+  }
 
   if (clean) {
     cnn.execute("DELETE FROM degree");
