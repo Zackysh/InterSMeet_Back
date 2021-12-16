@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using InterSMeet.DAL.Base;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace InterSMeet.DAL.Entities
 {
@@ -17,21 +16,55 @@ namespace InterSMeet.DAL.Entities
         {
         }
 
+        public override int SaveChanges()
+        {
+            var entries = ChangeTracker
+            .Entries()
+            .Where(e => e.Entity is BaseEntity && (
+                e.State == EntityState.Added
+                || e.State == EntityState.Modified));
+
+            foreach (var entityEntry in entries)
+            {
+                ((BaseEntity)entityEntry.Entity).UpdatedDate = DateTime.Now;
+
+                if (entityEntry.State == EntityState.Added)
+                {
+                    ((BaseEntity)entityEntry.Entity).CreatedDate = DateTime.Now;
+                }
+            }
+            return base.SaveChanges();
+        }
+
         public InterSMeetDbContext(DbContextOptions<InterSMeetDbContext> options)
             : base(options)
         {
         }
 
+        // User
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
-        public virtual DbSet<Language> Languages{ get; set; } = null!;
+        public virtual DbSet<Language> Languages { get; set; } = null!;
+        // Student
+        public virtual DbSet<Student> Students { get; set; } = null!;
+        public virtual DbSet<Degree> Degrees { get; set; } = null!;
+        public virtual DbSet<Family> Families { get; set; } = null!;
+        public virtual DbSet<Level> Levels { get; set; } = null!;
+        // Company
+        public virtual DbSet<Company> Companies { get; set; } = null!;
+
+        // Shared
+        public virtual DbSet<Image> Images { get; set; } = null!;
+        public virtual DbSet<Province> Provinces { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;database=InterSMeetDb", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.27-mysql"));
+                optionsBuilder
+                    .UseLazyLoadingProxies()
+                    .UseMySql("server=localhost;port=3306;user=root;database=InterSMeetDb", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.27-mysql"));
             }
         }
 
@@ -55,15 +88,9 @@ namespace InterSMeet.DAL.Entities
                     .HasMaxLength(40)
                     .HasColumnName("first_name");
 
-                entity.Property(e => e.LanguageId)
-                    .HasColumnName("language_id");
-
                 entity.Property(e => e.Password)
                     .HasMaxLength(255)
                     .HasColumnName("password");
-
-                entity.Property(e => e.RoleId)
-                    .HasColumnName("role_id");
 
                 entity.Property(e => e.Username)
                     .HasMaxLength(40)

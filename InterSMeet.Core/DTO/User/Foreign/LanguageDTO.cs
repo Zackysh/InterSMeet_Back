@@ -10,6 +10,7 @@ namespace InterSMeet.Core.DTO
     public class LanguageDTO
     {
         public int LanguageId { get; set; }
+
         [MaxLength(5)]
         public string Name { get; set; } = null!;
     }

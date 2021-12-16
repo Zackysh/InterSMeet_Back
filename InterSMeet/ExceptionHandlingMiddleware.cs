@@ -7,7 +7,9 @@ using Newtonsoft.Json;
 
 namespace InterSMeet.API
 {
-
+    /// <summary>
+    /// Class used internally to produce uniform error responses.
+    /// </summary>
     internal class ErrorResponse
     {
         public string Error { get; set; }
@@ -22,6 +24,10 @@ namespace InterSMeet.API
         }
     }
 
+    /// <summary>
+    /// InterSMeet.ApiRest Exception Middleware.
+    /// It will catch any exception, verify its origin and produce user-friendly responses.
+    /// </summary>
     public class ExceptionHandlingMiddleware : IMiddleware
     {
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -45,6 +51,12 @@ namespace InterSMeet.API
             catch (BLConflictException e)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Conflict;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(ErrorResponse.ToJson(e.Message));
+            }
+            catch (BLBadRequestException e)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(ErrorResponse.ToJson(e.Message));
             }

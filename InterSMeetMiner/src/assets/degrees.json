@@ -1,0 +1,595 @@
+{
+  "Ciclo_Formativo_Basico": [
+    {
+      "degrees": [
+        "Acceso y Conservación en Instalaciones Deportivas"
+      ],
+      "family": "Actividades Físicas y Deportivas"
+    },
+    {
+      "degrees": [
+        "Informática de Oficina",
+        "Servicios Administrativos"
+      ],
+      "family": "Administración y Gestión"
+    },
+    {
+      "degrees": [
+        "Actividades Agropecuarias",
+        "Agro-jardinería y Composiciones Florales",
+        "Aprovechamientos Forestales"
+      ],
+      "family": "Agraria"
+    },
+    {
+      "degrees": [
+        "Artes Gráficas"
+      ],
+      "family": "Artes Gráficas"
+    },
+    {
+      "degrees": [
+        "Servicios Comerciales"
+      ],
+      "family": "Comercio y Marketing"
+    },
+    {
+      "degrees": [
+        "Reforma y Mantenimiento de Edificios"
+      ],
+      "family": "Edificación y Obra Civil"
+    },
+    {
+      "degrees": [
+        "Electricidad y Electrónica",
+        "Fabricación de Elementos Metálicos",
+        "Instalaciones Electrotécnicas y Mecánica"
+      ],
+      "family": "Electricidad y Electrónica"
+    },
+    {
+      "degrees": [
+        "Fabricación de Elementos Metálicos",
+        "Fabricación y Montaje",
+        "Instalaciones Electrotécnicas y Mecánica"
+      ],
+      "family": "Fabricación Mecánica"
+    },
+    {
+      "degrees": [
+        "Actividades de Panadería y Pastelería",
+        "Alojamiento y Lavandería",
+        "Cocina y Restauración"
+      ],
+      "family": "Hostelería y Turismo"
+    },
+    {
+      "degrees": [
+        "Peluquería y Estética"
+      ],
+      "family": "Imagen Personal"
+    },
+    {
+      "degrees": [
+        "Actividades de Panadería y Pastelería",
+        "Industrias Alimentarias"
+      ],
+      "family": "Industrias Alimentarias"
+    },
+    {
+      "degrees": [
+        "Informática de Oficina",
+        "Informática y Comunicaciones"
+      ],
+      "family": "Informática y Comunicaciones"
+    },
+    {
+      "degrees": [
+        "Fabricación y Montaje",
+        "Mantenimiento de Viviendas"
+      ],
+      "family": "Instalación y Mantenimiento"
+    },
+    {
+      "degrees": [
+        "Carpintería y Mueble"
+      ],
+      "family": "Madera, Mueble y Corcho"
+    },
+    {
+      "degrees": [
+        "Actividades Marítimo-Pesqueras",
+        "Mantenimiento de Embarcaciones Deportivas y de Recreo"
+      ],
+      "family": "Marítimo-Pesquera"
+    },
+    {
+      "degrees": [
+        "Actividades Domésticas y Limpieza de Edificios"
+      ],
+      "family": "Servicios Socioculturales y a la Comunidad"
+    },
+    {
+      "degrees": [
+        "Arreglo y Reparación de Artículos Textiles y de Piel",
+        "Tapicería y Cortinaje"
+      ],
+      "family": "Textil, Confección y Piel"
+    },
+    {
+      "degrees": [
+        "Mantenimiento de Embarcaciones Deportivas y de Recreo",
+        "Mantenimiento de Vehículos"
+      ],
+      "family": "Transporte y Mantenimiento de Vehículos"
+    },
+    {
+      "degrees": [
+        "Vidriería y Alfarería"
+      ],
+      "family": "Vidrio y Cerámica"
+    }
+  ],
+  "Ciclo_Formativo_Medio": [
+    {
+      "degrees": [
+        "Actividades Ecuestres",
+        "Guía en el Medio Natural y de Tiempo Libre"
+      ],
+      "family": "Actividades Físicas y Deportivas"
+    },
+    {
+      "degrees": [
+        "Gestión Administrativa"
+      ],
+      "family": "Administración y Gestión"
+    },
+    {
+      "degrees": [
+        "Actividades Ecuestres",
+        "Aprovechamiento y Conservación del Medio Natural",
+        "Jardinería y Floristería",
+        "Producción Agroecológica",
+        "Producción Agropecuaria"
+      ],
+      "family": "Agraria"
+    },
+    {
+      "degrees": [
+        "Impresión Gráfica",
+        "Postimpresión y Acabados Gráficos",
+        "Preimpresión Digital"
+      ],
+      "family": "Artes Gráficas"
+    },
+    {
+      "degrees": [
+        "Actividades Comerciales",
+        "Comercialización de Productos Alimentarios"
+      ],
+      "family": "Comercio y Marketing"
+    },
+    {
+      "degrees": [
+        "Construcción",
+        "Obras de Interior, Decoración y Rehabilitación"
+      ],
+      "family": "Edificación y Obra Civil"
+    },
+    {
+      "degrees": [
+        "Instalaciones Eléctricas y Automáticas",
+        "Instalaciones de Telecomunicaciones"
+      ],
+      "family": "Electricidad y Electrónica"
+    },
+    {
+      "degrees": [
+        "Redes y Estaciones de Tratamiento de Aguas"
+      ],
+      "family": "Energía y Agua"
+    },
+    {
+      "degrees": [
+        "Conformado por Moldeo de Metales y Polímeros",
+        "Mecanizado",
+        "Montaje de Estructuras e Instalación de Sistemas Aeronáuticos",
+        "Soldadura y Calderería"
+      ],
+      "family": "Fabricación Mecánica"
+    },
+    {
+      "degrees": [
+        "Cocina y Gastronomía",
+        "Comercialización de Productos Alimentarios",
+        "Servicios en Restauración"
+      ],
+      "family": "Hostelería y Turismo"
+    },
+    {
+      "degrees": [
+        "Estética y Belleza",
+        "Peluquería y Cosmética Capilar"
+      ],
+      "family": "Imagen Personal"
+    },
+    {
+      "degrees": [
+        "Vídeo Disc-Jockey y Sonido"
+      ],
+      "family": "Imagen y Sonido"
+    },
+    {
+      "degrees": [
+        "Aceites de Oliva y Vinos",
+        "Elaboración de Productos Alimenticios",
+        "Panadería, Repostería y Confitería"
+      ],
+      "family": "Industrias Alimentarias"
+    },
+    {
+      "degrees": [
+        "Excavaciones y Sondeos",
+        "Piedra Natural"
+      ],
+      "family": "Industrias Extractivas"
+    },
+    {
+      "degrees": [
+        "Sistemas Microinformáticos y Redes"
+      ],
+      "family": "Informática y Comunicaciones"
+    },
+    {
+      "degrees": [
+        "Instalaciones Frigoríficas y de Climatización",
+        "Instalaciones de Producción de Calor",
+        "Mantenimiento Electromecánico"
+      ],
+      "family": "Instalación y Mantenimiento"
+    },
+    {
+      "degrees": [
+        "Carpintería y Mueble",
+        "Instalación y Amueblamiento",
+        "Procesado y Transformación de la Madera"
+      ],
+      "family": "Madera, Mueble y Corcho"
+    },
+    {
+      "degrees": [
+        "Cultivos Acuícolas",
+        "Mantenimiento y Control de la Maquinaria de Buques y Embarcaciones",
+        "Navegación y Pesca de Litoral",
+        "Operaciones Subacuáticas e Hiperbáricas"
+      ],
+      "family": "Marítimo-Pesquera"
+    },
+    {
+      "degrees": [
+        "Operaciones de Laboratorio",
+        "Planta Química"
+      ],
+      "family": "Química"
+    },
+    {
+      "degrees": [
+        "Emergencias Sanitarias",
+        "Farmacia y Parafarmacia"
+      ],
+      "family": "Sanidad"
+    },
+    {
+      "degrees": [
+        "Emergencias y Protección Civil"
+      ],
+      "family": "Seguridad y Medio Ambiente"
+    },
+    {
+      "degrees": [
+        "Atención a Personas en Situación de Dependencia"
+      ],
+      "family": "Servicios Socioculturales y a la Comunidad"
+    },
+    {
+      "degrees": [
+        "Calzado y Complementos de Moda",
+        "Confección y Moda",
+        "Fabricación y Ennoblecimiento de Productos Textiles"
+      ],
+      "family": "Textil, Confección y Piel"
+    },
+    {
+      "degrees": [
+        "Carrocería",
+        "Conducción de Vehículos de Transporte por Carretera",
+        "Electromecánica de Maquinaria",
+        "Electromecánica de Vehículos Automóviles",
+        "Mantenimiento de Embarcaciones de Recreo",
+        "Mantenimiento de Estructuras de Madera y Mobiliario de Embarcaciones de Recreo",
+        "Mantenimiento de Material Rodante Ferroviario",
+        "Montaje de Estructuras e Instalación de Sistemas Aeronáuticos"
+      ],
+      "family": "Transporte y Mantenimiento de Vehículos"
+    },
+    {
+      "degrees": [
+        "Fabricación de Productos Cerámicos"
+      ],
+      "family": "Vidrio y Cerámica"
+    }
+  ],
+  "Ciclo_Formativo_Superior": [
+    {
+      "degrees": [
+        "Acondicionamiento Físico",
+        "Enseñanza y Animación Sociodeportiva"
+      ],
+      "family": "Actividades Físicas y Deportivas"
+    },
+    {
+      "degrees": [
+        "Administración y Finanzas",
+        "Asistencia a la Dirección"
+      ],
+      "family": "Administración y Gestión"
+    },
+    {
+      "degrees": [
+        "Ganadería y Asistencia en Sanidad Animal",
+        "Gestión Forestal y del Medio Natural",
+        "Paisajismo y Medio Rural"
+      ],
+      "family": "Agraria"
+    },
+    {
+      "degrees": [
+        "Diseño y Edición de Publicaciones Impresas y Multimedia",
+        "Diseño y Gestión de la Producción Gráfica"
+      ],
+      "family": "Artes Gráficas"
+    },
+    {
+      "degrees": [
+        "Técnico Superior Artista Fallero y Construcción de Escenografías"
+      ],
+      "family": "Artes y Artesanias"
+    },
+    {
+      "degrees": [
+        "Comercio Internacional",
+        "Gestión de Ventas y Espacios Comerciales",
+        "Marketing y Publicidad",
+        "Transporte y Logística"
+      ],
+      "family": "Comercio y Marketing"
+    },
+    {
+      "degrees": [
+        "Organización y Control de Obras de Construcción",
+        "Proyectos de Edificación",
+        "Proyectos de Obra Civil"
+      ],
+      "family": "Edificación y Obra Civil"
+    },
+    {
+      "degrees": [
+        "Automatización y Robótica Industrial",
+        "Electromedicina Clínica",
+        "Mantenimiento Electrónico",
+        "Sistemas Electrotécnicos y Automatizados",
+        "Sistemas de Telecomunicaciones e Informáticos"
+      ],
+      "family": "Electricidad y Electrónica"
+    },
+    {
+      "degrees": [
+        "Centrales Eléctricas",
+        "Eficiencia Energética y Energía Solar Térmica",
+        "Energías Renovables",
+        "Gestión del Agua"
+      ],
+      "family": "Energía y Agua"
+    },
+    {
+      "degrees": [
+        "Construcciones Metálicas",
+        "Diseño en Fabricación Mecánica",
+        "Programación de la Producción en Fabricación Mecánica",
+        "Programación de la Producción en Moldeo de Metales y Polímeros"
+      ],
+      "family": "Fabricación Mecánica"
+    },
+    {
+      "degrees": [
+        "Agencias de Viajes y Gestión de Eventos",
+        "Dirección de Cocina",
+        "Dirección de Servicios de Restauración",
+        "Gestión de Alojamientos Turísticos",
+        "Guía, Información y Asistencias Turísticas"
+      ],
+      "family": "Hostelería y Turismo"
+    },
+    {
+      "degrees": [
+        "Asesoría de Imagen Personal y Corporativa",
+        "Caracterización y Maquillaje Profesional",
+        "Estilismo y Dirección de Peluquería",
+        "Estética Integral y Bienestar",
+        "Termalismo y Bienestar"
+      ],
+      "family": "Imagen Personal"
+    },
+    {
+      "degrees": [
+        "Animaciones 3D, Juegos y Entornos Interactivos",
+        "Iluminación, Captación y Tratamiento de Imagen",
+        "Producción de Audiovisuales y Espectáculos",
+        "Realización de Proyectos Audiovisuales y Espectáculos",
+        "Sonido para Audiovisuales y Espectáculos"
+      ],
+      "family": "Imagen y Sonido"
+    },
+    {
+      "degrees": [
+        "Procesos y Calidad en la Industria Alimentaria",
+        "Vitivinicultura"
+      ],
+      "family": "Industrias Alimentarias"
+    },
+    {
+      "degrees": [
+        "Administración de Sistemas Informáticos en Red",
+        "Desarrollo de Aplicaciones Multiplataforma",
+        "Desarrollo de Aplicaciones Web"
+      ],
+      "family": "Informática y Comunicaciones"
+    },
+    {
+      "degrees": [
+        "Desarrollo de Proyectos de Instalaciones Térmicas y de Fluidos",
+        "Mantenimiento de Instalaciones Térmicas y de Fluidos",
+        "Mecatrónica Industrial"
+      ],
+      "family": "Instalación y Mantenimiento"
+    },
+    {
+      "degrees": [
+        "Diseño y Amueblamiento"
+      ],
+      "family": "Madera, Mueble y Corcho"
+    },
+    {
+      "degrees": [
+        "Acuicultura",
+        "Organización del Mantenimiento de Maquinaria de Buques y Embarcaciones",
+        "Transporte Marítimo y Pesca de Altura"
+      ],
+      "family": "Marítimo-Pesquera"
+    },
+    {
+      "degrees": [
+        "Fabricación de Productos Farmacéuticos, Biotecnológicos y Afines",
+        "Laboratorio de Análisis y de Control de Calidad",
+        "Química Industrial"
+      ],
+      "family": "Química"
+    },
+    {
+      "degrees": [
+        "Anatomía Patológica y Citodiagnóstico",
+        "Audiología Protésica",
+        "Documentación y Administración Sanitarias",
+        "Higiene Bucodental",
+        "Imagen para el Diagnóstico y Medicina Nuclear",
+        "Laboratorio Clínico y Biomédico",
+        "Ortoprótesis y Productos de Apoyo",
+        "Prótesis Dentales",
+        "Radioterapia y Dosimetría"
+      ],
+      "family": "Sanidad"
+    },
+    {
+      "degrees": [
+        "Coordinación de Emergencias y Protección Civil",
+        "Educación y Control Ambiental",
+        "Química y Salud Ambiental"
+      ],
+      "family": "Seguridad y Medio Ambiente"
+    },
+    {
+      "degrees": [
+        "Animación Sociocultural y Turística",
+        "Educación Infantil",
+        "Formación para la Movilidad Segura y Sostenible",
+        "Integración Social",
+        "Mediación Comunicativa",
+        "Promoción de Igualdad de Género"
+      ],
+      "family": "Servicios Socioculturales y a la Comunidad"
+    },
+    {
+      "degrees": [
+        "Diseño Textil y Piel",
+        "Diseño y Producción de Calzado y Complementos",
+        "Patronaje y Moda",
+        "Vestuario a Medida y de Espectáculos"
+      ],
+      "family": "Textil, Confección y Piel"
+    },
+    {
+      "degrees": [
+        "Automoción",
+        "Mantenimiento Aeromecánico de Aviones con Motor de Pistón",
+        "Mantenimiento Aeromecánico de Aviones con Motor de Turbina",
+        "Mantenimiento Aeromecánico de Helicópteros con Motor de Pistón",
+        "Mantenimiento Aeromecánico de Helicópteros con Motor de Turbina",
+        "Mantenimiento de Sistemas Electrónicos y Aviónicos de Aeronaves"
+      ],
+      "family": "Transporte y Mantenimiento de Vehículos"
+    },
+    {
+      "degrees": [
+        "Desarrollo y Fabricación de Productos Cerámicos"
+      ],
+      "family": "Vidrio y Cerámica"
+    }
+  ],
+  "Ciclo_Formativo_Especifico": [
+    {
+      "degrees": [
+        "Ciberseguridad en Entornos de las Tecnologías de Operación",
+        "Implementación de redes 5G",
+        "Sistemas de señalización y telecomunicaciones ferroviarias"
+      ],
+      "family": "Electricidad y Electrónica"
+    },
+    {
+      "degrees": [
+        "Fabricación Aditiva"
+      ],
+      "family": "Fabricación Mecánica"
+    },
+    {
+      "degrees": [
+        "Panadería y Bollería Artesanales"
+      ],
+      "family": "Hostelería y Turismo"
+    },
+    {
+      "degrees": [
+        "Audiodescripción y Subtitulación"
+      ],
+      "family": "Imagen y Sonido"
+    },
+    {
+      "degrees": [
+        "Inteligencia Artificial y Big Data",
+        "Ciberseguridad en Entornos de las Tecnologías de la Información",
+        "Desarrollo de videojuegos y realidad virtual"
+      ],
+      "family": "Informática y Comunicaciones"
+    },
+    {
+      "degrees": [
+        "Digitalización del Mantenimiento Industrial",
+        "Fabricación Inteligente",
+        "Modelado de la información en la construcción (BIM)"
+      ],
+      "family": "Instalación y Mantenimiento"
+    },
+    {
+      "degrees": [
+        "Cultivos Celulares"
+      ],
+      "family": "Química"
+    },
+    {
+      "degrees": [
+        "Mantenimiento de Vehículos Híbridos y Eléctricos",
+        "Mantenimiento avanzado de material rodante ferroviario"
+      ],
+      "family": "Transporte y Mantenimiento de Vehículos"
+    }
+  ]
+}

@@ -21,6 +21,7 @@ namespace InterSMeet.Core.Security
             Claim[]? claims = null;
             if (roleClaim is not null)
                 claims = new Claim[] { roleClaim };
+
             return GetJwtToken(userDto.Username, Configuration["Jwt:AccessSecret"], TimeSpan.FromMinutes(15), claims);
         }
         public string SignRefreshToken(UserDTO userDto)
@@ -46,7 +47,7 @@ namespace InterSMeet.Core.Security
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(ClaimTypes.Name, username),
                 // this guarantees the token is unique
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

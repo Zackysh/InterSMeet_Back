@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InterSMeet.DAL.Entities
 {
-    public partial class Language
+    [Index(nameof(Name), IsUnique = true)]
+    public class Language
     {
         [Key]
         [Column("language_id")]
