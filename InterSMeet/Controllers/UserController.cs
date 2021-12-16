@@ -22,6 +22,25 @@ namespace InterSMeet.Controllers
             this.UserBL = UserBL;
         }
 
+        // POST api/users/check/email
+        [HttpPost("check/email")]
+        [AllowAnonymous]
+        public ActionResult<AuthenticatedDTO> CheckEmail(string email)
+        {
+            UserBL.CheckEmail(email);
+            return Ok();
+        }
+
+        // POST api/users/check/username
+        [HttpPost("check/username")]
+        [AllowAnonymous]
+        public ActionResult<AuthenticatedDTO> CheckUsername(string username)
+        {
+
+            UserBL.CheckUsername(username);
+            return Ok();
+        }
+
         // POST api/users/sign-up/student
         [HttpPost("sign-up/student")]
         [ProducesResponseType(StatusCodes.Status201Created)]

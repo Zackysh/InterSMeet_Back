@@ -199,5 +199,19 @@ namespace InterSMeet.BLL.Implementations
             var language = Mapper.Map<LanguageDTO, Language>(languageDto);
             return Mapper.Map<Language, LanguageDTO>(UserRepository.CreateLanguage(language));
         }
+
+        public void CheckEmail(string email)
+        {
+            Ensure.NotNull(email, nameof(email));
+            if (UserRepository.FindByEmail(email) is not null)
+                throw new BLConflictException("Email is taken");
+        }
+
+        public void CheckUsername(string username)
+        {
+            Ensure.NotNull(username, nameof(username));
+            if (UserRepository.FindByUsername(username) is not null)
+                throw new BLConflictException("Username is taken");
+        }
     }
 }

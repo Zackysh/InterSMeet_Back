@@ -17,5 +17,7 @@ namespace InterSMeet.BLL.Contracts
         public IEnumerable<ProvinceDTO> FindAllProvinces();
         public IEnumerable<LanguageDTO> FindAllLanguages();
         public LanguageDTO CreateLanguage(LanguageDTO languageDTO);
+        void CheckEmail(string email);
+        void CheckUsername(string username);
     }
 }

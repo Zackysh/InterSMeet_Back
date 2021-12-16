@@ -24,3 +24,4 @@ C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\ref\InterSMeet.DAL.dll
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.pdb
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.genruntimeconfig.cache
+C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.csproj.AssemblyReference.cache
