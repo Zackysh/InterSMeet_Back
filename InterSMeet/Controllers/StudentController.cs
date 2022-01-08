@@ -1,12 +1,12 @@
-﻿using InterSMeet.BL.Exception;
-using InterSMeet.BLL.Contracts;
+﻿using InterSMeet.BLL.Contracts;
+using InterSMeet.BL.Exception;
 using InterSMeet.Core.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using ObjectDesign;
 using System.Diagnostics;
 using System.Security.Claims;
+using InterSMeet.ApiRest.Utils;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,13 +31,20 @@ namespace InterSMeet.Controllers
             return Ok(StudentBL.FindAll());
         }
 
-        // GET api/students/:studentId
+        // GET api/students/profile
         [HttpGet("profile")]
         [Authorize]
         public ActionResult<StudentDTO> FindProfile()
         {
-            var username = UserController.GetUserIdentity(HttpContext);
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
             return Ok(StudentBL.FindProfile(username));
+        }
+
+        // GET api/students/degrees
+        [HttpGet("degrees")]
+        public ActionResult<List<DegreeDTO>> FindAllDegrees()
+        {
+            return Ok(StudentBL.FindAllDegrees());
         }
 
         // DELETE api/students/:studentId
@@ -53,7 +60,7 @@ namespace InterSMeet.Controllers
         public IActionResult UploadAvatar()
         {
             // Get student indentity
-            var username = UserController.GetUserIdentity(HttpContext);
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
 
             // Validate avatar
             IFormFile image = Request.Form.Files[0];
@@ -62,12 +69,12 @@ namespace InterSMeet.Controllers
             return Ok(StudentBL.UploadAvatar(ImageDTO.FronIFormFile(image), username));
         }
 
-        [HttpGet("download-avatar/{studentId}")]
-        [AllowAnonymous]
-        public IActionResult DownloadAvatar(int studentId)
+        [HttpGet("download-avatar")]
+        [Authorize]
+        public IActionResult DownloadAvatar()
         {
-            var avatar = StudentBL.DownloadAvatarByStudent(studentId);
-            var imgTitle = avatar.ImageTitle;
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            var avatar = StudentBL.DownloadAvatarByStudent(username);
             return File(avatar.ImageData, "image/jpeg");
         }
     }

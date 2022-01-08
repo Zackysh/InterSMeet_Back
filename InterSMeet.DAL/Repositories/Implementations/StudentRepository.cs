@@ -54,6 +54,11 @@ namespace InterSMeet.DAL.Repositories.Implementations
         // @ Degree
         // -----------------------------------------------------------------------------
 
+        public IEnumerable<Degree> FindAllDegrees()
+        {
+            return _context.Degrees;
+        }
+
         public Degree? FindDegreeById(int degreeId)
         {
             return _context.Degrees.Find(degreeId);

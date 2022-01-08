@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace InterSMeet.Core.DTO
 {
-    public class StudentDTO : UserDTO
+    public class DegreeDTO
     {
-        public DateTime BirthDate { get; set; }
         public int DegreeId { get; set; }
-        public double AverageGrades { get; set; }
-        public int? AvatarId { get; set; }
+        public string Name { get; set; } = null!;
+        public int LevelId { get; set; }
+        public int FamilyId { get; set; }
     }
 }

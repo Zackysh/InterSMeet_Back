@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace InterSMeet.Core.DTO
 {
-    public class CompanyDTO
+    public class CompanyDTO : UserDTO
     {
         public int CompanyId { get; set; }
         public string Address { get; set; } = null!;

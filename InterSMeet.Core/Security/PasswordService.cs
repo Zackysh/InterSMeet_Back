@@ -4,10 +4,10 @@ using System.Text;
 
 namespace InterSMeet.Core.Security
 {
-    public class PasswordGenerator : IPasswordGenerator
+    public class PasswordService : IPasswordService
     {
         public IConfiguration Configuration { get; set; }
-        public PasswordGenerator(IConfiguration Configuration)
+        public PasswordService(IConfiguration Configuration)
         {
             this.Configuration = Configuration;
         }

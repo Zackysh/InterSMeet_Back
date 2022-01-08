@@ -1,4 +1,5 @@
-﻿using InterSMeet.BLL.Contracts;
+﻿using InterSMeet.ApiRest.Utils;
+using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
@@ -32,7 +33,7 @@ namespace InterSMeet.Controllers
         [Authorize]
         public ActionResult<StudentDTO> FindById()
         {
-            var username = UserController.GetUserIdentity(HttpContext);
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
             return Ok(CompanyBL.FindProfile(username));
         }
 

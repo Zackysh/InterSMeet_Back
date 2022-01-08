@@ -1,4 +1,5 @@
-﻿using InterSMeet.BL.Exception;
+﻿using InterSMeet.ApiRest.Utils;
+using InterSMeet.BL.Exception;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -22,24 +23,27 @@ namespace InterSMeet.Controllers
             this.UserBL = UserBL;
         }
 
-        // POST api/users/check/email
-        [HttpPost("check/email")]
-        [AllowAnonymous]
-        public ActionResult<AuthenticatedDTO> CheckEmail(string email)
+        // Token Management
+
+        // POST api/users/check-access
+        [HttpPost("check-access")]
+        [Authorize]
+        public ActionResult<StudentDTO> CheckAccessToken()
         {
-            UserBL.CheckEmail(email);
-            return Ok();
+            // [Authorize] tag handle access token validation,
+            // returns 401 status if token isn't valid
+            return Ok(); // return 200 if token is valid
         }
 
-        // POST api/users/check/username
-        [HttpPost("check/username")]
+        // POST api/users/refresh-token
+        [HttpPost("refresh")]
         [AllowAnonymous]
-        public ActionResult<AuthenticatedDTO> CheckUsername(string username)
+        public ActionResult<StudentDTO> RefreshToken()
         {
-
-            UserBL.CheckUsername(username);
-            return Ok();
+            return Ok(UserBL.RefreshToken(HttpContext.Request.Headers.First(x => x.Key == "refresh-token").Value));
         }
+
+        // Anonymous
 
         // POST api/users/sign-up/student
         [HttpPost("sign-up/student")]
@@ -59,15 +63,6 @@ namespace InterSMeet.Controllers
             return Ok(UserBL.CompanySignUp(signUpDto));
         }
 
-        // GET api/users/profile
-        [HttpGet("profile")]
-        [Authorize]
-        public ActionResult<StudentDTO> FindProfile()
-        {
-            var username = GetUserIdentity(HttpContext);
-            return Ok(UserBL.FindProfile(username));
-        }
-
         // POST api/users/sign-in
         [HttpPost("sign-in")]
         [AllowAnonymous]
@@ -76,7 +71,24 @@ namespace InterSMeet.Controllers
             return Ok(UserBL.SignIn(signInDto));
         }
 
-        // Foreing
+        // POST api/users/check/email
+        [HttpPost("check/email")]
+        [AllowAnonymous]
+        public ActionResult<AuthenticatedDTO> CheckEmail(string email)
+        {
+            UserBL.CheckEmail(email);
+            return Ok();
+        }
+
+        // POST api/users/check/username
+        [HttpPost("check/username")]
+        [AllowAnonymous]
+        public ActionResult<AuthenticatedDTO> CheckUsername(string username)
+        {
+
+            UserBL.CheckUsername(username);
+            return Ok();
+        }
 
         // GET api/users/languages
         [HttpGet("languages")]
@@ -94,21 +106,23 @@ namespace InterSMeet.Controllers
             return Ok(UserBL.FindAllProvinces());
         }
 
-        // CREATE api/users/languages
+        // Authorized
+
+        // GET api/users/profile
+        [HttpGet("profile")]
+        [Authorize]
+        public ActionResult<StudentDTO> FindProfile()
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            return Ok(UserBL.FindProfile(username));
+        }
+
+        // POST api/users/languages
         [HttpPost("languages")]
         [Authorize(Roles = "Admin")]
         public ActionResult<LanguageDTO> CreateLanguage(LanguageDTO languageDto)
         {
             return Ok(UserBL.CreateLanguage(languageDto));
-        }
-
-        public static string GetUserIdentity(HttpContext context)
-        {
-            if (context.User.Identity is not ClaimsIdentity claims) throw new BLUnauthorizedException("Invalid token");
-            var authUsernameClaim = claims.FindFirst(ClaimTypes.Name);
-            if (authUsernameClaim is null) throw new BLUnauthorizedException("Invalid token");
-            var username = authUsernameClaim.Value;
-            return username;
         }
     }
 }

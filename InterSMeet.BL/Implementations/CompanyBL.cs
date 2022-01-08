@@ -4,7 +4,6 @@ using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
-using ObjectDesign;
 
 namespace InterSMeet.BLL.Implementations
 {

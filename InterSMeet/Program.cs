@@ -23,8 +23,8 @@ builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new AutoMapperProfile()));
 // Dependency injection
 // User (oder matters)
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IPasswordGenerator, PasswordGenerator>();
-builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IUserBL, UserBL>();
 // Student
 builder.Services.AddScoped<IStudentBL, StudentBL>();

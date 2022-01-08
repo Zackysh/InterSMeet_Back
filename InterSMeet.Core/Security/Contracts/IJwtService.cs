@@ -4,15 +4,15 @@ using System.Security.Claims;
 
 namespace InterSMeet.Core.Security
 {
-    public interface IJwtGenerator
+    public interface IJwtService
     {
         public string GetJwtToken(
                 string username,
                 string signingKey,
                 TimeSpan expiration,
                 Claim[]? additionalClaims = null);
-
-        public string SignAccessToken(UserDTO userDto, Claim? roleClaim = null);
-        public string SignRefreshToken(UserDTO userDto);
+        public ClaimsPrincipal? GetRefreshTokenPrincipal(string token);
+        public string SignAccessToken(string username, Claim? roleClaim = null);
+        public string SignRefreshToken(string username);
     }
 }

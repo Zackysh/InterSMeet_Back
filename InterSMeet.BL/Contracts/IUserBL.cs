@@ -11,6 +11,7 @@ namespace InterSMeet.BLL.Contracts
     public interface IUserBL
     {
         public AuthenticatedDTO SignIn(SignInDTO signInDTO);
+        public AuthenticatedDTO RefreshToken(string refreshToken);
         public AuthenticatedDTO StudentSignUp(StudentSignUpDTO signUpDTO);
         public AuthenticatedDTO CompanySignUp(CompanySignUpDTO signUpDTO);
         public UserDTO FindProfile(string username);

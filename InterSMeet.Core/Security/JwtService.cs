@@ -1,5 +1,4 @@
 ﻿using InterSMeet.Core.DTO;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,25 +7,25 @@ using System.Text;
 
 namespace InterSMeet.Core.Security
 {
-    public class JwtGenerator : IJwtGenerator
+    public class JwtService : IJwtService
     {
         internal IConfiguration Configuration;
-        public JwtGenerator(IConfiguration configuration)
+        public JwtService(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public string SignAccessToken(UserDTO userDto, Claim? roleClaim = null)
+        public string SignAccessToken(string username, Claim? roleClaim = null)
         {
             Claim[]? claims = null;
             if (roleClaim is not null)
                 claims = new Claim[] { roleClaim };
 
-            return GetJwtToken(userDto.Username, Configuration["Jwt:AccessSecret"], TimeSpan.FromMinutes(15), claims);
+            return GetJwtToken(username, Configuration["Jwt:AccessSecret"], TimeSpan.FromMinutes(15), claims);
         }
-        public string SignRefreshToken(UserDTO userDto)
+        public string SignRefreshToken(string username)
         {
-            return GetJwtToken(userDto.Username, Configuration["Jwt:RefreshSecret"], TimeSpan.FromDays(7));
+            return GetJwtToken(username, Configuration["Jwt:RefreshSecret"], TimeSpan.FromDays(7));
         }
 
         /// <summary>
@@ -62,10 +61,6 @@ namespace InterSMeet.Core.Security
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var issuer = Configuration["Jwt:Issuer"];
-            var audience = Configuration["Jwt:Audience"];
-
-
             var token = new JwtSecurityToken(
                 issuer: Configuration["Jwt:Issuer"],
                 audience: Configuration["Jwt:Audience"],
@@ -76,6 +71,31 @@ namespace InterSMeet.Core.Security
 
             return new JwtSecurityTokenHandler().WriteToken(token);
 
+        }
+
+        public ClaimsPrincipal? GetRefreshTokenPrincipal(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:RefreshSecret"])),
+                ValidateLifetime = true
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            ClaimsPrincipal principal;
+            try
+            {
+                principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+                if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                    return null;
+                return principal;
+            }
+            catch (SecurityTokenSignatureKeyNotFoundException)
+            {
+                return null;
+            }
         }
     }
 }

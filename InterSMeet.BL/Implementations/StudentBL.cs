@@ -4,7 +4,6 @@ using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
-using ObjectDesign;
 
 namespace InterSMeet.BLL.Implementations
 {
@@ -34,9 +33,14 @@ namespace InterSMeet.BLL.Implementations
             var student = StudentRepository.FindById(user.UserId);
             if (student is null) throw new BLConflictException($"It appears that the user isn't linked to a student");
 
-            student.User = user; // EF doesn't handle lazy loading correcly
-
+            student.User = user; // in case EF doesn't handle lazy loading correcly
             return Mapper.Map<Student, StudentDTO>(student);
+        }
+
+        public IEnumerable<DegreeDTO> FindAllDegrees()
+        {
+            IEnumerable<Degree> res = StudentRepository.FindAllDegrees();
+            return Mapper.Map<IEnumerable<Degree>, IEnumerable<DegreeDTO>>(res);
         }
 
         public StudentDTO Delete(int studentId)
@@ -52,8 +56,8 @@ namespace InterSMeet.BLL.Implementations
 
         public int UploadAvatar(ImageDTO imgDto, string username)
         {
-            Ensure.NotNull(imgDto);
-            Ensure.NotNull(username);
+            if (imgDto== null) throw new();
+            if (username == null) throw new();
 
             var user = UserRepository.FindByUsername(username);
             if (user is null) throw new Exception("Token identity not found in DB");
@@ -77,6 +81,19 @@ namespace InterSMeet.BLL.Implementations
             if (student.AvatarId is null) throw new BLNotFoundException($"Student with ID {studentId} has no avatar");
             var avatar = StudentRepository.DownloadAvatar((int)student.AvatarId);
             if (avatar is null) throw new BLNotFoundException($"Student with ID {studentId} has no avatar");
+
+            return ImageDTO.FromImage(avatar);
+        }
+
+        public ImageDTO DownloadAvatarByStudent(string username)
+        {
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new BLNotFoundException($"Student not found");
+            var student = StudentRepository.FindById(user.UserId);
+            if (student is null) throw new BLNotFoundException($"Student not found");
+            if (student.AvatarId is null) throw new BLNotFoundException($"Student with ID {student.StudentId} has no avatar");
+            var avatar = StudentRepository.DownloadAvatar((int)student.AvatarId);
+            if (avatar is null) throw new BLNotFoundException($"Student with ID {student.StudentId} has no avatar");
 
             return ImageDTO.FromImage(avatar);
         }
