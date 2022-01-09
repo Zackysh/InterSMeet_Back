@@ -2,6 +2,7 @@
 using InterSMeet.BL.Exception;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
+using InterSMeet.Core.DTO.Validators;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
 
@@ -54,17 +55,19 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<Offer, OfferDTO>(OfferRepository.Create(Mapper.Map<CreateOfferDTO, Offer>(createOfferDto), company.UserId));
         }
 
-        public OfferDTO Update(UpdateOfferDTO offerDto, string username)
+        public OfferDTO Update(UpdateOfferDTO offerDto, string username, int offerId)
         {
-            if (offerDto is null || username is null) throw new();
+            if (NullValidator.IsNullOrEmpty(offerDto)) throw new BLBadRequestException("You should update at least one field");
 
-            var offer = OfferRepository.FindById(offerDto.OfferId);
+            var offerExists = OfferRepository.FindById(offerId);
             var company = UserRepository.FindByUsername(username);
             if (company is null) throw new BLUnauthorizedException("Invaid access token");
-            if (offer is null) throw new BLNotFoundException($"Offer not found with ID: {offerDto.OfferId}");
-            if (offer.CompanyId != company.UserId) throw new BLForbiddenException("You can't modify others information!");
+            if (offerExists is null) throw new BLNotFoundException($"Offer not found with ID: {offerId}");
+            if (offerExists.CompanyId != company.UserId) throw new BLForbiddenException("You can't modify others information!");
+            var offer = Mapper.Map<UpdateOfferDTO, Offer>(offerDto);
+            offer.OfferId = offerId;
 
-            return Mapper.Map<Offer, OfferDTO>(OfferRepository.Update(Mapper.Map<UpdateOfferDTO, Offer>(offerDto))!);
+            return Mapper.Map<Offer, OfferDTO>(OfferRepository.Update(offer)!);
         }
 
         public OfferDTO Delete(int offerId, string username)

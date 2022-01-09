@@ -61,12 +61,13 @@ namespace InterSMeet.Controllers
         }
 
         // PUT api/offers/:offerId
-        [HttpPut]
+        [HttpPut("{offerId}")]
         [Authorize(Roles = "Company")]
-        public ActionResult<OfferDTO> Update(UpdateOfferDTO updateOfferDTO)
+        public ActionResult<OfferDTO> Update(UpdateOfferDTO updateOfferDTO, int offerId)
         {
             var username = ControllerUtils.GetUserIdentity(HttpContext);
-            return Ok(OfferBL.Update(updateOfferDTO, username));
+            var retur = OfferBL.Update(updateOfferDTO, username, offerId);
+            return Ok(retur);
         }
 
         // DELETE api/offers/:offerId

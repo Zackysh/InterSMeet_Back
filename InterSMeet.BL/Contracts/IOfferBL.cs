@@ -14,7 +14,7 @@ namespace InterSMeet.BLL.Contracts
         OfferDTO FindById(int offerId);
         IEnumerable<OfferDTO> FindCompanyOffers(string name);
         OfferDTO Create(CreateOfferDTO createOfferDTO, string username);
-        OfferDTO Update(UpdateOfferDTO updateOfferDTO, string username);
+        OfferDTO Update(UpdateOfferDTO updateOfferDTO, string username, int offerId);
         OfferDTO Delete(int offerId, string username);
     }
 }

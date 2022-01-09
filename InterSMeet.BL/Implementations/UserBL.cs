@@ -19,11 +19,10 @@ namespace InterSMeet.BLL.Implementations
         internal IJwtService JwtService;
         internal IConfiguration Configuration;
         internal IMapper Mapper;
-        internal IStudentBL StudentBL;
         internal IStudentRepository StudentRepository;
 
         public UserBL(
-            IUserRepository userRepository, IStudentRepository studentRepository, ICompanyRepository companyRepository, IStudentBL studentBL, IMapper mapper,
+            IUserRepository userRepository, IStudentRepository studentRepository, ICompanyRepository companyRepository, IMapper mapper,
             IPasswordService passwordGenerator, IJwtService jwtGenerator, IConfiguration configuration)
         {
             PasswordGenerator = passwordGenerator;
@@ -32,7 +31,6 @@ namespace InterSMeet.BLL.Implementations
             UserRepository = userRepository;
             StudentRepository = studentRepository;
             CompanyRepository = companyRepository;
-            StudentBL = studentBL;
             Configuration = configuration;
         }
 
@@ -99,7 +97,8 @@ namespace InterSMeet.BLL.Implementations
             FindLanguageById(user.LanguageId);
             FindProvinceById(user.ProvinceId);
             // Validate Student data
-            StudentBL.FindDegreeById(signUpDto.DegreeId);
+            var degree = StudentRepository.FindDegreeById(signUpDto.DegreeId);
+            if (degree == null) throw new BLNotFoundException($"Degree not found with ID: {signUpDto.DegreeId}");
 
             // Assign user data
             user.Password = PasswordGenerator.Hash(user.Password);
@@ -146,8 +145,7 @@ namespace InterSMeet.BLL.Implementations
 
         public UserDTO Update(UpdateUserDTO updateDTO, string username)
         {
-            if (updateDTO is null) throw new BLBadRequestException("You should update at least one field");
-            if (username is null) throw new();
+            if (NullValidator.IsNullOrEmpty(updateDTO)) throw new BLBadRequestException("You should update at least one field");
 
             FindProfile(username); // check if student exists
 
