@@ -145,8 +145,7 @@ namespace InterSMeet.BLL.Implementations
 
         public UserDTO Update(UpdateUserDTO updateDTO, string username)
         {
-            if (updateDTO is null) throw new BLBadRequestException("You should update at least one field");
-            if (username is null) throw new();
+            if (NullValidator.IsNullOrEmpty(updateDTO)) throw new BLBadRequestException("You should update at least one field");
 
             FindProfile(username); // check if student exists
 

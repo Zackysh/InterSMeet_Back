@@ -2,6 +2,7 @@
 using InterSMeet.BL.Exception;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
+using InterSMeet.Core.DTO.Validators;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
 
@@ -29,7 +30,7 @@ namespace InterSMeet.BLL.Implementations
 
         public CompanyDTO Update(UpdateCompanyDTO updateDTO, string username)
         {
-            if (updateDTO is null || username is null) throw new();
+            if (NullValidator.IsNullOrEmpty(updateDTO)) throw new BLBadRequestException("You should update at least one field");
 
             FindProfile(username); // check if student exists
 
