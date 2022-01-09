@@ -7,17 +7,23 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="10.1.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="6.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.12" />
-		<PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.0" />
+		<PackageReference Include="AutoMapper" Version="11.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="6.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="6.0.0-preview.4.21253.5" />
+		<PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.0" />
 	</ItemGroup>
 
 
 	<ItemGroup>
 		<ProjectReference Include="..\InterSMeet.DAL\InterSMeet.DAL.csproj" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Folder Include="DTO\User\Auth\Company\" />
+	  <Folder Include="DTO\User\Auth\Student\" />
 	</ItemGroup>
 
 </Project>

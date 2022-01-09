@@ -11,18 +11,35 @@ namespace InterSMeet.BLL.Implementations
     {
         internal IStudentRepository StudentRepository;
         internal IUserRepository UserRepository;
+        internal IUserBL UserBL;
+
         internal IMapper Mapper;
         public StudentBL(
-            IStudentRepository studentRepository, IUserRepository userRepository, IMapper mapper)
+            IStudentRepository studentRepository, IUserRepository userRepository, IUserBL userBL, IMapper mapper)
         {
             Mapper = mapper;
             StudentRepository = studentRepository;
             UserRepository = userRepository;
+            UserBL = userBL;
         }
 
         public IEnumerable<StudentDTO> FindAll()
         {
             return Mapper.Map<IEnumerable<Student>, IEnumerable<StudentDTO>>(StudentRepository.FindAll());
+        }
+
+        public StudentDTO Update(UpdateStudentDTO updateDTO, string username)
+        {
+            if (updateDTO is null || username is null) throw new();
+
+            FindProfile(username); // check if student exists
+
+            if(updateDTO.DegreeId is not null) FindDegreeById((int)updateDTO.DegreeId);
+            if (updateDTO?.UpdateUserDto?.LanguageId is not null) UserBL.FindLanguageById((int)updateDTO.UpdateUserDto.LanguageId);
+            if (updateDTO?.UpdateUserDto?.ProvinceId is not null) UserBL.FindProvinceById((int)updateDTO.UpdateUserDto.ProvinceId);
+
+            StudentRepository.Update(Mapper.Map<UpdateStudentDTO, Student>(updateDTO!));
+            return FindProfile(username);
         }
 
         public StudentDTO FindProfile(string username)
@@ -33,14 +50,7 @@ namespace InterSMeet.BLL.Implementations
             var student = StudentRepository.FindById(user.UserId);
             if (student is null) throw new BLConflictException($"It appears that the user isn't linked to a student");
 
-            student.User = user; // in case EF doesn't handle lazy loading correcly
             return Mapper.Map<Student, StudentDTO>(student);
-        }
-
-        public IEnumerable<DegreeDTO> FindAllDegrees()
-        {
-            IEnumerable<Degree> res = StudentRepository.FindAllDegrees();
-            return Mapper.Map<IEnumerable<Degree>, IEnumerable<DegreeDTO>>(res);
         }
 
         public StudentDTO Delete(int studentId)
@@ -56,7 +66,7 @@ namespace InterSMeet.BLL.Implementations
 
         public int UploadAvatar(ImageDTO imgDto, string username)
         {
-            if (imgDto== null) throw new();
+            if (imgDto == null) throw new();
             if (username == null) throw new();
 
             var user = UserRepository.FindByUsername(username);
@@ -71,6 +81,19 @@ namespace InterSMeet.BLL.Implementations
 
             // If not, store and link
             return StudentRepository.UploadAvatar(image, user.UserId).ImageId;
+        }
+
+        public IEnumerable<DegreeDTO> FindAllDegrees()
+        {
+            var res = StudentRepository.FindAllDegrees();
+            return Mapper.Map<IEnumerable<Degree>, IEnumerable<DegreeDTO>>(res);
+        }
+
+        public DegreeDTO FindDegreeById(int degreeId)
+        {
+            var degree = StudentRepository.FindDegreeById(degreeId);
+            if (degree is null) throw new BLNotFoundException("Specified degree doesn't exists");
+            return Mapper.Map<Degree, DegreeDTO>(degree);
         }
 
         public ImageDTO DownloadAvatarByStudent(int studentId)

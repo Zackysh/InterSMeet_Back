@@ -9,23 +9,29 @@ namespace InterSMeet.Core.MapperProfiles
 
         public AutoMapperProfile()
         {
-            // UserDTO - User
+            // @ User
             CreateMap<UserDTO, User>();
             CreateMap<User, UserDTO>();
-            // Student - StudentDTO
-            CreateMap<Student, StudentDTO>().ConvertUsing(new StudentConverter());
-            // Company - CompanyDTO
-            CreateMap<Company, CompanyDTO>().ConvertUsing(new CompanyConverter());
-            // SignUpDTO - User
             CreateMap<UserSignUpDTO, User>();
-            // LanguageDTO - Language
+            CreateMap<UpdateUserDTO, User>();
+            // @ Student
+            CreateMap<Student, StudentDTO>().ConvertUsing(new StudentConverter());
+            CreateMap<UpdateStudentDTO, Student>();
+            // @ Company
+            CreateMap<Company, CompanyDTO>().ConvertUsing(new CompanyConverter());
+            CreateMap<UpdateCompanyDTO, Company>();
+            // @ Offer
+            CreateMap<Offer, OfferDTO>();
+            CreateMap<UpdateOfferDTO, Offer>();
+            CreateMap<CreateOfferDTO, Offer>();
+            // @ Degree
+            CreateMap<Degree, DegreeDTO>();
+            // @ Language
             CreateMap<LanguageDTO, Language>();
             CreateMap<Language, LanguageDTO>();
-            // Province - ProvinceDTO
+            // @ Province
             CreateMap<Province, ProvinceDTO>();
-            // Degree - DegreeDTO
-            CreateMap<Degree, DegreeDTO>();
-            // ImageDTO - Image
+            // @ ImageDTO
             CreateMap<ImageDTO, Image>();
             CreateMap<Image, ImageDTO>();
 

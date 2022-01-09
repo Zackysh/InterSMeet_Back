@@ -56,13 +56,17 @@ namespace InterSMeet.DAL.Entities
         // Shared
         public virtual DbSet<Image> Images { get; set; } = null!;
         public virtual DbSet<Province> Provinces { get; set; } = null!;
+        public virtual DbSet<Offer> Offers { get; set; } = null!;
+        public virtual DbSet<OfferDegree> OfferDegrees { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#pragma warning disable CS1030 // #warning directive
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder
+#pragma warning restore CS1030 // #warning directive
                     .UseLazyLoadingProxies()
                     .UseMySql("server=localhost;port=3306;user=root;database=InterSMeetDb", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.27-mysql"));
             }

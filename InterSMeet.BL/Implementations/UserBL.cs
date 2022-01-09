@@ -63,8 +63,7 @@ namespace InterSMeet.BLL.Implementations
                 user = UserRepository.FindByEmail(signInDTO.Credential);
             else user = UserRepository.FindByUsername(signInDTO.Credential);
 
-            if (user is null)
-                throw new BLNotFoundException($"User not found with credential: {signInDTO.Credential}");
+            if (user is null) throw new BLNotFoundException($"User not found with credential: {signInDTO.Credential}");
 
             if (!PasswordGenerator.CompareHash(signInDTO.Password, user.Password))
                 throw new BLUnauthorizedException("Wrong password");
@@ -97,31 +96,23 @@ namespace InterSMeet.BLL.Implementations
 
             // Validate User data
             if (UserRepository.Exists(user)) throw new BLConflictException("User already exists, provide different username or email");
-            var language = UserRepository.FindLanguageById(signUpDto.UserSignUpDto.LanguageId);
-            if (language is null)
-                throw new BLNotFoundException("Specified language doesn't exists");
-            var province = UserRepository.FindProvinceById(signUpDto.UserSignUpDto.ProvinceId);
-            if (province is null)
-                throw new BLNotFoundException("Specified province doesn't exists");
-
+            FindLanguageById(user.LanguageId);
+            FindProvinceById(user.ProvinceId);
             // Validate Student data
-            var degree = StudentRepository.FindDegreeById(signUpDto.DegreeId);
-            if (degree is null)
-                throw new BLNotFoundException("Specified degree doesn't exists");
+            StudentBL.FindDegreeById(signUpDto.DegreeId);
 
             // Assign user data
             user.Password = PasswordGenerator.Hash(user.Password);
-            user.Language = language;
-            user.Province = province;
+            user.CreatedAt = DateTime.Now;
+            user.UpdatedAt = DateTime.Now;
+            user.RoleId = UserRoles.Student;
+
             // Create user
-            user = UserRepository.Create(user); // Re-assign user with created user
-
+            user = UserRepository.Create(user);
             // Create student
-            var student = StudentSignUpDTO.ToStudent(signUpDto, degree, user);
-            StudentRepository.Create(student);
+            StudentRepository.Create(StudentSignUpDTO.ToStudent(signUpDto));
 
-            var userDto = Mapper.Map<User, UserDTO>(user);
-            return SignAuthDTO(userDto);
+            return SignAuthDTO(Mapper.Map<User, UserDTO>(user));
         }
 
         /// <summary>
@@ -131,30 +122,40 @@ namespace InterSMeet.BLL.Implementations
         {
             if (signUpDto == null) throw new();
 
-
             var user = Mapper.Map<UserSignUpDTO, User>(signUpDto.UserSignUpDto);
 
             // Validate User data
             if (UserRepository.Exists(user)) throw new BLConflictException("User already exists, provide different username or email");
-            var language = UserRepository.FindLanguageById(signUpDto.UserSignUpDto.LanguageId);
-            if (language is null)
-                throw new BLNotFoundException("Specified language doesn't exists");
-            var province = UserRepository.FindProvinceById(signUpDto.UserSignUpDto.ProvinceId);
-            if (province is null)
-                throw new BLNotFoundException("Specified province doesn't exists");
+            FindLanguageById(user.LanguageId);
+            FindProvinceById(user.ProvinceId);
+
             // Assign user data
             user.Password = PasswordGenerator.Hash(user.Password);
-            user.Language = language;
-            user.Province = province;
+            user.CreatedAt = DateTime.Now;
+            user.UpdatedAt = DateTime.Now;
+            user.RoleId = UserRoles.Company;
+
             // Create user
             user = UserRepository.Create(user); // Re-assign user with created user
-
             // Create company
-            var company = CompanySignUpDTO.ToCompany(signUpDto, user);
-            CompanyRepository.Create(company);
+            CompanyRepository.Create(CompanySignUpDTO.ToCompany(signUpDto, user));
 
             var userDto = Mapper.Map<User, UserDTO>(user);
             return SignAuthDTO(userDto);
+        }
+
+        public UserDTO Update(UpdateUserDTO updateDTO, string username)
+        {
+            if (updateDTO is null) throw new BLBadRequestException("You should update at least one field");
+            if (username is null) throw new();
+
+            FindProfile(username); // check if student exists
+
+            if (updateDTO?.LanguageId is not null) FindLanguageById((int)updateDTO.LanguageId);
+            if (updateDTO?.ProvinceId is not null) FindProvinceById((int)updateDTO.ProvinceId);
+
+            UserRepository.Update(Mapper.Map<UpdateUserDTO, User>(updateDTO!));
+            return FindProfile(username);
         }
 
         public UserDTO FindProfile(string username)
@@ -185,8 +186,6 @@ namespace InterSMeet.BLL.Implementations
             return dtoList;
         }
 
-        // OUT OF BUSINESS
-
         /// <summary>
         /// Out of business method. Maybe in the future a "admin" dashbouard could be implemented.
         /// Then this method could be useful.
@@ -201,9 +200,23 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<Language, LanguageDTO>(UserRepository.CreateLanguage(language));
         }
 
+        public LanguageDTO FindLanguageById(int languageId)
+        {
+            var language = UserRepository.FindLanguageById(languageId);
+            if (language is null) throw new BLNotFoundException("Specified language doesn't exists");
+            return Mapper.Map<Language, LanguageDTO>(language);
+        }
+
+        public ProvinceDTO FindProvinceById(int provinceId)
+        {
+            var province = UserRepository.FindProvinceById(provinceId);
+            if (province is null) throw new BLNotFoundException("Specified province doesn't exists");
+            return Mapper.Map<Province, ProvinceDTO>(province);
+        }
+
         public void CheckEmail(string email)
         {
-            if (email== null) throw new();
+            if (email == null) throw new();
             if (UserRepository.FindByEmail(email) is not null)
                 throw new BLConflictException("Email is taken");
         }

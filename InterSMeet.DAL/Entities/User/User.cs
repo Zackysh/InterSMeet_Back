@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using IndexAttribute = Microsoft.EntityFrameworkCore.IndexAttribute;
 
 namespace InterSMeet.DAL.Entities
 {
@@ -51,10 +52,10 @@ namespace InterSMeet.DAL.Entities
         public int? RoleId { get; set; }
 
         [Column("created_at")]
-        public string? CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         [Column("updated_at")]
-        public string? UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         // @ Virtual
         public virtual UserRole? Role { get; set; }

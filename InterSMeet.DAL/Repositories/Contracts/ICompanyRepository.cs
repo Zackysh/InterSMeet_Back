@@ -8,6 +8,7 @@ namespace InterSMeet.DAL.Repositories.Contracts
         IEnumerable<Company> FindAll();
         Company? FindById(int companyId);
         Company Create(Company company);
+        Company? Update(Company company);
         Company? Delete(int companyId);
     }
 }

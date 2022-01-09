@@ -32,6 +32,9 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 // Company
 builder.Services.AddScoped<ICompanyBL, CompanyBL>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+// Offer
+builder.Services.AddScoped<IOfferBL, OfferBL>();
+builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 // Exception handling
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 

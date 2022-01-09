@@ -8,6 +8,7 @@ namespace InterSMeet.DAL.Repositories.Contracts
         IEnumerable<Student> FindAll();
         Student? FindById(int studentId);
         Student Create(Student student);
+        Student? Update(Student student);
         Student? Delete(int studentId);
         Image? Exists(Image img);
         Image UploadAvatar(Image img, int studentId);

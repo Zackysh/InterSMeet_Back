@@ -18,5 +18,6 @@ namespace InterSMeet.BLL.Contracts
         ImageDTO DownloadAvatarByStudent(string username);
         ImageDTO DownloadAvatar(int imageId);
         IEnumerable<DegreeDTO> FindAllDegrees();
+        DegreeDTO FindDegreeById(int degreeId);
     }
 }

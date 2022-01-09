@@ -1,5 +1,5 @@
 ﻿using InterSMeet.DAL.Entities;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace InterSMeet.Core.DTO
 {
@@ -8,15 +8,15 @@ namespace InterSMeet.Core.DTO
         public UserSignUpDTO UserSignUpDto { get; set; } = null!;
         public DateTime BirthDate { get; set; }
         public int DegreeId { get; set; }
+        [Range(0,10)]
         public double AverageGrades { get; set; }
 
-        public static Student ToStudent(StudentSignUpDTO signUpDto, Degree degree, User user)
+        public static Student ToStudent(StudentSignUpDTO signUpDto)
         {
             Student student = new();
             student.BirthDate = signUpDto.BirthDate;
             student.AverageGrades = signUpDto.AverageGrades;
-            student.Degree = degree;
-            student.User = user;
+            student.DegreeId = signUpDto.DegreeId;
             return student;
         }
     }

@@ -16,7 +16,9 @@ namespace InterSMeet.BLL.Contracts
         public AuthenticatedDTO CompanySignUp(CompanySignUpDTO signUpDTO);
         public UserDTO FindProfile(string username);
         public IEnumerable<ProvinceDTO> FindAllProvinces();
+        public ProvinceDTO FindProvinceById(int provinceId);
         public IEnumerable<LanguageDTO> FindAllLanguages();
+        public LanguageDTO FindLanguageById(int languageId);
         public LanguageDTO CreateLanguage(LanguageDTO languageDTO);
         void CheckEmail(string email);
         void CheckUsername(string username);

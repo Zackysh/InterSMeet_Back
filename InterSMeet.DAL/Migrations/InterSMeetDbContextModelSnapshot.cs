@@ -17,7 +17,7 @@ namespace InterSMeet.DAL.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .UseCollation("utf8mb4_0900_ai_ci")
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
@@ -149,6 +149,58 @@ namespace InterSMeet.DAL.Migrations
                     b.ToTable("Levels");
                 });
 
+            modelBuilder.Entity("InterSMeet.DAL.Entities.Offer", b =>
+                {
+                    b.Property<int>("OfferId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("offer_id");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int")
+                        .HasColumnName("company_id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<double>("Salary")
+                        .HasColumnType("double");
+
+                    b.Property<string>("Schedule")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("OfferId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Offers");
+                });
+
+            modelBuilder.Entity("InterSMeet.DAL.Entities.OfferDegree", b =>
+                {
+                    b.Property<int>("OfferDegreeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("offer_degree_id");
+
+                    b.Property<int>("DegreeId")
+                        .HasColumnType("int")
+                        .HasColumnName("degree_id");
+
+                    b.Property<int>("OfferId")
+                        .HasColumnType("int")
+                        .HasColumnName("offer_id");
+
+                    b.HasKey("OfferDegreeId");
+
+                    b.ToTable("offer_degree");
+                });
+
             modelBuilder.Entity("InterSMeet.DAL.Entities.Province", b =>
                 {
                     b.Property<int>("ProvinceId")
@@ -207,8 +259,8 @@ namespace InterSMeet.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("user_id");
 
-                    b.Property<string>("CreatedAt")
-                        .HasColumnType("longtext")
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("CreatedDate")
@@ -251,12 +303,12 @@ namespace InterSMeet.DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("province_id");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int")
                         .HasColumnName("role_id");
 
-                    b.Property<string>("UpdatedAt")
-                        .HasColumnType("longtext")
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("updated_at");
 
                     b.Property<DateTime>("UpdatedDate")
@@ -339,6 +391,17 @@ namespace InterSMeet.DAL.Migrations
                     b.Navigation("Level");
                 });
 
+            modelBuilder.Entity("InterSMeet.DAL.Entities.Offer", b =>
+                {
+                    b.HasOne("InterSMeet.DAL.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("InterSMeet.DAL.Entities.Student", b =>
                 {
                     b.HasOne("InterSMeet.DAL.Entities.Image", "Avatar")
@@ -380,9 +443,7 @@ namespace InterSMeet.DAL.Migrations
 
                     b.HasOne("InterSMeet.DAL.Entities.UserRole", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Language");
 

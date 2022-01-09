@@ -12,8 +12,6 @@ namespace InterSMeet.DAL.Repositories.Implementations
             _context = context;
         }
 
-        // @ CRUD
-
         public IEnumerable<Company> FindAll()
         {
             return _context.Companies;
@@ -29,6 +27,18 @@ namespace InterSMeet.DAL.Repositories.Implementations
             var change = _context.Companies.Add(company);
             _context.SaveChanges();
             return change.Entity;
+        }
+
+        public Company? Update(Company company)
+        {
+            var existing = _context.Companies.Find(company.CompanyId);
+            if (existing is not null)
+            {
+                existing = EntityPropertyMapper.InjectNonNull(existing, company);
+                _context.SaveChanges();
+                return existing;
+            }
+            return null;
         }
 
         public Company? Delete(int companyId)

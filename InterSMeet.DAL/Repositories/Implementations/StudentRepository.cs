@@ -31,6 +31,18 @@ namespace InterSMeet.DAL.Repositories.Implementations
             return change.Entity;
         }
 
+        public Student? Update(Student student)
+        {
+            var existing = _context.Students.Find(student.StudentId);
+            if (existing is not null)
+            {
+                existing = EntityPropertyMapper.InjectNonNull(existing, student);
+                _context.SaveChanges();
+                return existing;
+            }
+            return null;
+        }
+
         public Student? Delete(int studentId)
         {
             var student = _context.Students.Find(studentId);
