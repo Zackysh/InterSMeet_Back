@@ -20,10 +20,4 @@
 		<ProjectReference Include="..\InterSMeet.DAL\InterSMeet.DAL.csproj" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-	  <Folder Include="DTO\User\Auth\Company\" />
-	  <Folder Include="DTO\User\Auth\Student\" />
-	</ItemGroup>
-
 </Project>
