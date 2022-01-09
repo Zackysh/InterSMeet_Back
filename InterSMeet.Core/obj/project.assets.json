@@ -7155,11 +7155,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
+      "projectUniqueName": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
       "projectName": "InterSMeet.Core",
-      "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
+      "projectPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
       "packagesPath": "C:\\Users\\adrig\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\obj\\",
+      "outputPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\adrig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -7170,14 +7170,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://nuget.org/api/v2/": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
-              "projectPath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
+            "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
+              "projectPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
             }
           }
         }
@@ -7232,7 +7232,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "41MkpaCe0Hc2PRWmcskWfTvtjJYUY2wO424ROgTw30s3Ini0uSDDAeWnVpFxh0k5nUi4te/VgNiuHlG9lvVRhw==",
+  "dgSpecHash": "aSEG0dl2U3TsDIFZXbjPoUALBfarKkxozLKLi8dlHGBP1ZdZZXlilrhj4ZNPF5zixe07NNVX4VY47I/YH5a6hQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\adrig\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj",
+  "projectFilePath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\adrig\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
     "C:\\Users\\adrig\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",

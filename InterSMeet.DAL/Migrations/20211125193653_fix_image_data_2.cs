@@ -9,9 +9,9 @@ namespace InterSMeet.DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropIndex(
-            //    name: "IX_Images_image_data",
-            //    table: "Images");
+            migrationBuilder.DropIndex(
+                name: "IX_Images_image_data",
+                table: "Images");
 
             migrationBuilder.AlterColumn<byte[]>(
                 name: "image_data",

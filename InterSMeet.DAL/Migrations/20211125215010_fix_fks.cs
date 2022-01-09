@@ -8,9 +8,9 @@ namespace InterSMeet.DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropForeignKey(
-            //    name: "FK_users_user_roles_role_id",
-            //    table: "users");
+            migrationBuilder.DropForeignKey(
+                name: "FK_users_user_roles_role_id",
+                table: "users");
 
             migrationBuilder.AlterColumn<int>(
                 name: "role_id",

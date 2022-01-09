@@ -25,3 +25,17 @@ C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.pdb
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.genruntimeconfig.cache
 C:\Users\adrig\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.csproj.AssemblyReference.cache
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\bin\Debug\net6.0\InterSMeet.DAL.deps.json
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\bin\Debug\net6.0\InterSMeet.DAL.runtimeconfig.json
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\bin\Debug\net6.0\InterSMeet.DAL.dll
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\bin\Debug\net6.0\ref\InterSMeet.DAL.dll
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\bin\Debug\net6.0\InterSMeet.DAL.pdb
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.csproj.AssemblyReference.cache
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.AssemblyInfoInputs.cache
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.AssemblyInfo.cs
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.csproj.CoreCompileInputs.cache
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.dll
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\ref\InterSMeet.DAL.dll
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.pdb
+C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.genruntimeconfig.cache
