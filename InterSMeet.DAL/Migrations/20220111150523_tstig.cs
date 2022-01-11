@@ -4,7 +4,7 @@
 
 namespace InterSMeet.DAL.Migrations
 {
-    public partial class fix_user_role_fk : Migration
+    public partial class tstig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
