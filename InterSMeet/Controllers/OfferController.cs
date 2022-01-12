@@ -1,6 +1,7 @@
 ﻿using InterSMeet.ApiRest.Utils;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
+using InterSMeet.Core.DTO.Offer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,14 @@ namespace InterSMeet.Controllers
         public OfferController(IOfferBL offerBL)
         {
             OfferBL = offerBL;
+        }
+
+        // GET api/offers/pagination
+        [HttpGet("pagination")]
+        [Authorize(Roles = "Student")]
+        public ActionResult<OfferPaginationResponseDTO> Pagination(OfferPaginationDTO pagination)
+        {
+            return Ok(OfferBL.Pagination(pagination));
         }
 
         // GET api/offers

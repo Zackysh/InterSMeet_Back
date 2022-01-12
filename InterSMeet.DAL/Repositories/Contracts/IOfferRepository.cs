@@ -5,6 +5,7 @@ namespace InterSMeet.DAL.Repositories.Contracts
 {
     public interface IOfferRepository : IRepository<Offer>
     {
+        IEnumerable<Offer> Pagination(int page, int size, string? search, int? companyId, double? minSalary, double? maxSalary);
         IEnumerable<Offer> FindAll();
         IEnumerable<Offer> FindCompanyOffers(int companyId);
         Offer? FindById(int offerId);

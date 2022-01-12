@@ -2,6 +2,7 @@
 using InterSMeet.BL.Exception;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
+using InterSMeet.Core.DTO.Offer;
 using InterSMeet.Core.DTO.Validators;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
@@ -12,13 +13,36 @@ namespace InterSMeet.BLL.Implementations
     {
         internal IOfferRepository OfferRepository;
         internal IUserRepository UserRepository;
+        internal ICompanyRepository CompanyRepository;
+
         internal IMapper Mapper;
         public OfferBL(
-            IOfferRepository offerRepository, IUserRepository userRepository, IMapper mapper)
+            IOfferRepository offerRepository, IUserRepository userRepository, ICompanyRepository companyRepository, IMapper mapper)
         {
             Mapper = mapper;
             OfferRepository = offerRepository;
             UserRepository = userRepository;
+            CompanyRepository = companyRepository;
+        }
+
+        public OfferPaginationResponseDTO Pagination(OfferPaginationDTO pagination)
+        {
+            if (pagination.Min != null
+                && pagination.Max != null
+                && pagination.Max < pagination.Min
+             ) throw new BLBadRequestException("Incorrect salary range, max should be greater than min");
+
+            if (pagination.CompanyId != null)
+                if (CompanyRepository.FindById((int)pagination.CompanyId) == null)
+                    throw new BLNotFoundException($"Company not found with ID: {pagination.CompanyId}");
+
+            return new()
+            {
+                Pagination = pagination,
+                Offers = Mapper.Map<IEnumerable<Offer>, IEnumerable<OfferDTO>>(
+                    OfferRepository.Pagination(pagination.Page, pagination.Size, pagination.Search, pagination.CompanyId, pagination.Min, pagination.Max)
+                )
+            };
         }
 
         public IEnumerable<OfferDTO> FindAll()

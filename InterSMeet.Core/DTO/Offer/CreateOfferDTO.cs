@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace InterSMeet.Core.DTO
+namespace InterSMeet.Core.DTO.Offer
 {
     public class CreateOfferDTO
     {

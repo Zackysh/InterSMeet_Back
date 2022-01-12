@@ -109,7 +109,7 @@ namespace InterSMeet.BLL.Implementations
             // Create user
             user = UserRepository.Create(user);
             // Create student
-            StudentRepository.Create(StudentSignUpDTO.ToStudent(signUpDto));
+            StudentRepository.Create(StudentSignUpDTO.ToStudent(signUpDto, user));
 
             return SignAuthDTO(Mapper.Map<User, UserDTO>(user));
         }

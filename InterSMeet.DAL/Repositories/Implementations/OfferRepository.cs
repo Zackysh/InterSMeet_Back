@@ -3,13 +3,24 @@ using InterSMeet.DAL.Repositories.Contracts;
 
 namespace InterSMeet.DAL.Repositories.Implementations
 {
-    public class OfferRepository : IOfferRepository 
+    public class OfferRepository : IOfferRepository
     {
         public InterSMeetDbContext _context { get; set; }
 
         public OfferRepository(InterSMeetDbContext context)
         {
             _context = context;
+        }
+
+        public IEnumerable<Offer> Pagination(int page, int size, string? search, int? companyId, double? minSalary, double? maxSalary)
+        {
+                return _context.Offers
+                    .OrderBy(o => o.OfferId)
+                    .Where(o => search == null || $"{o.Name} {o.Description}".Contains(search))
+                    .Where(o => companyId == null || o.CompanyId == companyId)
+                    .Where(o => (minSalary == null || maxSalary == null) || (o.Salary >= minSalary || o.Salary <= maxSalary))
+                    .Skip(page * size)
+                    .Take(size);
         }
 
         public IEnumerable<Offer> FindAll()

@@ -1,4 +1,5 @@
 ﻿using InterSMeet.Core.DTO;
+using InterSMeet.Core.DTO.Offer;
 using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace InterSMeet.BLL.Contracts
 {
     public interface IOfferBL
     {
+        OfferPaginationResponseDTO Pagination(OfferPaginationDTO pagination);
         IEnumerable<OfferDTO> FindAll();
         OfferDTO FindById(int offerId);
         IEnumerable<OfferDTO> FindCompanyOffers(string name);

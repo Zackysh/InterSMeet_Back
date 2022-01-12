@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InterSMeet.Core.DTO;
+using InterSMeet.Core.DTO.Offer;
 using InterSMeet.DAL.Entities;
 
 namespace InterSMeet.Core.MapperProfiles
