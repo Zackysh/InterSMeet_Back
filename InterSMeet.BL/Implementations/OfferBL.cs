@@ -40,7 +40,17 @@ namespace InterSMeet.BLL.Implementations
             {
                 Pagination = pagination,
                 Offers = Mapper.Map<IEnumerable<Offer>, IEnumerable<OfferDTO>>(
-                    OfferRepository.Pagination(pagination.Page, pagination.Size, pagination.Search, pagination.CompanyId, pagination.Min, pagination.Max)
+                    OfferRepository.Pagination(
+                        pagination.Page,
+                        pagination.Size,
+                        pagination.Search,
+                        pagination.CompanyId,
+                        pagination.DegreeId,
+                        pagination.FamilyId,
+                        pagination.LevelId,
+                        pagination.Min,
+                        pagination.Max
+                    )
                 )
             };
         }
@@ -74,9 +84,13 @@ namespace InterSMeet.BLL.Implementations
 
             var company = UserRepository.FindByUsername(username);
             if (company is null) throw new BLUnauthorizedException("Invaid access token");
-            // TODO validate degrees
+            if (createOfferDto.Degrees.Count() <= 0)
+                throw new BLBadRequestException("You should provide at least one degreeId");
+            foreach (var degreeId in createOfferDto.Degrees)
+                if (OfferRepository.FindById(degreeId) is null)
+                    throw new BLConflictException($"Degree not found with ID: {degreeId}");
 
-            return Mapper.Map<Offer, OfferDTO>(OfferRepository.Create(Mapper.Map<CreateOfferDTO, Offer>(createOfferDto), company.UserId));
+            return Mapper.Map<Offer, OfferDTO>(OfferRepository.Create(Mapper.Map<CreateOfferDTO, Offer>(createOfferDto), company.UserId, createOfferDto.Degrees));
         }
 
         public OfferDTO Update(UpdateOfferDTO offerDto, string username, int offerId)
@@ -88,10 +102,15 @@ namespace InterSMeet.BLL.Implementations
             if (company is null) throw new BLUnauthorizedException("Invaid access token");
             if (offerExists is null) throw new BLNotFoundException($"Offer not found with ID: {offerId}");
             if (offerExists.CompanyId != company.UserId) throw new BLForbiddenException("You can't modify others information!");
-            var offer = Mapper.Map<UpdateOfferDTO, Offer>(offerDto);
-            offer.OfferId = offerId;
+            if (offerDto.Degrees is not null)
+                foreach (var degreeId in offerDto.Degrees)
+                    if (OfferRepository.FindById(degreeId) is null)
+                        throw new BLConflictException($"Degree not found with ID: {degreeId}");
 
-            return Mapper.Map<Offer, OfferDTO>(OfferRepository.Update(offer)!);
+            var offer = Mapper.Map<UpdateOfferDTO, Offer>(offerDto);
+            offer.OfferId = offerId; // assign updating offer Id so EntityFramework works
+
+            return Mapper.Map<Offer, OfferDTO>(OfferRepository.Update(offer, offerDto.Degrees)!);
         }
 
         public OfferDTO Delete(int offerId, string username)

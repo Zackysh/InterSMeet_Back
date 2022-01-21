@@ -23,7 +23,7 @@ namespace InterSMeet.Controllers
         [Authorize(Roles = "Student")]
         public ActionResult<OfferPaginationResponseDTO> Pagination(OfferPaginationDTO pagination)
         {
-            return Ok(OfferBL.Pagination(pagination));
+            return OfferBL.Pagination(pagination);
         }
 
         // GET api/offers
@@ -50,15 +50,6 @@ namespace InterSMeet.Controllers
             var username = ControllerUtils.GetUserIdentity(HttpContext);
             return Ok(OfferBL.FindCompanyOffers(username));
         }
-
-        // POST api/applications/:offerId
-        //[HttpPost("{offerId}")]
-        //[Authorize(Roles = "Student")]
-        //public ActionResult<ApplicationDTO> Create(int offerId)
-        //{
-        //    var username = ControllerUtils.GetUserIdentity(HttpContext);
-        //    return Ok(OfferBL.Create(offerId, username));
-        //}
 
         // POST api/offers
         [HttpPost]

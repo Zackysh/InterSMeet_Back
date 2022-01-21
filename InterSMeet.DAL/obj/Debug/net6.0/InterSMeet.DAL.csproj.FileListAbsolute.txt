@@ -39,3 +39,4 @@ C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debu
 C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\ref\InterSMeet.DAL.dll
 C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.pdb
 C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.genruntimeconfig.cache
+C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.DAL\obj\Debug\net6.0\InterSMeet.DAL.csproj.AssemblyReference.cache

@@ -15,12 +15,13 @@ namespace InterSMeet.Core.DTO.Offer
         [Range(1, int.MaxValue)]
         public int Size { get; set; }
         public string? Search { get; set; }
-
-        public int? CompanyId;
-
+        public int? CompanyId { get; set; }
+        public int? DegreeId { get; set; }
+        public int? FamilyId { get; set; }
+        public int? LevelId { get; set; }
+        // @ Salary
         [Range(0, int.MaxValue)]
         public double? Min { get; set; }
-
         [Range(0, int.MaxValue)]
         public double? Max { get; set; }
     }

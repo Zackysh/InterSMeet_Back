@@ -11,6 +11,6 @@ namespace InterSMeet.Core.DTO.Offer
     public class OfferPaginationResponseDTO
     {
         public OfferPaginationDTO Pagination { get; set; } = null!;
-        public IEnumerable<OfferDTO> Offers = null!;
+        public IEnumerable<OfferDTO> Offers { get; set; } = null!;
     }
 }
