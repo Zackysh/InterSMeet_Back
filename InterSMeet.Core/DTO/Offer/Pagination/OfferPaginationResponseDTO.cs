@@ -1,16 +1,9 @@
-﻿using InterSMeet.Core.Security;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace InterSMeet.Core.DTO.Offer
 {
     public class OfferPaginationResponseDTO
     {
-        public OfferPaginationDTO Pagination { get; set; } = null!;
-        public IEnumerable<OfferDTO> Offers { get; set; } = null!;
+        public OfferPaginationOptionsDTO Pagination { get; set; } = null!;
+        public IEnumerable<object> Offers { get; set; } = null!; // object enables inheritance
     }
 }

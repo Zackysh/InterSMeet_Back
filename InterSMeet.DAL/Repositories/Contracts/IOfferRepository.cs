@@ -17,6 +17,7 @@ namespace InterSMeet.DAL.Repositories.Contracts
             double? maxSalary);
         IEnumerable<Offer> FindAll();
         IEnumerable<Offer> FindCompanyOffers(int companyId);
+        IEnumerable<Student> FindOfferApplicants(int offerId);
         Offer? FindById(int offerId);
         Offer Create(Offer offer, int companyId, IEnumerable<int> degrees);
         Offer? Update(Offer offer, IEnumerable<int>? degrees);

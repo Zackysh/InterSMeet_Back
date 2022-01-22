@@ -14,33 +14,38 @@ namespace InterSMeet.BLL.Implementations
         internal IOfferRepository OfferRepository;
         internal IUserRepository UserRepository;
         internal ICompanyRepository CompanyRepository;
+        internal IStudentRepository StudentRepository;
 
         internal IMapper Mapper;
         public OfferBL(
-            IOfferRepository offerRepository, IUserRepository userRepository, ICompanyRepository companyRepository, IMapper mapper)
+            IOfferRepository offerRepository, IUserRepository userRepository, ICompanyRepository companyRepository, IStudentRepository studentRepository, IMapper mapper)
         {
             Mapper = mapper;
             OfferRepository = offerRepository;
             UserRepository = userRepository;
             CompanyRepository = companyRepository;
+            StudentRepository = studentRepository;
         }
 
-        public OfferPaginationResponseDTO Pagination(OfferPaginationDTO pagination)
+        public OfferPaginationResponseDTO Pagination(OfferPaginationOptionsDTO pagination, string username)
         {
             if (pagination.Min != null
                 && pagination.Max != null
                 && pagination.Max < pagination.Min
              ) throw new BLBadRequestException("Incorrect salary range, max should be greater than min");
 
-            if (pagination.CompanyId != null)
+            if (pagination.PrivateData)
+            {
+                var user = UserRepository.FindByUsername(username);
+                if (user is null || CompanyRepository.FindById(user.UserId) is null)
+                    throw new BLUnauthorizedException("Invaid access token");
+                pagination.CompanyId = user.UserId;
+            }
+            else if (pagination.CompanyId != null)
                 if (CompanyRepository.FindById((int)pagination.CompanyId) == null)
                     throw new BLNotFoundException($"Company not found with ID: {pagination.CompanyId}");
 
-            return new()
-            {
-                Pagination = pagination,
-                Offers = Mapper.Map<IEnumerable<Offer>, IEnumerable<OfferDTO>>(
-                    OfferRepository.Pagination(
+            var offers = OfferRepository.Pagination(
                         pagination.Page,
                         pagination.Size,
                         pagination.Search,
@@ -50,10 +55,27 @@ namespace InterSMeet.BLL.Implementations
                         pagination.LevelId,
                         pagination.Min,
                         pagination.Max
-                    )
-                )
+                    );
+
+            return new()
+            {
+                Pagination = pagination,
+                Offers = pagination.PrivateData
+                    ? Mapper.Map<IEnumerable<Offer>, IEnumerable<PrivateOfferDTO>>(offers).Select(o =>
+                    {
+                        o.Applicants = FindOfferApplicants(o.OfferId);
+                        return o;
+                    })
+                    : Mapper.Map<IEnumerable<Offer>, IEnumerable<PublicOfferDTO>>(offers).Select(o =>
+                    {
+                        o.ApplicantCount = OfferRepository.FindOfferApplicants(o.OfferId).Count();
+                        return o;
+                    })
             };
         }
+
+        //Offers = Mapper.Map<IEnumerable<Offer>, IEnumerable<OfferDTO>>(
+        //    res
 
         public IEnumerable<OfferDTO> FindAll()
         {
@@ -68,14 +90,20 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<Offer, OfferDTO>(offer);
         }
 
-        public IEnumerable<OfferDTO> FindCompanyOffers(string username)
+        public IEnumerable<PrivateOfferDTO> FindCompanyOffers(string username)
         {
             if (username is null) throw new();
 
             var company = UserRepository.FindByUsername(username);
             if (company is null) throw new BLUnauthorizedException("Invaid access token");
 
-            return Mapper.Map<IEnumerable<Offer>, IEnumerable<OfferDTO>>(OfferRepository.FindCompanyOffers(company.UserId));
+            return Mapper.Map<IEnumerable<Offer>, IEnumerable<PrivateOfferDTO>>(
+                OfferRepository.FindCompanyOffers(company.UserId)
+            ).Select(o =>
+            {
+                o.Applicants = FindOfferApplicants(o.OfferId);
+                return o;
+            });
         }
 
         public OfferDTO Create(CreateOfferDTO createOfferDto, string username)
@@ -86,8 +114,8 @@ namespace InterSMeet.BLL.Implementations
             if (company is null) throw new BLUnauthorizedException("Invaid access token");
             if (createOfferDto.Degrees.Count() <= 0)
                 throw new BLBadRequestException("You should provide at least one degreeId");
-            foreach (var degreeId in createOfferDto.Degrees)
-                if (OfferRepository.FindById(degreeId) is null)
+            foreach (int degreeId in createOfferDto.Degrees)
+                if (StudentRepository.FindDegreeById(degreeId) is null)
                     throw new BLConflictException($"Degree not found with ID: {degreeId}");
 
             return Mapper.Map<Offer, OfferDTO>(OfferRepository.Create(Mapper.Map<CreateOfferDTO, Offer>(createOfferDto), company.UserId, createOfferDto.Degrees));
@@ -124,6 +152,17 @@ namespace InterSMeet.BLL.Implementations
             OfferRepository.Delete(offerId);
 
             return Mapper.Map<Offer, OfferDTO>(offer);
+        }
+
+        /// ======================================================================================================================
+        /// @ Private Methods
+        /// ======================================================================================================================
+
+        private IEnumerable<StudentDTO> FindOfferApplicants(int offerId)
+        {
+            return Mapper.Map<IEnumerable<Student>, IEnumerable<StudentDTO>>(
+                OfferRepository.FindOfferApplicants(offerId)
+            );
         }
     }
 }

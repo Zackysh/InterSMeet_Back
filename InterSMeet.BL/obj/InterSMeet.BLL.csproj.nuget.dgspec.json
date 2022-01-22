@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj": {}
+    "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj": {
+    "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj",
+        "projectUniqueName": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj",
         "projectName": "InterSMeet.BLL",
-        "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj",
-        "packagesPath": "C:\\Users\\AdriGB\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\obj\\",
+        "projectPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\InterSMeet.BLL.csproj",
+        "packagesPath": "C:\\Users\\adrig\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.BL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\AdriGB\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\adrig\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,11 +28,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj": {
-                "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj"
+              "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj": {
+                "projectPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj"
               },
-              "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
-                "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
+              "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
+                "projectPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
               }
             }
           }
@@ -71,17 +71,17 @@
         }
       }
     },
-    "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj": {
+    "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
+        "projectUniqueName": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
         "projectName": "InterSMeet.Core",
-        "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
-        "packagesPath": "C:\\Users\\AdriGB\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\obj\\",
+        "projectPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
+        "packagesPath": "C:\\Users\\adrig\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\AdriGB\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\adrig\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -95,8 +95,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
-                "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
+              "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
+                "projectPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
               }
             }
           }
@@ -155,17 +155,17 @@
         }
       }
     },
-    "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
+    "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
         "projectName": "InterSMeet.DAL",
-        "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
-        "packagesPath": "C:\\Users\\AdriGB\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\obj\\",
+        "projectPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj",
+        "packagesPath": "C:\\Users\\adrig\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\AdriGB\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\adrig\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

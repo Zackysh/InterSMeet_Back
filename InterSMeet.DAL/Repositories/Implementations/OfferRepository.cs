@@ -24,31 +24,14 @@ namespace InterSMeet.DAL.Repositories.Implementations
             double? maxSalary)
         {
             IEnumerable<Offer> offers = _context.Offers;
+
             // @ Apply Degree Filters
             if (degreeId is not null)
-            {
-                offers = _context.OfferDegrees.Where(o =>
-                    _context.Degrees.Find(o.DegreeId) != null
-                    ? _context.Degrees.Find(o.DegreeId)!.DegreeId == degreeId
-                    : false
-                ).Select(od => _context.Offers.First(o => o.OfferId == od.OfferId));
-            }
+                offers = FindOffersByDegree((int)degreeId);
             else if (familyId is not null)
-            {
-                offers = _context.OfferDegrees.Where(o =>
-                    _context.Degrees.Find(o.DegreeId) != null
-                        ? _context.Degrees.Find(o.DegreeId)!.FamilyId == familyId
-                        : false
-                ).Select(od => _context.Offers.First(o => o.OfferId == od.OfferId));
-            }
+                offers = FindOffersByFamily((int)familyId);
             else if (levelId is not null)
-            {
-                offers = _context.OfferDegrees.Where(o =>
-                    _context.Degrees.Find(o.DegreeId) != null
-                        ? _context.Degrees.Find(o.DegreeId)!.LevelId == levelId
-                        : false
-                ).Select(od => _context.Offers.First(o => o.OfferId == od.OfferId));
-            }
+                offers = FindOffersByLevel((int)levelId);
 
             // @ Apply other filters
             return offers
@@ -73,6 +56,23 @@ namespace InterSMeet.DAL.Repositories.Implementations
         public IEnumerable<Offer> FindCompanyOffers(int companyId)
         {
             return _context.Offers.Where((offer) => offer.CompanyId == companyId);
+        }
+
+        public IEnumerable<Student> FindOfferApplicants(int offerId)
+        {
+            // TODO implement when Application entity is ready
+            var students = _context.Students
+            .Join(
+                _context.Users,
+                s => s.StudentId,
+                u => u.UserId,
+                (student, user) => new { student, user }
+            );
+
+            foreach (var std in students)
+                std.student.User = std.user;
+
+            return students.Select(full => full.student);
         }
 
         public Offer Create(Offer offer, int companyId, IEnumerable<int> degrees)
@@ -127,5 +127,62 @@ namespace InterSMeet.DAL.Repositories.Implementations
             else return null;
 
         }
+
+        /// ======================================================================================================================
+        /// @ Private Methods
+        /// ======================================================================================================================
+
+        private IEnumerable<Offer> FindOffersByDegree(int degreeId)
+        {
+            return _context.Offers
+                .Join(
+                    _context.OfferDegrees,
+                    o => o.OfferId,
+                    od => od.OfferId,
+                    (offer, offerDegree) => new { offer, offerDegree }
+                )
+                .Where(full => full.offerDegree.DegreeId == degreeId)
+                .Select(full => full.offer); ;
+        }
+
+        private IEnumerable<Offer> FindOffersByFamily(int familyId)
+        {
+            return _context.Offers
+                .Join(
+                    _context.OfferDegrees,
+                    o => o.OfferId,
+                    od => od.OfferId,
+                    (offer, offerDegree) => new { offer, offerDegree }
+                )
+                .Join(
+                    _context.Degrees,
+                    c => c.offerDegree.DegreeId,
+                    d => d.DegreeId,
+                    (combined, degree) => new { combined.offer, combined.offerDegree, degree }
+                )
+                .Where(full => full.degree.FamilyId == familyId)
+                .Select(full => full.offer).AsEnumerable();
+        }
+
+        private IEnumerable<Offer> FindOffersByLevel(int levelId)
+        {
+            return _context.Offers
+                .Join(
+                    _context.OfferDegrees,
+                    o => o.OfferId,
+                    od => od.OfferId,
+                    (offer, offerDegree) => new { offer, offerDegree }
+                )
+                .Join(
+                    _context.Degrees,
+                    c => c.offerDegree.DegreeId,
+                    d => d.DegreeId,
+                    (combined, degree) => new { combined.offer, combined.offerDegree, degree }
+                )
+                .Where(full => full.degree.LevelId == levelId)
+                .Select(full => full.offer);
+        }
+
+
     }
 }

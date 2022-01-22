@@ -26,7 +26,8 @@ namespace InterSMeet.BLL.Implementations
 
         public IEnumerable<StudentDTO> FindAll()
         {
-            return Mapper.Map<IEnumerable<Student>, IEnumerable<StudentDTO>>(StudentRepository.FindAll());
+            var stds = StudentRepository.FindAll();
+            return Mapper.Map<IEnumerable<Student>, IEnumerable<StudentDTO>>(stds);
         }
 
         public StudentDTO Update(UpdateStudentDTO updateDTO, string username)

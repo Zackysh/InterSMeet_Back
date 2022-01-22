@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace InterSMeet.Core.DTO.Offer
 {
-    public class OfferPaginationDTO
+    public class OfferPaginationOptionsDTO
     {
         [Range(0, int.MaxValue)]
         public int Page { get; set; }
         [Range(1, int.MaxValue)]
         public int Size { get; set; }
+        public bool PrivateData { get; set; } = false;
         public string? Search { get; set; }
         public int? CompanyId { get; set; }
         public int? DegreeId { get; set; }

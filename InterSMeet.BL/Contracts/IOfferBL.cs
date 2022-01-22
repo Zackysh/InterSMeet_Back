@@ -11,10 +11,21 @@ namespace InterSMeet.BLL.Contracts
 {
     public interface IOfferBL
     {
-        OfferPaginationResponseDTO Pagination(OfferPaginationDTO pagination);
+        /// <summary>
+        /// Performs Offer Pagination.
+        /// If private data is requested, <strong>companyId</strong> field is ignored<br></br>
+        /// and this method will fetch authenticated consumer offers (if it's a Company).
+        /// </summary>
+        /// <param name="options">Pagination options</param>
+        /// <param name="username">Provided to fetch private offer applicant data, only about authenticated Company</param>
+        /// <returns>
+        /// List of Public OfferDTO if <strong>privateData</strong> is true<br></br>
+        /// List of Private OfferDTO if <strong>privateData</strong> is false
+        /// </returns>
+        OfferPaginationResponseDTO Pagination(OfferPaginationOptionsDTO options, string username);
         IEnumerable<OfferDTO> FindAll();
         OfferDTO FindById(int offerId);
-        IEnumerable<OfferDTO> FindCompanyOffers(string name);
+        IEnumerable<PrivateOfferDTO> FindCompanyOffers(string name);
         OfferDTO Create(CreateOfferDTO createOfferDTO, string username);
         OfferDTO Update(UpdateOfferDTO updateOfferDTO, string username, int offerId);
         OfferDTO Delete(int offerId, string username);

@@ -14,21 +14,35 @@ namespace InterSMeet.DAL.Repositories.Implementations
 
         public IEnumerable<Student> FindAll()
         {
-            return _context.Students;
+            var students = _context.Students
+            .Join(
+                _context.Users,
+                s => s.StudentId,
+                u => u.UserId,
+                (student, user) => new { student, user }
+            );
+
+            foreach (var std in students)
+                std.student.User = std.user;
+
+            return students.Select(full => full.student);
         }
 
         // @ CRUD
 
         public Student? FindById(int studentId)
         {
-            return _context.Students.Find(studentId);
+            var std = _context.Students.Find(studentId);
+            if (std == null) return std;
+            std.User = _context.Users.Find(studentId)!;
+            return std;
         }
 
         public Student Create(Student student)
         {
             var change = _context.Students.Add(student);
             _context.SaveChanges();
-            return change.Entity;
+            return FindById(change.Entity.StudentId)!;
         }
 
         public Student? Update(Student student)
@@ -38,14 +52,14 @@ namespace InterSMeet.DAL.Repositories.Implementations
             {
                 existing = EntityPropertyMapper.InjectNonNull(existing, student);
                 _context.SaveChanges();
-                return existing;
+                return FindById(existing.StudentId)!;
             }
             return null;
         }
 
         public Student? Delete(int studentId)
         {
-            var student = _context.Students.Find(studentId);
+            var student = FindById(studentId);
             if (student is not null)
             {
                 _context.Students.Remove(student);

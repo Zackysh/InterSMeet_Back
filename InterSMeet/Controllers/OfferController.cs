@@ -20,10 +20,11 @@ namespace InterSMeet.Controllers
 
         // GET api/offers/pagination
         [HttpGet("pagination")]
-        [Authorize(Roles = "Student")]
-        public ActionResult<OfferPaginationResponseDTO> Pagination(OfferPaginationDTO pagination)
+        [Authorize]
+        public ActionResult<OfferPaginationResponseDTO> Pagination(OfferPaginationOptionsDTO pagination)
         {
-            return OfferBL.Pagination(pagination);
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            return OfferBL.Pagination(pagination, username);
         }
 
         // GET api/offers
@@ -45,7 +46,7 @@ namespace InterSMeet.Controllers
         // GET api/offers/my-offers
         [HttpGet("my-offers")]
         [Authorize(Roles = "Company")]
-        public ActionResult<IEnumerable<OfferDTO>> FindCompanyOffers()
+        public ActionResult<IEnumerable<PrivateOfferDTO>> FindCompanyOffers()
         {
             var username = ControllerUtils.GetUserIdentity(HttpContext);
             return Ok(OfferBL.FindCompanyOffers(username));

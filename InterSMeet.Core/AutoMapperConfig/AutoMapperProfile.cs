@@ -25,6 +25,9 @@ namespace InterSMeet.Core.MapperProfiles
             CreateMap<Offer, OfferDTO>();
             CreateMap<UpdateOfferDTO, Offer>();
             CreateMap<CreateOfferDTO, Offer>();
+            CreateMap<Offer, PrivateOfferDTO>();
+            CreateMap<Offer, PublicOfferDTO>();
+            CreateMap<CreateOfferDTO, Offer>();
             // @ Degree
             CreateMap<Degree, DegreeDTO>();
             // @ Language
