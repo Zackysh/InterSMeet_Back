@@ -1,6 +1,7 @@
 ﻿using InterSMeet.ApiRest.Utils;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
+using InterSMeet.Core.DTO.Offer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,15 @@ namespace InterSMeet.Controllers
         public OfferController(IOfferBL offerBL)
         {
             OfferBL = offerBL;
+        }
+
+        // GET api/offers/pagination
+        [HttpGet("pagination")]
+        [Authorize]
+        public ActionResult<OfferPaginationResponseDTO> Pagination(OfferPaginationOptionsDTO pagination)
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            return OfferBL.Pagination(pagination, username);
         }
 
         // GET api/offers
@@ -36,20 +46,11 @@ namespace InterSMeet.Controllers
         // GET api/offers/my-offers
         [HttpGet("my-offers")]
         [Authorize(Roles = "Company")]
-        public ActionResult<IEnumerable<OfferDTO>> FindCompanyOffers()
+        public ActionResult<IEnumerable<PrivateOfferDTO>> FindCompanyOffers()
         {
             var username = ControllerUtils.GetUserIdentity(HttpContext);
             return Ok(OfferBL.FindCompanyOffers(username));
         }
-
-        // POST api/applications/:offerId
-        //[HttpPost("{offerId}")]
-        //[Authorize(Roles = "Student")]
-        //public ActionResult<ApplicationDTO> Create(int offerId)
-        //{
-        //    var username = ControllerUtils.GetUserIdentity(HttpContext);
-        //    return Ok(OfferBL.Create(offerId, username));
-        //}
 
         // POST api/offers
         [HttpPost]

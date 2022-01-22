@@ -53,3 +53,5 @@ C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug
 C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\ref\InterSMeet.BLL.dll
 C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.pdb
 C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.genruntimeconfig.cache
+C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.BLL.runtimeconfig.json
+C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.genruntimeconfig.cache

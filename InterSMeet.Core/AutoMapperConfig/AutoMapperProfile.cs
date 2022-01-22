@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InterSMeet.Core.DTO;
+using InterSMeet.Core.DTO.Offer;
 using InterSMeet.DAL.Entities;
 
 namespace InterSMeet.Core.MapperProfiles
@@ -23,6 +24,9 @@ namespace InterSMeet.Core.MapperProfiles
             // @ Offer
             CreateMap<Offer, OfferDTO>();
             CreateMap<UpdateOfferDTO, Offer>();
+            CreateMap<CreateOfferDTO, Offer>();
+            CreateMap<Offer, PrivateOfferDTO>();
+            CreateMap<Offer, PublicOfferDTO>();
             CreateMap<CreateOfferDTO, Offer>();
             // @ Degree
             CreateMap<Degree, DegreeDTO>();

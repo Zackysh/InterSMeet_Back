@@ -25,7 +25,7 @@ namespace InterSMeet.Controllers
 
         // GET api/students
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize] // TODO add admin role
         public ActionResult<IEnumerable<StudentDTO>> FindAll()
         {
             return Ok(StudentBL.FindAll());

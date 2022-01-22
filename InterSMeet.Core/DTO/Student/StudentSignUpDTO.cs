@@ -11,9 +11,11 @@ namespace InterSMeet.Core.DTO
         [Range(0,10)]
         public double AverageGrades { get; set; }
 
-        public static Student ToStudent(StudentSignUpDTO signUpDto)
+        public static Student ToStudent(StudentSignUpDTO signUpDto, User user)
         {
             Student student = new();
+            student.StudentId = user.UserId;
+            student.User = user;
             student.BirthDate = signUpDto.BirthDate;
             student.AverageGrades = signUpDto.AverageGrades;
             student.DegreeId = signUpDto.DegreeId;
