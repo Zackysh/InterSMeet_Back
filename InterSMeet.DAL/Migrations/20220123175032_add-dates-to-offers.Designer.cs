@@ -3,6 +3,7 @@ using System;
 using InterSMeet.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InterSMeet.DAL.Migrations
 {
     [DbContext(typeof(InterSMeetDbContext))]
-    partial class InterSMeetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220123175032_add-dates-to-offers")]
+    partial class adddatestooffers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

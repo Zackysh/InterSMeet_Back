@@ -67,8 +67,8 @@ namespace InterSMeet.Controllers
         public ActionResult<OfferDTO> Update(UpdateOfferDTO updateOfferDTO, int offerId)
         {
             var username = ControllerUtils.GetUserIdentity(HttpContext);
-            var retur = OfferBL.Update(updateOfferDTO, username, offerId);
-            return Ok(retur);
+
+            return Ok(OfferBL.Update(updateOfferDTO, username, offerId));
         }
 
         // DELETE api/offers/:offerId
@@ -78,6 +78,35 @@ namespace InterSMeet.Controllers
         {
             var username = ControllerUtils.GetUserIdentity(HttpContext);
             return Ok(OfferBL.Delete(offerId, username));
+        }
+
+        // @ Applications
+
+        // POST api/offers/applications/:offerId
+        [HttpPost("applications/{offerId}")]
+        [Authorize(Roles = "Student")]
+        public ActionResult<ApplicationDTO> CreateApplication(int offerId)
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            return Ok(OfferBL.CreateApplication(offerId, username));
+        }
+
+        // DELETE api/offers/applications/:offerId
+        [HttpDelete("applications/{offerId}")]
+        [Authorize(Roles = "Student")]
+        public ActionResult<ApplicationDTO> DeleteApplication(int offerId)
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            return Ok(OfferBL.DeleteApplication(offerId, username));
+        }
+
+        // POST api/offers/applications/accept/{offerId}/{studentId}
+        [HttpPut("applications/update-status/{offerId}/{studentId}")]
+        [Authorize(Roles = "Company")]
+        public ActionResult<ApplicantDTO> DeleteApplication(int offerId, int studentId, ApplicationStatusDTO status)
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            return Ok(OfferBL.UpdateApplicationStatus(offerId, studentId, username, status));
         }
     }
 }

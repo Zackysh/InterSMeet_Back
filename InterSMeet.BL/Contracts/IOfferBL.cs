@@ -12,9 +12,13 @@ namespace InterSMeet.BLL.Contracts
     public interface IOfferBL
     {
         /// <summary>
-        /// Performs Offer Pagination.
+        /// Performs Offer Pagination.<br></br><br></br>
+        /// 
         /// If private data is requested, <strong>companyId</strong> field is ignored<br></br>
-        /// and this method will fetch authenticated consumer offers (if it's a Company).
+        /// and this method will fetch authenticated consumer offers (if it's a Company or a Student).<br></br><br></br>
+        /// 
+        /// If consumer is a student, only offers he has applied for will be returned.<br></br>
+        /// If consumer is a company, only offers he has created will be returned.<br></br>
         /// </summary>
         /// <param name="options">Pagination options</param>
         /// <param name="username">Provided to fetch private offer applicant data, only about authenticated Company</param>
@@ -29,5 +33,8 @@ namespace InterSMeet.BLL.Contracts
         OfferDTO Create(CreateOfferDTO createOfferDTO, string username);
         OfferDTO Update(UpdateOfferDTO updateOfferDTO, string username, int offerId);
         OfferDTO Delete(int offerId, string username);
+        ApplicationDTO CreateApplication(int offerId, string username);
+        ApplicationDTO DeleteApplication(int offerId, string username);
+        ApplicantDTO UpdateApplicationStatus(int offerId, int studentId, string username, ApplicationStatusDTO status);
     }
 }

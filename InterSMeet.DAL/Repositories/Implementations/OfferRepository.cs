@@ -16,7 +16,9 @@ namespace InterSMeet.DAL.Repositories.Implementations
             int page,
             int size,
             string? search,
+            bool skipExpired,
             int? companyId,
+            int? studentId,
             int? degreeId,
             int? familyId,
             int? levelId,
@@ -34,13 +36,27 @@ namespace InterSMeet.DAL.Repositories.Implementations
                 offers = FindOffersByLevel((int)levelId);
 
             // @ Apply other filters
-            return offers
+            var pagination = offers
                 .OrderBy(o => o.OfferId)
+                .Where(o => skipExpired ? o.DeadLine > DateTime.Now : true)
                 .Where(o => search == null || (o.Name + o.Description).Contains(search))
                 .Where(o => companyId == null || o.CompanyId == companyId)
                 .Where(o => (minSalary == null || maxSalary == null) || (o.Salary >= minSalary && o.Salary <= maxSalary))
                 .Skip(page * size)
                 .Take(size);
+
+            // @ Filter By Student Applications
+            return studentId == null
+                ? pagination
+                : pagination
+                    .Join(
+                        _context.Applications,
+                        o => o.OfferId,
+                        a => a.OfferId,
+                        (offer, application) => new { offer, application }
+                    )
+                    .Where(full => full.application.StudentId == studentId)
+                    .Select(full => full.offer);
         }
 
         public IEnumerable<Offer> FindAll()
@@ -58,26 +74,10 @@ namespace InterSMeet.DAL.Repositories.Implementations
             return _context.Offers.Where((offer) => offer.CompanyId == companyId);
         }
 
-        public IEnumerable<Student> FindOfferApplicants(int offerId)
-        {
-            // TODO implement when Application entity is ready
-            var students = _context.Students
-            .Join(
-                _context.Users,
-                s => s.StudentId,
-                u => u.UserId,
-                (student, user) => new { student, user }
-            );
-
-            foreach (var std in students)
-                std.student.User = std.user;
-
-            return students.Select(full => full.student);
-        }
-
         public Offer Create(Offer offer, int companyId, IEnumerable<int> degrees)
         {
             offer.CompanyId = companyId;
+            offer.CreatedAt = DateTime.Now;
             var change = _context.Offers.Add(offer);
             _context.SaveChanges();
 
@@ -125,7 +125,88 @@ namespace InterSMeet.DAL.Repositories.Implementations
                 return offer;
             }
             else return null;
+        }
 
+        /// @ Applications
+
+        public IEnumerable<Student> FindOfferApplicants(int offerId)
+        {
+            // TODO implement when Application entity is ready
+            // user, student, application - studentId, offerId
+            var join = _context.Students
+            .Join(
+                _context.Users,
+                s => s.StudentId,
+                u => u.UserId,
+                (student, user) => new { student, user }
+            )
+            .Join(
+                _context.Applications,
+                c => c.student.StudentId,
+                a => a.StudentId,
+                (combination, application) => new { combination.student, combination.user, application }
+                )
+            .Where(full => full.application.OfferId == offerId);
+
+            foreach (var std in join)
+                std.student.User = std.user;
+
+            return join.Select(full => full.student);
+        }
+
+        public ApplicationStatus? FindApplicantStatus(int studentId, int offerId)
+        {
+            return _context.Applications.FirstOrDefault(a => a.StudentId == studentId && a.OfferId == offerId)?.Status;
+        }
+
+        public Application CreateApplication(int offerId, int studentId, ApplicationStatus status)
+        {
+            var change = _context.Applications.Add(new()
+            {
+                OfferId = offerId,
+                StudentId = studentId,
+                Status = status
+            });
+            _context.SaveChanges();
+
+            return change.Entity;
+        }
+
+
+        public Application? DeleteApplication(int offerId, int studentId)
+        {
+            var application = _context.Applications.FirstOrDefault(a => a.OfferId == offerId && a.StudentId == studentId);
+            if (application is not null)
+            {
+                _context.Applications.Remove(application);
+                _context.SaveChanges();
+                return application;
+            }
+            else return null;
+        }
+
+        public Application? FindApplication(int offerId, int studentId)
+        {
+            return _context.Applications.FirstOrDefault(a => a.OfferId == offerId && a.StudentId == studentId);
+        }
+
+        public ApplicationStatus? FindApplicationStatus(int offerId, int studentId)
+        {
+            return FindApplication(offerId, studentId)?.Status;
+        }
+
+        public Application? UpdateApplicationStatus(int offerId, int studentId, ApplicationStatus status)
+        {
+            var existing = FindApplication(offerId, studentId);
+
+            if (existing is not null)
+            {
+                existing.Status = status;
+                _context.SaveChanges();
+
+                return existing;
+            }
+            return null;
         }
 
         /// ======================================================================================================================
@@ -182,7 +263,5 @@ namespace InterSMeet.DAL.Repositories.Implementations
                 .Where(full => full.degree.LevelId == levelId)
                 .Select(full => full.offer);
         }
-
-
     }
 }

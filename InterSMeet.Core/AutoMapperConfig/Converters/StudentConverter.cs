@@ -10,6 +10,7 @@ namespace InterSMeet.Core.MapperProfiles
         {
             var student = new StudentDTO()    
             {
+                StudentId = source.StudentId,
                 UserId = source.User.UserId,
                 Username = source.User.Username,
                 Email = source.User.Email,

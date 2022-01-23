@@ -14,6 +14,7 @@ namespace InterSMeet.Core.DTO.Offer
         public int Page { get; set; }
         [Range(1, int.MaxValue)]
         public int Size { get; set; }
+        public bool SkipExpired { get; set; } = true;
         public bool PrivateData { get; set; } = false;
         public string? Search { get; set; }
         public int? CompanyId { get; set; }

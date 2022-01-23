@@ -16,5 +16,6 @@ namespace InterSMeet.Core.DTO.Offer
         [Required]
         [Range(0, 15000)]
         public double Salary { get; set; }
+        public DateTime DeadLine { get; set; }
     }
 }
