@@ -2,6 +2,6 @@
 {
     public class PrivateOfferDTO : OfferDTO
     {
-        public IEnumerable<StudentDTO> Applicants { get; set; } = null!;
+        public IEnumerable<ApplicantDTO> Applicants { get; set; } = null!;
     }
 }

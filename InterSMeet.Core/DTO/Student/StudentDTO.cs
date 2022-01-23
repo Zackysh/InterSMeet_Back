@@ -9,6 +9,7 @@ namespace InterSMeet.Core.DTO
 {
     public class StudentDTO : UserDTO
     {
+        public int StudentId { get; set; }
         public DateTime BirthDate { get; set; }
         public int DegreeId { get; set; }
         public double AverageGrades { get; set; }

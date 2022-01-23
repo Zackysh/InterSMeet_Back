@@ -58,6 +58,7 @@ namespace InterSMeet.DAL.Entities
         public virtual DbSet<Province> Provinces { get; set; } = null!;
         public virtual DbSet<Offer> Offers { get; set; } = null!;
         public virtual DbSet<OfferDegree> OfferDegrees { get; set; } = null!;
+        public virtual DbSet<Application> Applications { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

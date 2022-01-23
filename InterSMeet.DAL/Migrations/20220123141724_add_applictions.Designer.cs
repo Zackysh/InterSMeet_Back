@@ -3,6 +3,7 @@ using System;
 using InterSMeet.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InterSMeet.DAL.Migrations
 {
     [DbContext(typeof(InterSMeetDbContext))]
-    partial class InterSMeetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220123141724_add_applictions")]
+    partial class add_applictions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,10 +34,6 @@ namespace InterSMeet.DAL.Migrations
                     b.Property<int>("OfferId")
                         .HasColumnType("int")
                         .HasColumnName("offer_id");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnName("status");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int")
@@ -183,14 +181,6 @@ namespace InterSMeet.DAL.Migrations
                     b.Property<int>("CompanyId")
                         .HasColumnType("int")
                         .HasColumnName("company_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime>("DeadLine")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("deadline");
 
                     b.Property<string>("Description")
                         .IsRequired()

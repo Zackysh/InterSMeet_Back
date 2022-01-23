@@ -9,7 +9,9 @@ namespace InterSMeet.DAL.Repositories.Contracts
             int page,
             int size,
             string? search,
+            bool skipExpired,
             int? companyId,
+            int? studentId,
             int? degreeId,
             int? familyId,
             int? levelId,
@@ -17,10 +19,17 @@ namespace InterSMeet.DAL.Repositories.Contracts
             double? maxSalary);
         IEnumerable<Offer> FindAll();
         IEnumerable<Offer> FindCompanyOffers(int companyId);
-        IEnumerable<Student> FindOfferApplicants(int offerId);
         Offer? FindById(int offerId);
         Offer Create(Offer offer, int companyId, IEnumerable<int> degrees);
         Offer? Update(Offer offer, IEnumerable<int>? degrees);
         Offer? Delete(int offerId);
+        // @ Applications
+        IEnumerable<Student> FindOfferApplicants(int offerId);
+        ApplicationStatus? FindApplicationStatus(int offerId, int studentId);
+        ApplicationStatus? FindApplicantStatus(int studentId, int offerId);
+        Application? FindApplication(int offerId, int studentId);
+        Application CreateApplication(int offerId, int studentId, ApplicationStatus status);
+        Application? DeleteApplication(int offerId, int studentId);
+        Application? UpdateApplicationStatus(int offerId, int studentId, ApplicationStatus status);
     }
 }

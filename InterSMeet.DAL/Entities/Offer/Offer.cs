@@ -14,6 +14,10 @@ namespace InterSMeet.DAL.Entities
         [ForeignKey("company_id")]
         [Column("company_id")]
         public int CompanyId { get; set; }
+        [Column(name: "deadline")]
+        public DateTime DeadLine { get; set; }
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
         public virtual Company Company { get; set; } = null!;
     }
 }

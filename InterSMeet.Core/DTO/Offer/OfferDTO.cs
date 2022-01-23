@@ -12,5 +12,6 @@ namespace InterSMeet.Core.DTO.Offer
         public string? Schedule { get; set; }
         public double Salary { get; set; }
         public int CompanyId { get; set; }
+        public DateTime DeadLine { get; set; }
     }
 }

@@ -29,18 +29,33 @@ namespace InterSMeet.BLL.Implementations
 
         public OfferPaginationResponseDTO Pagination(OfferPaginationOptionsDTO pagination, string username)
         {
+            // If true, pagination will retrieve student's applications.
+            bool findStudentApplicationsFlag = false;
+            // Validate pagination options
             if (pagination.Min != null
                 && pagination.Max != null
                 && pagination.Max < pagination.Min
              ) throw new BLBadRequestException("Incorrect salary range, max should be greater than min");
 
+            // Get consumer identity
+            var user = UserRepository.FindByUsername(username);
+            if (user is null)
+                throw new BLUnauthorizedException("Invaid access token");
+
+
+            // If privateData is requested
             if (pagination.PrivateData)
             {
-                var user = UserRepository.FindByUsername(username);
-                if (user is null || CompanyRepository.FindById(user.UserId) is null)
+                // set pagination companyId in case consumer is Company
+                if (CompanyRepository.FindById(user.UserId) is not null)
+                    pagination.CompanyId = user.UserId;
+                // toggle find applications flag in case consumer is Student
+                else if (StudentRepository.FindById(user.UserId) is not null)
+                    findStudentApplicationsFlag = true;
+                else
                     throw new BLUnauthorizedException("Invaid access token");
-                pagination.CompanyId = user.UserId;
             }
+
             else if (pagination.CompanyId != null)
                 if (CompanyRepository.FindById((int)pagination.CompanyId) == null)
                     throw new BLNotFoundException($"Company not found with ID: {pagination.CompanyId}");
@@ -49,7 +64,9 @@ namespace InterSMeet.BLL.Implementations
                         pagination.Page,
                         pagination.Size,
                         pagination.Search,
+                        pagination.SkipExpired,
                         pagination.CompanyId,
+                        findStudentApplicationsFlag ? user.UserId : null,
                         pagination.DegreeId,
                         pagination.FamilyId,
                         pagination.LevelId,
@@ -61,11 +78,17 @@ namespace InterSMeet.BLL.Implementations
             {
                 Pagination = pagination,
                 Offers = pagination.PrivateData
-                    ? Mapper.Map<IEnumerable<Offer>, IEnumerable<PrivateOfferDTO>>(offers).Select(o =>
-                    {
-                        o.Applicants = FindOfferApplicants(o.OfferId);
-                        return o;
-                    })
+                    ? findStudentApplicationsFlag
+                        ? Mapper.Map<IEnumerable<Offer>, IEnumerable<ApplicationDTO>>(offers).Select(o =>
+                        {
+                            o.Status = OfferRepository.FindApplicationStatus(o.OfferId, user.UserId).ToString() ?? ApplicationStatus.Pending.ToString();
+                            return o;
+                        })
+                        : Mapper.Map<IEnumerable<Offer>, IEnumerable<PrivateOfferDTO>>(offers).Select(o =>
+                        {
+                            o.Applicants = FindOfferApplicants(o.OfferId);
+                            return o;
+                        })
                     : Mapper.Map<IEnumerable<Offer>, IEnumerable<PublicOfferDTO>>(offers).Select(o =>
                     {
                         o.ApplicantCount = OfferRepository.FindOfferApplicants(o.OfferId).Count();
@@ -73,9 +96,6 @@ namespace InterSMeet.BLL.Implementations
                     })
             };
         }
-
-        //Offers = Mapper.Map<IEnumerable<Offer>, IEnumerable<OfferDTO>>(
-        //    res
 
         public IEnumerable<OfferDTO> FindAll()
         {
@@ -86,7 +106,6 @@ namespace InterSMeet.BLL.Implementations
         {
             var offer = OfferRepository.FindById(offerId);
             if (offer is null) throw new BLNotFoundException($"Offer not found with ID: {offerId}");
-
             return Mapper.Map<Offer, OfferDTO>(offer);
         }
 
@@ -117,6 +136,10 @@ namespace InterSMeet.BLL.Implementations
             foreach (int degreeId in createOfferDto.Degrees)
                 if (StudentRepository.FindDegreeById(degreeId) is null)
                     throw new BLConflictException($"Degree not found with ID: {degreeId}");
+            if (createOfferDto.DeadLine == DateTime.MinValue)
+                throw new BLBadRequestException("DeadLine is required");
+            if (createOfferDto.DeadLine < DateTime.Now)
+                throw new BLBadRequestException("You should provide a date later than current");
 
             return Mapper.Map<Offer, OfferDTO>(OfferRepository.Create(Mapper.Map<CreateOfferDTO, Offer>(createOfferDto), company.UserId, createOfferDto.Degrees));
         }
@@ -154,15 +177,80 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<Offer, OfferDTO>(offer);
         }
 
+        // @ Applications
+
+        public ApplicationDTO CreateApplication(int offerId, string username)
+        {
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new BLUnauthorizedException("Invaid access token");
+            if (StudentRepository.FindById(user.UserId) is null)
+                throw new BLUnauthorizedException("Invaid access token");
+
+            var offer = FindById(offerId);
+            if (OfferRepository.FindApplication(offerId, user.UserId) is not null)
+                throw new BLConflictException("You have already applied to this offer");
+            if (offer.DeadLine < DateTime.Now)
+                throw new BLConflictException("You can't apply to an expired offer");
+
+            var application = OfferRepository.CreateApplication(offerId, user.UserId, ApplicationStatus.Pending);
+            return ApplicationDTO.FromOfferDTO(offer, application.Status);
+        }
+
+        public ApplicationDTO DeleteApplication(int offerId, string username)
+        {
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new BLUnauthorizedException("Invaid access token");
+            if (StudentRepository.FindById(user.UserId) is null)
+                throw new BLUnauthorizedException("Invaid access token");
+
+            var offer = FindById(offerId);
+            if (OfferRepository.FindApplication(offerId, user.UserId) is null)
+                throw new BLConflictException("You haven't applied to this offer yet");
+            var application = OfferRepository.DeleteApplication(offerId, user.UserId);
+            return ApplicationDTO.FromOfferDTO(offer, application!.Status);
+        }
+
+        public ApplicantDTO UpdateApplicationStatus(int offerId, int studentId, string username, ApplicationStatusDTO status)
+        {
+            var user = UserRepository.FindByUsername(username);
+            var student = StudentRepository.FindById(studentId);
+            var offer = FindById(offerId);
+            // Validate company & application
+            if (user is null) throw new BLUnauthorizedException("Invaid access token");
+            if (CompanyRepository.FindById(user.UserId) is null)
+                throw new BLUnauthorizedException("Invaid access token");
+            if (student is null) throw new BLConflictException($"Student not found with ID: ${studentId}");
+            if (offer.CompanyId != user.UserId) throw new BLForbiddenException("You can't modify others information!");
+            // Validate new status
+            var applicationStatus = Application.GetApplicationStatus(status.Status);
+            if (applicationStatus is null)
+                throw new BLBadRequestException("Invalid application status, try 'Pending', 'Accepted' or 'Denied'");
+
+            OfferRepository.UpdateApplicationStatus(offerId, studentId, (ApplicationStatus)(applicationStatus));
+            return FindOfferApplicant(offerId, studentId)!;
+        }
         /// ======================================================================================================================
         /// @ Private Methods
         /// ======================================================================================================================
 
-        private IEnumerable<StudentDTO> FindOfferApplicants(int offerId)
+        private IEnumerable<ApplicantDTO> FindOfferApplicants(int offerId)
         {
             return Mapper.Map<IEnumerable<Student>, IEnumerable<StudentDTO>>(
                 OfferRepository.FindOfferApplicants(offerId)
+            ).Select(std =>
+                ApplicantDTO.FromStudentDTO(
+                    std,
+                    OfferRepository.FindApplicantStatus(
+                        std.StudentId,
+                        offerId
+                    ) ?? ApplicationStatus.Pending
+                )
             );
+        }
+
+        private ApplicantDTO? FindOfferApplicant(int offerId, int studentId)
+        {
+            return FindOfferApplicants(offerId).FirstOrDefault(o => o.StudentId == studentId);
         }
     }
 }
