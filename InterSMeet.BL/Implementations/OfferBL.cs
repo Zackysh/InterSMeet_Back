@@ -27,6 +27,7 @@ namespace InterSMeet.BLL.Implementations
             StudentRepository = studentRepository;
         }
 
+        /// <summary> Check controller documentation </summary>
         public OfferPaginationResponseDTO Pagination(OfferPaginationOptionsDTO pagination, string username)
         {
             // If true, pagination will retrieve student's applications.
@@ -42,20 +43,18 @@ namespace InterSMeet.BLL.Implementations
             if (user is null)
                 throw new BLUnauthorizedException("Invaid access token");
 
-
             // If privateData is requested
             if (pagination.PrivateData)
             {
-                // set pagination companyId in case consumer is Company
+                // If User is Company, retrieve its offers
                 if (CompanyRepository.FindById(user.UserId) is not null)
                     pagination.CompanyId = user.UserId;
-                // toggle find applications flag in case consumer is Student
+                // If User is Student, retrieve its applications
                 else if (StudentRepository.FindById(user.UserId) is not null)
                     findStudentApplicationsFlag = true;
                 else
                     throw new BLUnauthorizedException("Invaid access token");
             }
-
             else if (pagination.CompanyId != null)
                 if (CompanyRepository.FindById((int)pagination.CompanyId) == null)
                     throw new BLNotFoundException($"Company not found with ID: {pagination.CompanyId}");
@@ -229,6 +228,7 @@ namespace InterSMeet.BLL.Implementations
             OfferRepository.UpdateApplicationStatus(offerId, studentId, (ApplicationStatus)(applicationStatus));
             return FindOfferApplicant(offerId, studentId)!;
         }
+
         /// ======================================================================================================================
         /// @ Private Methods
         /// ======================================================================================================================

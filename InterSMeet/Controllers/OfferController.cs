@@ -18,16 +18,22 @@ namespace InterSMeet.Controllers
             OfferBL = offerBL;
         }
 
-        // GET api/offers/pagination
+        /// <summary>
+        ///     This method offer deep control over offer search and pagination.
+        ///     Main features:
+        ///         - Filters & Search options.
+        ///         - Students can retrieve their applications.
+        ///         - Companies can retrieve their offers with additional applicant data.
+        ///     Look at OfferPaginationOptionsDTO for more information.
+        /// </summary>
         [HttpGet("pagination")]
         [Authorize]
-        public ActionResult<OfferPaginationResponseDTO> Pagination(OfferPaginationOptionsDTO pagination)
+        public ActionResult<OfferPaginationResponseDTO> Pagination(OfferPaginationOptionsDTO paginationOptions)
         {
             var username = ControllerUtils.GetUserIdentity(HttpContext);
-            return OfferBL.Pagination(pagination, username);
+            return OfferBL.Pagination(paginationOptions, username);
         }
 
-        // GET api/offers
         [HttpGet]
         [Authorize]
         public ActionResult<IEnumerable<OfferDTO>> FindAll()
@@ -35,7 +41,6 @@ namespace InterSMeet.Controllers
             return Ok(OfferBL.FindAll());
         }
 
-        // GET api/offers/:offerId
         [HttpGet("{offerId}")]
         [Authorize]
         public ActionResult<OfferDTO> FindById(int offerId)
@@ -43,7 +48,6 @@ namespace InterSMeet.Controllers
             return Ok(OfferBL.FindById(offerId));
         }
 
-        // GET api/offers/my-offers
         [HttpGet("my-offers")]
         [Authorize(Roles = "Company")]
         public ActionResult<IEnumerable<PrivateOfferDTO>> FindCompanyOffers()
@@ -52,7 +56,6 @@ namespace InterSMeet.Controllers
             return Ok(OfferBL.FindCompanyOffers(username));
         }
 
-        // POST api/offers
         [HttpPost]
         [Authorize(Roles = "Company")]
         public ActionResult<OfferDTO> Create(CreateOfferDTO createOfferDTO)
@@ -61,7 +64,6 @@ namespace InterSMeet.Controllers
             return Ok(OfferBL.Create(createOfferDTO, username));
         }
 
-        // PUT api/offers/:offerId
         [HttpPut("{offerId}")]
         [Authorize(Roles = "Company")]
         public ActionResult<OfferDTO> Update(UpdateOfferDTO updateOfferDTO, int offerId)
@@ -71,7 +73,6 @@ namespace InterSMeet.Controllers
             return Ok(OfferBL.Update(updateOfferDTO, username, offerId));
         }
 
-        // DELETE api/offers/:offerId
         [HttpDelete("{offerId}")]
         [Authorize(Roles = "Company")]
         public ActionResult<OfferDTO> Delete(int offerId)
@@ -82,7 +83,7 @@ namespace InterSMeet.Controllers
 
         // @ Applications
 
-        // POST api/offers/applications/:offerId
+        /// <summary> Students can create applications to offers </summary>
         [HttpPost("applications/{offerId}")]
         [Authorize(Roles = "Student")]
         public ActionResult<ApplicationDTO> CreateApplication(int offerId)
@@ -91,7 +92,7 @@ namespace InterSMeet.Controllers
             return Ok(OfferBL.CreateApplication(offerId, username));
         }
 
-        // DELETE api/offers/applications/:offerId
+        /// <summary> Students can delete its own applications </summary>
         [HttpDelete("applications/{offerId}")]
         [Authorize(Roles = "Student")]
         public ActionResult<ApplicationDTO> DeleteApplication(int offerId)
@@ -100,7 +101,7 @@ namespace InterSMeet.Controllers
             return Ok(OfferBL.DeleteApplication(offerId, username));
         }
 
-        // POST api/offers/applications/accept/{offerId}/{studentId}
+        /// <summary> Companies can update applications status </summary>
         [HttpPut("applications/update-status/{offerId}/{studentId}")]
         [Authorize(Roles = "Company")]
         public ActionResult<ApplicantDTO> DeleteApplication(int offerId, int studentId, ApplicationStatusDTO status)

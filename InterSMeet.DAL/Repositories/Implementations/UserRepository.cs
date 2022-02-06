@@ -3,7 +3,7 @@ using InterSMeet.DAL.Repositories.Contracts;
 
 namespace InterSMeet.DAL.Repositories.Implementations
 {
-    public class UserRepository : IUserRepository 
+    public class UserRepository : IUserRepository
     {
         public InterSMeetDbContext _context { get; set; }
 
@@ -69,6 +69,34 @@ namespace InterSMeet.DAL.Repositories.Implementations
         public bool Exists(User user)
         {
             return _context.Users.Any(u => u.Email == user.Email || u.Username == user.Username);
+        }
+
+        // @ Codes
+
+        public User? SetEmailVerificationCode(int userId, string? newCode)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            if (user is not null)
+            {
+                user.EmailVerificationCode = newCode;
+                if (newCode is null) user.EmailVerified = true;
+
+                _context.SaveChanges();
+                return user;
+            }
+            return null;
+        }
+
+        public User? SetRestorePasswordCode(int userId, string? newCode)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            if (user is not null)
+            {
+                user.ForgotPasswordCode = newCode;
+                _context.SaveChanges();
+                return user;
+            }
+            return null;
         }
 
         // @ Foreing

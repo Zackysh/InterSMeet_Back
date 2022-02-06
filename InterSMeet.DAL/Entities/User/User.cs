@@ -57,6 +57,14 @@ namespace InterSMeet.DAL.Entities
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
+        [Column("email_verification")]
+        public string? EmailVerificationCode { get; set; }
+
+        [Column("forgot_password")]
+        public string? ForgotPasswordCode { get; set; }
+        [Column("email_verified")]
+        public bool EmailVerified { get; set; } = false;
+
         // @ Virtual
         public virtual UserRole? Role { get; set; }
         public virtual Language Language { get; set; } = null!;

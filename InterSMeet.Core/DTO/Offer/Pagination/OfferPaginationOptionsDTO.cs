@@ -1,10 +1,4 @@
-﻿using InterSMeet.Core.Security;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace InterSMeet.Core.DTO.Offer
 {
@@ -15,13 +9,24 @@ namespace InterSMeet.Core.DTO.Offer
         [Range(1, int.MaxValue)]
         public int Size { get; set; }
         public bool SkipExpired { get; set; } = true;
+
+        /// <summary>
+        /// If true:
+        ///     - Students will retrieve its applications
+        ///     - Companies will retrieve its offers with applicant data
+        /// </summary>
         public bool PrivateData { get; set; } = false;
+
+        /// <summary> Search by offer name + description </summary>
         public string? Search { get; set; }
+
+        // @ Filters
         public int? CompanyId { get; set; }
         public int? DegreeId { get; set; }
         public int? FamilyId { get; set; }
         public int? LevelId { get; set; }
-        // @ Salary
+
+        // @ Salary Filter
         [Range(0, int.MaxValue)]
         public double? Min { get; set; }
         [Range(0, int.MaxValue)]

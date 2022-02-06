@@ -14,7 +14,6 @@ namespace InterSMeet.BLL.Contracts
         public AuthenticatedDTO RefreshToken(string refreshToken);
         public AuthenticatedDTO StudentSignUp(StudentSignUpDTO signUpDTO);
         public AuthenticatedDTO CompanySignUp(CompanySignUpDTO signUpDTO);
-        public UserDTO FindProfile(string username);
         public IEnumerable<ProvinceDTO> FindAllProvinces();
         public ProvinceDTO FindProvinceById(int provinceId);
         public IEnumerable<LanguageDTO> FindAllLanguages();
@@ -22,5 +21,12 @@ namespace InterSMeet.BLL.Contracts
         public LanguageDTO CreateLanguage(LanguageDTO languageDTO);
         void CheckEmail(string email);
         void CheckUsername(string username);
+        // @ Email Verification
+        void EmailVerification(string verificationCode, string username);
+        void SendEmailVerification(string username);
+        // @ Restore Password
+        void SendRestorePassword(string credential);
+        void CheckRestorePassword(string restorePasswordCode, string username);
+        void RestorePassword(string newPassword, string restorePasswordCode, string credential);
     }
 }

@@ -3,6 +3,7 @@ using InterSMeet.BL.Exception;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
 using InterSMeet.Core.DTO.Validators;
+using InterSMeet.Core.Email;
 using InterSMeet.Core.Security;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
@@ -20,10 +21,11 @@ namespace InterSMeet.BLL.Implementations
         internal IConfiguration Configuration;
         internal IMapper Mapper;
         internal IStudentRepository StudentRepository;
+        internal IEmailSender EmailSender;
 
         public UserBL(
             IUserRepository userRepository, IStudentRepository studentRepository, ICompanyRepository companyRepository, IMapper mapper,
-            IPasswordService passwordGenerator, IJwtService jwtGenerator, IConfiguration configuration)
+            IPasswordService passwordGenerator, IJwtService jwtGenerator, IEmailSender emailSender, IConfiguration configuration)
         {
             PasswordGenerator = passwordGenerator;
             JwtService = jwtGenerator;
@@ -32,60 +34,15 @@ namespace InterSMeet.BLL.Implementations
             StudentRepository = studentRepository;
             CompanyRepository = companyRepository;
             Configuration = configuration;
+            EmailSender = emailSender;
         }
 
-        public AuthenticatedDTO RefreshToken(string refreshToken)
-        {
-            var principal = JwtService.GetRefreshTokenPrincipal(refreshToken);
-            if (principal?.Identity?.Name == null)
-                throw new BLUnauthorizedException("Invalid refresh token");
+        // =============================================================================================
+        // @ New Users
+        // =============================================================================================
 
-            var user = UserRepository.FindByUsername(principal.Identity.Name);
-            if (user == null)
-                throw new BLUnauthorizedException("Invalid refresh token");
+        // @ Registration
 
-            var userDto = Mapper.Map<User, UserDTO>(user);
-            return SignAuthDTO(userDto, refreshToken);
-        }
-
-        /// <summary>
-        /// Method used by Students and Companies for authentication.
-        /// </summary>
-        public AuthenticatedDTO SignIn(SignInDTO signInDTO)
-        {
-            if (signInDTO == null) throw new();
-
-            User? user;
-            var isEmail = EmailValidator.IsValidEmail(signInDTO.Credential);
-            if (isEmail)
-                user = UserRepository.FindByEmail(signInDTO.Credential);
-            else user = UserRepository.FindByUsername(signInDTO.Credential);
-
-            if (user is null) throw new BLNotFoundException($"User not found with credential: {signInDTO.Credential}");
-
-            if (!PasswordGenerator.CompareHash(signInDTO.Password, user.Password))
-                throw new BLUnauthorizedException("Wrong password");
-
-            if (IsStudent(user.UserId))
-            {
-                var student = StudentRepository.FindById(user.UserId);
-                var std = Mapper.Map<Student, StudentDTO>(student!);
-                return SignAuthDTO(std);
-            }
-            if (IsCompany(user.UserId))
-            {
-                var company = CompanyRepository.FindById(user.UserId);
-                return SignAuthDTO(Mapper.Map<Company, CompanyDTO>(company!));
-            }
-
-            throw new BLUnauthorizedException("Your user isn't a student or a company, administrator should solve this issue");
-        }
-
-        /// <summary>
-        /// Method user only by Students for registration & authentication.
-        /// Note that Student.Avatar isn't included in this registration.
-        /// Client-Side should upload Avatar later-on when registration is complete.
-        /// </summary>
         public AuthenticatedDTO StudentSignUp(StudentSignUpDTO signUpDto)
         {
             if (signUpDto == null) throw new();
@@ -114,9 +71,6 @@ namespace InterSMeet.BLL.Implementations
             return SignAuthDTO(Mapper.Map<User, UserDTO>(user));
         }
 
-        /// <summary>
-        /// Method user only by Companies for registration & authentication.
-        /// </summary>
         public AuthenticatedDTO CompanySignUp(CompanySignUpDTO signUpDto)
         {
             if (signUpDto == null) throw new();
@@ -143,40 +97,151 @@ namespace InterSMeet.BLL.Implementations
             return SignAuthDTO(userDto);
         }
 
+        // @ Email Verification
+
+        public void SendEmailVerification(string username)
+        {
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new BLUnauthorizedException("Invalid access token");
+            if (user.EmailVerified) throw new BLConflictException("Email already verified");
+
+            // Send existing verification code
+            if (user.EmailVerificationCode is not null)
+            {
+                EmailSender.SendEmailVerification(user.Email, user.EmailVerificationCode, username);
+                return;
+            }
+
+            // Or send new verification code
+            var randomCode = EmailSender.RandomCode(6);
+            UserRepository.SetEmailVerificationCode(user.UserId, randomCode);
+            EmailSender.SendEmailVerification(user.Email, randomCode, username);
+        }
+
+        public void EmailVerification(string verificationCode, string username)
+        {
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new BLUnauthorizedException("Invalid access token");
+            if (user.EmailVerified) throw new BLConflictException("Email already verified");
+            if (user.EmailVerificationCode is null || !user.EmailVerificationCode.Equals(verificationCode))
+                throw new BLUnauthorizedException("Wrong verification code email");
+
+            UserRepository.SetEmailVerificationCode(user.UserId, null);
+        }
+
+        public void CheckEmail(string email)
+        {
+            if (UserRepository.FindByEmail(email) is not null)
+                throw new BLConflictException("Email not available");
+        }
+
+        public void CheckUsername(string username)
+        {
+            if (UserRepository.FindByUsername(username) is not null)
+                throw new BLConflictException("Username not available");
+        }
+
+        // =============================================================================================
+        // @ Existing Users
+        // =============================================================================================
+
+        // @ Session
+
+        public AuthenticatedDTO SignIn(SignInDTO signInDTO)
+        {
+            // Find user
+            User user = FindByCredential(signInDTO.Credential);
+
+            // Check password
+            if (!PasswordGenerator.CompareHash(signInDTO.Password, user.Password))
+                throw new BLUnauthorizedException("Wrong password");
+
+            if (IsStudent(user.UserId))
+            {
+                var student = StudentRepository.FindById(user.UserId);
+                var std = Mapper.Map<Student, StudentDTO>(student!);
+                return SignAuthDTO(std);
+            }
+            if (IsCompany(user.UserId))
+            {
+                var company = CompanyRepository.FindById(user.UserId);
+                return SignAuthDTO(Mapper.Map<Company, CompanyDTO>(company!));
+            }
+
+            throw new BLUnauthorizedException("Your user isn't a student or a company, administrator should solve this issue");
+        }
+
+        public AuthenticatedDTO RefreshToken(string refreshToken)
+        {
+            var principal = JwtService.GetRefreshTokenPrincipal(refreshToken);
+            if (principal?.Identity?.Name == null)
+                throw new BLUnauthorizedException("Invalid refresh token");
+
+            var user = UserRepository.FindByUsername(principal.Identity.Name);
+            if (user == null)
+                throw new BLUnauthorizedException("Invalid refresh token");
+
+            var userDto = Mapper.Map<User, UserDTO>(user);
+            return SignAuthDTO(userDto, refreshToken);
+        }
+
+        // @ Password
+
+        public void SendRestorePassword(string credential)
+        {
+            if (credential is null || credential.Length <= 0)
+                throw new BLBadRequestException("Credential is required");
+
+            // Find user
+            User user = FindByCredential(credential);
+
+            if (user.ForgotPasswordCode is not null)
+            {
+                EmailSender.SendRestorePassword(user.Email, user.ForgotPasswordCode, credential);
+                return;
+            }
+
+            var randomCode = EmailSender.RandomCode(6);
+            UserRepository.SetRestorePasswordCode(user.UserId, randomCode);
+            EmailSender.SendRestorePassword(user.Email, randomCode, credential);
+        }
+
+        public void CheckRestorePassword(string restorePasswordCode, string username)
+        {
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new BLUnauthorizedException("Invalid access token");
+            if (user.ForgotPasswordCode is null || !user.ForgotPasswordCode.Equals(restorePasswordCode))
+                throw new BLUnauthorizedException("Wrong restore password code");
+        }
+
+        public void RestorePassword(string newPassword, string restorePasswordCode, string credential)
+        {
+            User user = FindByCredential(credential);
+            if (user.ForgotPasswordCode is null || !user.ForgotPasswordCode.Equals(restorePasswordCode))
+                throw new BLUnauthorizedException("Wrong restore password code");
+
+            user.Password = PasswordGenerator.Hash(newPassword);
+            UserRepository.Update(user);
+            UserRepository.SetRestorePasswordCode(user.UserId, null);
+        }
+
         public UserDTO Update(UpdateUserDTO updateDTO, string username)
         {
             if (NullValidator.IsNullOrEmpty(updateDTO)) throw new BLBadRequestException("You should update at least one field");
 
-            FindProfile(username); // check if student exists
+            FindByUsername(username); // check if student exists
 
             if (updateDTO?.LanguageId is not null) FindLanguageById((int)updateDTO.LanguageId);
             if (updateDTO?.ProvinceId is not null) FindProvinceById((int)updateDTO.ProvinceId);
 
             UserRepository.Update(Mapper.Map<UpdateUserDTO, User>(updateDTO!));
-            return FindProfile(username);
+            return FindByUsername(username);
         }
 
-        public UserDTO FindProfile(string username)
-        {
-            var user = UserRepository.FindByUsername(username);
-            if (user is null) throw new BLNotFoundException($"User not found with Username: {username}");
+        // =============================================================================================
+        // @ Province
+        // =============================================================================================
 
-            return Mapper.Map<User, UserDTO>(user);
-        }
-
-        /// <summary>
-        /// Retrieve available languages.
-        /// </summary>
-        public IEnumerable<LanguageDTO> FindAllLanguages()
-        {
-            var entityList = UserRepository.FindAllLanguages();
-            var dtoList = Mapper.Map<IEnumerable<Language>, IEnumerable<LanguageDTO>>(entityList);
-            return dtoList;
-        }
-
-        /// <summary>
-        /// Retrieve available provinces.
-        /// </summary>
         public IEnumerable<ProvinceDTO> FindAllProvinces()
         {
             var entityList = UserRepository.FindAllProvinces();
@@ -184,10 +249,24 @@ namespace InterSMeet.BLL.Implementations
             return dtoList;
         }
 
-        /// <summary>
-        /// Out of business method. Maybe in the future a "admin" dashbouard could be implemented.
-        /// Then this method could be useful.
-        /// </summary>
+        public ProvinceDTO FindProvinceById(int provinceId)
+        {
+            var province = UserRepository.FindProvinceById(provinceId);
+            if (province is null) throw new BLNotFoundException("Specified province doesn't exists");
+            return Mapper.Map<Province, ProvinceDTO>(province);
+        }
+
+        // =============================================================================================
+        // @ Language
+        // =============================================================================================
+
+        public IEnumerable<LanguageDTO> FindAllLanguages()
+        {
+            var entityList = UserRepository.FindAllLanguages();
+            var dtoList = Mapper.Map<IEnumerable<Language>, IEnumerable<LanguageDTO>>(entityList);
+            return dtoList;
+        }
+
         public LanguageDTO CreateLanguage(LanguageDTO languageDto)
         {
             if (languageDto == null) throw new();
@@ -205,25 +284,30 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<Language, LanguageDTO>(language);
         }
 
-        public ProvinceDTO FindProvinceById(int provinceId)
+        // =============================================================================================
+        // @ Private Methods
+        // =============================================================================================
+
+        // @ User
+
+        private User FindByCredential(string credential)
         {
-            var province = UserRepository.FindProvinceById(provinceId);
-            if (province is null) throw new BLNotFoundException("Specified province doesn't exists");
-            return Mapper.Map<Province, ProvinceDTO>(province);
+            // Find user
+            User? user;
+            if (EmailValidator.IsValidEmail(credential))
+                user = UserRepository.FindByEmail(credential); // email
+            else user = UserRepository.FindByUsername(credential); // username
+            if (user is null) throw new BLNotFoundException($"User not found with credential: {credential}");
+
+            return user;
         }
 
-        public void CheckEmail(string email)
+        private UserDTO FindByUsername(string username)
         {
-            if (email == null) throw new();
-            if (UserRepository.FindByEmail(email) is not null)
-                throw new BLConflictException("Email is taken");
-        }
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new BLNotFoundException($"User not found with Username: {username}");
 
-        public void CheckUsername(string username)
-        {
-            if (username == null) throw new();
-            if (UserRepository.FindByUsername(username) is not null)
-                throw new BLConflictException("Username is taken");
+            return Mapper.Map<User, UserDTO>(user);
         }
 
         private bool IsStudent(int userId)
@@ -235,6 +319,8 @@ namespace InterSMeet.BLL.Implementations
         {
             return CompanyRepository.FindById(userId) != null;
         }
+
+        // @ Auth
 
         private AuthenticatedDTO SignAuthDTO(UserDTO userDto, string? refreshToken = null)
         {
