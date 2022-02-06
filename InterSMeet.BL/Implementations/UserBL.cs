@@ -45,8 +45,6 @@ namespace InterSMeet.BLL.Implementations
 
         public AuthenticatedDTO StudentSignUp(StudentSignUpDTO signUpDto)
         {
-            if (signUpDto == null) throw new();
-
             var user = Mapper.Map<UserSignUpDTO, User>(signUpDto.UserSignUpDto);
 
             // Validate User data
@@ -55,7 +53,7 @@ namespace InterSMeet.BLL.Implementations
             FindProvinceById(user.ProvinceId);
             // Validate Student data
             var degree = StudentRepository.FindDegreeById(signUpDto.DegreeId);
-            if (degree == null) throw new BLNotFoundException($"Degree not found with ID: {signUpDto.DegreeId}");
+            if (degree is null) throw new BLNotFoundException($"Degree not found with ID: {signUpDto.DegreeId}");
 
             // Assign user data
             user.Password = PasswordGenerator.Hash(user.Password);
@@ -66,15 +64,13 @@ namespace InterSMeet.BLL.Implementations
             // Create user
             user = UserRepository.Create(user);
             // Create student
-            StudentRepository.Create(StudentSignUpDTO.ToStudent(signUpDto, user));
+            var student = StudentRepository.Create(StudentSignUpDTO.ToStudent(signUpDto, user));
 
-            return SignAuthDTO(Mapper.Map<User, UserDTO>(user));
+            return SignAuthDTO(Mapper.Map<Student, StudentDTO>(student));
         }
 
         public AuthenticatedDTO CompanySignUp(CompanySignUpDTO signUpDto)
         {
-            if (signUpDto == null) throw new();
-
             var user = Mapper.Map<UserSignUpDTO, User>(signUpDto.UserSignUpDto);
 
             // Validate User data
@@ -91,10 +87,9 @@ namespace InterSMeet.BLL.Implementations
             // Create user
             user = UserRepository.Create(user); // Re-assign user with created user
             // Create company
-            CompanyRepository.Create(CompanySignUpDTO.ToCompany(signUpDto, user));
+            var company = CompanyRepository.Create(CompanySignUpDTO.ToCompany(signUpDto, user));
 
-            var userDto = Mapper.Map<User, UserDTO>(user);
-            return SignAuthDTO(userDto);
+            return SignAuthDTO(Mapper.Map<Company, CompanyDTO>(company));
         }
 
         // @ Email Verification

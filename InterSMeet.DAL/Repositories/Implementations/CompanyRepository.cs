@@ -14,19 +14,33 @@ namespace InterSMeet.DAL.Repositories.Implementations
 
         public IEnumerable<Company> FindAll()
         {
-            return _context.Companies;
+            var companies = _context.Companies
+            .Join(
+                _context.Users,
+                s => s.CompanyId,
+                u => u.UserId,
+                (company, user) => new { company, user }
+            );
+
+            foreach (var comp in companies)
+                comp.company.User = comp.user;
+
+            return companies.Select(full => full.company);
         }
 
         public Company? FindById(int companyId)
         {
-            return _context.Companies.Find(companyId);
+            var comp = _context.Companies.Find(companyId);
+            if (comp == null) return comp;
+            comp.User = _context.Users.Find(companyId)!;
+            return comp;
         }
 
         public Company Create(Company company)
         {
             var change = _context.Companies.Add(company);
             _context.SaveChanges();
-            return change.Entity;
+            return FindById(change.Entity.CompanyId)!;
         }
 
         public Company? Update(Company company)
@@ -36,14 +50,14 @@ namespace InterSMeet.DAL.Repositories.Implementations
             {
                 existing = EntityPropertyMapper.InjectNonNull(existing, company);
                 _context.SaveChanges();
-                return existing;
+                return FindById(existing.CompanyId)!;
             }
             return null;
         }
 
         public Company? Delete(int companyId)
         {
-            var company = _context.Companies.Find(companyId);
+            var company = FindById(companyId);
             if (company is not null)
             {
                 _context.Companies.Remove(company);
