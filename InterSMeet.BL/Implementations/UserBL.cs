@@ -119,7 +119,7 @@ namespace InterSMeet.BLL.Implementations
             if (user is null) throw new BLUnauthorizedException("Invalid access token");
             if (user.EmailVerified) throw new BLConflictException("Email already verified");
             if (user.EmailVerificationCode is null || !user.EmailVerificationCode.Equals(verificationCode))
-                throw new BLUnauthorizedException("Wrong verification code email");
+                throw new BLForbiddenException("Wrong verification code email");
 
             UserRepository.SetEmailVerificationCode(user.UserId, null);
         }
@@ -210,14 +210,14 @@ namespace InterSMeet.BLL.Implementations
             var user = UserRepository.FindByUsername(username);
             if (user is null) throw new BLUnauthorizedException("Invalid access token");
             if (user.ForgotPasswordCode is null || !user.ForgotPasswordCode.Equals(restorePasswordCode))
-                throw new BLUnauthorizedException("Wrong restore password code");
+                throw new BLForbiddenException("Wrong restore password code");
         }
 
         public void RestorePassword(string newPassword, string restorePasswordCode, string credential)
         {
             User user = FindByCredential(credential);
             if (user.ForgotPasswordCode is null || !user.ForgotPasswordCode.Equals(restorePasswordCode))
-                throw new BLUnauthorizedException("Wrong restore password code");
+                throw new BLForbiddenException("Wrong restore password code");
 
             user.Password = PasswordGenerator.Hash(newPassword);
             UserRepository.Update(user);
