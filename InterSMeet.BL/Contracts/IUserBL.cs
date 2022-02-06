@@ -10,7 +10,9 @@ namespace InterSMeet.BLL.Contracts
 {
     public interface IUserBL
     {
-        public AuthenticatedDTO SignIn(SignInDTO signInDTO);
+        
+        /// <param name="usertype">Determines if user should be a student or a company</param>
+        public AuthenticatedDTO SignIn(SignInDTO signInDTO, string usertype);
         public AuthenticatedDTO RefreshToken(string refreshToken);
         public AuthenticatedDTO StudentSignUp(StudentSignUpDTO signUpDTO);
         public AuthenticatedDTO CompanySignUp(CompanySignUpDTO signUpDTO);

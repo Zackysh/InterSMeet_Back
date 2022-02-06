@@ -48,6 +48,12 @@ namespace InterSMeet.API
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(ErrorResponse.ToJson(e.Message));
             }
+            catch (BLForbiddenException e)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(ErrorResponse.ToJson(e.Message));
+            }
             catch (BLConflictException e)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Conflict;

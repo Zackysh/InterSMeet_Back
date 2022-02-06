@@ -21,11 +21,18 @@ namespace InterSMeet.Controllers
         // @ Session
         // ==================================================================================
 
-        [HttpPost("sign-in")]
+        [HttpPost("sign-in/student")]
         [AllowAnonymous]
-        public ActionResult<AuthenticatedDTO> SignIn(SignInDTO signInDto)
+        public ActionResult<AuthenticatedDTO> SignInAsStudent(SignInDTO signInDto)
         {
-            return Ok(UserBL.SignIn(signInDto));
+            return Ok(UserBL.SignIn(signInDto, "student"));
+        }
+
+        [HttpPost("sign-in/company")]
+        [AllowAnonymous]
+        public ActionResult<AuthenticatedDTO> SignInAsCompany(SignInDTO signInDto)
+        {
+            return Ok(UserBL.SignIn(signInDto, "company"));
         }
 
         [HttpPost("refresh")]

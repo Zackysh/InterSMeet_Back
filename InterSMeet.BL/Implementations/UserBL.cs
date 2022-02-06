@@ -147,23 +147,27 @@ namespace InterSMeet.BLL.Implementations
 
         // @ Session
 
-        public AuthenticatedDTO SignIn(SignInDTO signInDTO)
+        public AuthenticatedDTO SignIn(SignInDTO signInDTO, string usertype)
         {
             // Find user
             User user = FindByCredential(signInDTO.Credential);
 
-            // Check password
-            if (!PasswordGenerator.CompareHash(signInDTO.Password, user.Password))
-                throw new BLUnauthorizedException("Wrong password");
-
             if (IsStudent(user.UserId))
             {
+                if (!usertype.Equals("student")) throw new BLForbiddenException("You can't sign-in as a student");
+                // Check password
+                if (!PasswordGenerator.CompareHash(signInDTO.Password, user.Password))
+                    throw new BLUnauthorizedException("Wrong password");
                 var student = StudentRepository.FindById(user.UserId);
                 var std = Mapper.Map<Student, StudentDTO>(student!);
                 return SignAuthDTO(std);
             }
             if (IsCompany(user.UserId))
             {
+                if (!usertype.Equals("company")) throw new BLForbiddenException("You can't sign-in as a company");
+                // Check password
+                if (!PasswordGenerator.CompareHash(signInDTO.Password, user.Password))
+                    throw new BLUnauthorizedException("Wrong password");
                 var company = CompanyRepository.FindById(user.UserId);
                 return SignAuthDTO(Mapper.Map<Company, CompanyDTO>(company!));
             }
