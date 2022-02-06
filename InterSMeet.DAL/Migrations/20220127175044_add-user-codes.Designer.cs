@@ -3,6 +3,7 @@ using System;
 using InterSMeet.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InterSMeet.DAL.Migrations
 {
     [DbContext(typeof(InterSMeetDbContext))]
-    partial class InterSMeetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220127175044_add-user-codes")]
+    partial class addusercodes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -307,10 +309,6 @@ namespace InterSMeet.DAL.Migrations
                     b.Property<string>("EmailVerificationCode")
                         .HasColumnType("longtext")
                         .HasColumnName("email_verification");
-
-                    b.Property<bool>("EmailVerified")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("email_verified");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

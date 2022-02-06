@@ -13,6 +13,9 @@ namespace InterSMeet.DAL.Repositories.Contracts
         User? Update(User user);
         User? Delete(int userId);
         bool Exists(User user);
+        // Codes
+        User? SetEmailVerificationCode(int userId, string? newCode);
+        User? SetRestorePasswordCode(int userId, string? newCode);
         // Foreing
         IEnumerable<Language> FindAllLanguages();
         Language? FindLanguageById(int languageId);

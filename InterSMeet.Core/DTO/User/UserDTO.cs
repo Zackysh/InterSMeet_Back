@@ -18,6 +18,7 @@ namespace InterSMeet.Core.DTO
         public string Location { get; set; } = null!;
         public int LanguageId { get; set; }
         public int? RoleId { get; set; }
+        public bool EmailVerified { get; set; }
         public string CreatedAt { get; set; } = null!;
         public string UpdatedAt { get; set; } = null!;
     }

@@ -1,6 +1,7 @@
 using InterSMeet.API;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.BLL.Implementations;
+using InterSMeet.Core.Email;
 using InterSMeet.Core.MapperProfiles;
 using InterSMeet.Core.Security;
 using InterSMeet.DAL.Entities;
@@ -26,6 +27,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IUserBL, UserBL>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 // Student
 builder.Services.AddScoped<IStudentBL, StudentBL>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();

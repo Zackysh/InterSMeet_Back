@@ -1,14 +1,8 @@
 ﻿using InterSMeet.ApiRest.Utils;
-using InterSMeet.BL.Exception;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using System.Security.Claims;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InterSMeet.Controllers
 {
@@ -23,9 +17,24 @@ namespace InterSMeet.Controllers
             this.UserBL = UserBL;
         }
 
-        // Token Management
+        // ==================================================================================
+        // @ Session
+        // ==================================================================================
 
-        // POST api/users/check-access
+        [HttpPost("sign-in")]
+        [AllowAnonymous]
+        public ActionResult<AuthenticatedDTO> SignIn(SignInDTO signInDto)
+        {
+            return Ok(UserBL.SignIn(signInDto));
+        }
+
+        [HttpPost("refresh")]
+        [AllowAnonymous]
+        public ActionResult<StudentDTO> RefreshToken()
+        {
+            return Ok(UserBL.RefreshToken(HttpContext.Request.Headers.First(x => x.Key == "refresh-token").Value));
+        }
+
         [HttpPost("check-access")]
         [Authorize]
         public ActionResult<StudentDTO> CheckAccessToken()
@@ -35,17 +44,35 @@ namespace InterSMeet.Controllers
             return Ok(); // return 200 if token is valid
         }
 
-        // POST api/users/refresh-token
-        [HttpPost("refresh")]
-        [AllowAnonymous]
-        public ActionResult<StudentDTO> RefreshToken()
+        // @ Password
+
+        [HttpPost("send-restore-password/{credential}")]
+        public ActionResult SendRestorePassword(string credential)
         {
-            return Ok(UserBL.RefreshToken(HttpContext.Request.Headers.First(x => x.Key == "refresh-token").Value));
+            UserBL.SendRestorePassword(credential);
+            return Ok();
         }
 
-        // Anonymous
+        [HttpPost("check-restore-password/{restorePasswordCode}")]
+        [Authorize]
+        public ActionResult CheckRestorePassword(string restorePasswordCode)
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            UserBL.CheckRestorePassword(restorePasswordCode, username);
+            return Ok();
+        }
 
-        // POST api/users/sign-up/student
+        [HttpPost("restore-password")]
+        public ActionResult RestorePassword(RestorePasswordDTO restoreDto)
+        {
+            UserBL.RestorePassword(restoreDto.NewPassword, restoreDto.RestorePasswordCode, restoreDto.Credential);
+            return Ok();
+        }
+
+        // ==================================================================================
+        // @ Registration
+        // ==================================================================================
+
         [HttpPost("sign-up/student")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
@@ -54,7 +81,6 @@ namespace InterSMeet.Controllers
             return Ok(UserBL.StudentSignUp(signUpDto));
         }
 
-        // POST api/users/sign-up/company
         [HttpPost("sign-up/company")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [AllowAnonymous]
@@ -63,15 +89,8 @@ namespace InterSMeet.Controllers
             return Ok(UserBL.CompanySignUp(signUpDto));
         }
 
-        // POST api/users/sign-in
-        [HttpPost("sign-in")]
-        [AllowAnonymous]
-        public ActionResult<AuthenticatedDTO> SignIn(SignInDTO signInDto)
-        {
-            return Ok(UserBL.SignIn(signInDto));
-        }
+        // @ Credential validation
 
-        // POST api/users/check/email
         [HttpPost("check/email")]
         [AllowAnonymous]
         public ActionResult<AuthenticatedDTO> CheckEmail(string email)
@@ -80,7 +99,6 @@ namespace InterSMeet.Controllers
             return Ok();
         }
 
-        // POST api/users/check/username
         [HttpPost("check/username")]
         [AllowAnonymous]
         public ActionResult<AuthenticatedDTO> CheckUsername(string username)
@@ -90,7 +108,28 @@ namespace InterSMeet.Controllers
             return Ok();
         }
 
-        // GET api/users/languages
+        // @ Email Verification
+
+        [HttpPost("confirm-email/{verificationCode}")]
+        [Authorize]
+        public ActionResult EmailVerification(string verificationCode)
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            UserBL.EmailVerification(verificationCode, username);
+            return Ok();
+        }
+
+        [HttpPost("send-confirm-email")]
+        [Authorize]
+        public ActionResult SendEmailVerification()
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            UserBL.SendEmailVerification(username);
+            return Ok();
+        }
+
+        // @ Public data
+
         [HttpGet("languages")]
         [AllowAnonymous]
         public ActionResult<IEnumerable<LanguageDTO>> FindAllLanguages()
@@ -106,18 +145,10 @@ namespace InterSMeet.Controllers
             return Ok(UserBL.FindAllProvinces());
         }
 
-        // Authorized
+        // ==================================================================================
+        // @ Admin
+        // ==================================================================================
 
-        // GET api/users/profile
-        [HttpGet("profile")]
-        [Authorize]
-        public ActionResult<StudentDTO> FindProfile()
-        {
-            var username = ControllerUtils.GetUserIdentity(HttpContext);
-            return Ok(UserBL.FindProfile(username));
-        }
-
-        // POST api/users/languages
         [HttpPost("languages")]
         [Authorize(Roles = "Admin")]
         public ActionResult<LanguageDTO> CreateLanguage(LanguageDTO languageDto)
