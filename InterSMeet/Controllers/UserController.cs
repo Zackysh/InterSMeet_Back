@@ -60,12 +60,10 @@ namespace InterSMeet.Controllers
             return Ok();
         }
 
-        [HttpPost("check-restore-password/{restorePasswordCode}")]
-        [Authorize]
-        public ActionResult CheckRestorePassword(string restorePasswordCode)
+        [HttpPost("check-restore-password")]
+        public ActionResult CheckRestorePassword(CheckRestorePasswordDTO checkRestoreDto)
         {
-            var username = ControllerUtils.GetUserIdentity(HttpContext);
-            UserBL.CheckRestorePassword(restorePasswordCode, username);
+            UserBL.CheckRestorePassword(checkRestoreDto.RestorePasswordCode, checkRestoreDto.Credential);
             return Ok();
         }
 
@@ -97,6 +95,14 @@ namespace InterSMeet.Controllers
         }
 
         // @ Credential validation
+
+        [HttpPost("check/credential")]
+        [AllowAnonymous]
+        public ActionResult<AuthenticatedDTO> CheckCredential(string credential)
+        {
+            UserBL.CheckCredential(credential);
+            return Ok();
+        }
 
         [HttpPost("check/email")]
         [AllowAnonymous]

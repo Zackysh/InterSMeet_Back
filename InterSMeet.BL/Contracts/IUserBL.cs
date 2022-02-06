@@ -21,6 +21,7 @@ namespace InterSMeet.BLL.Contracts
         public IEnumerable<LanguageDTO> FindAllLanguages();
         public LanguageDTO FindLanguageById(int languageId);
         public LanguageDTO CreateLanguage(LanguageDTO languageDTO);
+        void CheckCredential(string credential);
         void CheckEmail(string email);
         void CheckUsername(string username);
         // @ Email Verification
@@ -28,7 +29,7 @@ namespace InterSMeet.BLL.Contracts
         void SendEmailVerification(string username);
         // @ Restore Password
         void SendRestorePassword(string credential);
-        void CheckRestorePassword(string restorePasswordCode, string username);
+        void CheckRestorePassword(string restorePasswordCode, string credential);
         void RestorePassword(string newPassword, string restorePasswordCode, string credential);
     }
 }

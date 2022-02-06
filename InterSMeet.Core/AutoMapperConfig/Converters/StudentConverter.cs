@@ -17,6 +17,7 @@ namespace InterSMeet.Core.MapperProfiles
                 FirstName = source.User.FirstName,
                 LastName = source.User.LastName,
                 ProvinceId = source.User.ProvinceId,
+                EmailVerified = source.User.EmailVerified,
                 Location = source.User.Location,
                 LanguageId = source.User.LanguageId,
                 RoleId = source.User.RoleId,

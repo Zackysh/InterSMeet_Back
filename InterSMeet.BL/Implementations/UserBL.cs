@@ -124,6 +124,12 @@ namespace InterSMeet.BLL.Implementations
             UserRepository.SetEmailVerificationCode(user.UserId, null);
         }
 
+        public void CheckCredential(string credential)
+        {
+            if (FindByCredential_(credential) is not null)
+                throw new BLConflictException("Credential not available");
+        }
+
         public void CheckEmail(string email)
         {
             if (UserRepository.FindByEmail(email) is not null)
@@ -205,10 +211,9 @@ namespace InterSMeet.BLL.Implementations
             EmailSender.SendRestorePassword(user.Email, randomCode, credential);
         }
 
-        public void CheckRestorePassword(string restorePasswordCode, string username)
+        public void CheckRestorePassword(string restorePasswordCode, string credential)
         {
-            var user = UserRepository.FindByUsername(username);
-            if (user is null) throw new BLUnauthorizedException("Invalid access token");
+            var user = FindByCredential(credential);
             if (user.ForgotPasswordCode is null || !user.ForgotPasswordCode.Equals(restorePasswordCode))
                 throw new BLForbiddenException("Wrong restore password code");
         }
@@ -292,11 +297,19 @@ namespace InterSMeet.BLL.Implementations
         private User FindByCredential(string credential)
         {
             // Find user
+            User? user = FindByCredential_(credential);
+            if (user is null) throw new BLNotFoundException($"User not found with credential: {credential}");
+
+            return user;
+        }
+
+        private User? FindByCredential_(string credential)
+        {
+            // Find user
             User? user;
             if (EmailValidator.IsValidEmail(credential))
                 user = UserRepository.FindByEmail(credential); // email
             else user = UserRepository.FindByUsername(credential); // username
-            if (user is null) throw new BLNotFoundException($"User not found with credential: {credential}");
 
             return user;
         }
