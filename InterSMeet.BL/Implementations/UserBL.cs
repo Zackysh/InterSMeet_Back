@@ -136,10 +136,11 @@ namespace InterSMeet.BLL.Implementations
                 throw new BLConflictException("Email not available");
         }
 
-        public void CheckUsername(string username)
+        public void CheckUsername(string username, string? sessionUsername)
         {
-            if (UserRepository.FindByUsername(username) is not null)
-                throw new BLConflictException("Username not available");
+            if (!username.Equals(sessionUsername))
+                if (UserRepository.FindByUsername(username) is not null)
+                    throw new BLConflictException("Username not available");
         }
 
         // =============================================================================================
@@ -178,6 +179,8 @@ namespace InterSMeet.BLL.Implementations
 
         public AuthenticatedDTO RefreshToken(string refreshToken)
         {
+            if (refreshToken.Contains("Bearer "))
+                refreshToken = refreshToken.Replace("Bearer ", "");
             var principal = JwtService.GetRefreshTokenPrincipal(refreshToken);
             if (principal?.Identity?.Name == null)
                 throw new BLUnauthorizedException("Invalid refresh token");
@@ -227,19 +230,6 @@ namespace InterSMeet.BLL.Implementations
             user.Password = PasswordGenerator.Hash(newPassword);
             UserRepository.Update(user);
             UserRepository.SetRestorePasswordCode(user.UserId, null);
-        }
-
-        public UserDTO Update(UpdateUserDTO updateDTO, string username)
-        {
-            if (NullValidator.IsNullOrEmpty(updateDTO)) throw new BLBadRequestException("You should update at least one field");
-
-            FindByUsername(username); // check if student exists
-
-            if (updateDTO?.LanguageId is not null) FindLanguageById((int)updateDTO.LanguageId);
-            if (updateDTO?.ProvinceId is not null) FindProvinceById((int)updateDTO.ProvinceId);
-
-            UserRepository.Update(Mapper.Map<UpdateUserDTO, User>(updateDTO!));
-            return FindByUsername(username);
         }
 
         // =============================================================================================
@@ -293,6 +283,19 @@ namespace InterSMeet.BLL.Implementations
         // =============================================================================================
 
         // @ User
+
+        private UserDTO Update(UpdateUserDTO updateDTO, string username)
+        {
+            if (NullValidator.IsNullOrEmpty(updateDTO)) throw new BLBadRequestException("You should update at least one field");
+
+            FindByUsername(username); // check if student exists
+
+            if (updateDTO?.LanguageId is not null) FindLanguageById((int)updateDTO.LanguageId);
+            if (updateDTO?.ProvinceId is not null) FindProvinceById((int)updateDTO.ProvinceId);
+
+            UserRepository.Update(Mapper.Map<UpdateUserDTO, User>(updateDTO!));
+            return FindByUsername(username);
+        }
 
         private User FindByCredential(string credential)
         {

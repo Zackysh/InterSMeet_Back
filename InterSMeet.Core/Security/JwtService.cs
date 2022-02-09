@@ -25,7 +25,7 @@ namespace InterSMeet.Core.Security
         }
         public string SignRefreshToken(string username)
         {
-            return GetJwtToken(username, Configuration["Jwt:RefreshSecret"], TimeSpan.FromDays(7));
+            return GetJwtToken(username, Configuration["Jwt:RefreshSecret"], TimeSpan.FromSeconds(3));
         }
 
         /// <summary>
@@ -79,6 +79,7 @@ namespace InterSMeet.Core.Security
             {
                 ValidateAudience = false,
                 ValidateIssuer = false,
+                RequireExpirationTime = true,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:RefreshSecret"])),
                 ValidateLifetime = true
@@ -88,6 +89,7 @@ namespace InterSMeet.Core.Security
             try
             {
                 principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+                var exp = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Expiration)?.Value;
                 if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
                     return null;
                 return principal;

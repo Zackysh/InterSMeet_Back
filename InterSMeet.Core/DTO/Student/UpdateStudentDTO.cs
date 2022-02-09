@@ -1,10 +1,4 @@
-﻿using InterSMeet.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace InterSMeet.Core.DTO
 {
@@ -13,7 +7,7 @@ namespace InterSMeet.Core.DTO
         public UpdateUserDTO? UpdateUserDto { get; set; } = null!;
         public DateTime? BirthDate { get; set; }
         public int? DegreeId { get; set; }
-        [Range(0, 10)]
+        [Range(-1, 10)]
         public double? AverageGrades { get; set; }
     }
 }

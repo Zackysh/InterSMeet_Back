@@ -1,10 +1,5 @@
-﻿using InterSMeet.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+
 
 namespace InterSMeet.Core.DTO
 {
@@ -12,8 +7,6 @@ namespace InterSMeet.Core.DTO
     {
         [MaxLength(40)]
         public string? Username { get; set; }
-        [MaxLength(255)]
-        public string? Email { get; set; }
         [MaxLength(70)]
         public string? FirstName { get; set; }
         [MaxLength(70)]

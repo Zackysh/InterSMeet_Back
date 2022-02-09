@@ -8,7 +8,7 @@ namespace InterSMeet.Core.DTO
         public UserSignUpDTO UserSignUpDto { get; set; } = null!;
         public DateTime BirthDate { get; set; }
         public int DegreeId { get; set; }
-        [Range(0,10)]
+        [Range(-1, 10)]
         public double AverageGrades { get; set; }
 
         public static Student ToStudent(StudentSignUpDTO signUpDto, User user)

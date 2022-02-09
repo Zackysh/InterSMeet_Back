@@ -28,19 +28,6 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<IEnumerable<Company>, IEnumerable<CompanyDTO>>(CompanyRepository.FindAll());
         }
 
-        public CompanyDTO Update(UpdateCompanyDTO updateDTO, string username)
-        {
-            if (NullValidator.IsNullOrEmpty(updateDTO)) throw new BLBadRequestException("You should update at least one field");
-
-            FindProfile(username); // check if student exists
-
-            if (updateDTO?.UpdateUserDto?.LanguageId is not null) UserBL.FindLanguageById((int)updateDTO.UpdateUserDto.LanguageId);
-            if (updateDTO?.UpdateUserDto?.ProvinceId is not null) UserBL.FindProvinceById((int)updateDTO.UpdateUserDto.ProvinceId);
-
-            CompanyRepository.Update(Mapper.Map<UpdateCompanyDTO, Company>(updateDTO!));
-            return FindProfile(username);
-        }
-
         public CompanyDTO FindProfile(string username)
         {
             var user = UserRepository.FindByUsername(username);

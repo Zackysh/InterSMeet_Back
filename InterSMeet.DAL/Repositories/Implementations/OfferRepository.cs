@@ -129,6 +129,20 @@ namespace InterSMeet.DAL.Repositories.Implementations
 
         /// @ Applications
 
+        public int ApplicationCount(int studentId)
+        {
+            return _context.Offers
+                .Join(
+                    _context.Applications,
+                    o => o.OfferId,
+                    a => a.OfferId,
+                    (offer, application) => new { offer, application }
+                )
+                .Where(full => full.application.StudentId == studentId)
+                .Where(full => full.offer.DeadLine > DateTime.Now)
+                .Count();
+        }
+
         public IEnumerable<Student> FindOfferApplicants(int offerId)
         {
             // TODO implement when Application entity is ready

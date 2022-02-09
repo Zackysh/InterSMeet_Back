@@ -25,18 +25,18 @@ namespace InterSMeet.Controllers
             return Ok(StudentBL.FindAll());
         }
 
-        [HttpGet("profile")]
-        [Authorize]
-        public ActionResult<StudentDTO> FindProfile()
-        {
-            var username = ControllerUtils.GetUserIdentity(HttpContext);
-            return Ok(StudentBL.FindProfile(username));
-        }
-
         [HttpGet("degrees")]
         public ActionResult<List<DegreeDTO>> FindAllDegrees()
         {
             return Ok(StudentBL.FindAllDegrees());
+        }
+
+        [HttpPut("update-profile")]
+        [Authorize(Roles = "Student")]
+        public ActionResult<AuthenticatedDTO> Update(UpdateStudentDTO updateDto)
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            return Ok(StudentBL.Update(updateDto, username));
         }
 
         [HttpDelete("{studentId}")]
@@ -44,6 +44,13 @@ namespace InterSMeet.Controllers
         public ActionResult<StudentDTO> Delete(int studentId)
         {
             return Ok(StudentBL.Delete(studentId));
+        }
+
+        [HttpGet("application-count")]
+        public ActionResult<List<DegreeDTO>> ApplicationCount()
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            return Ok(StudentBL.ApplicationCount(username));
         }
 
         [HttpPost("upload-avatar")]

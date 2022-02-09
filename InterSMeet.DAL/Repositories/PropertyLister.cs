@@ -1,11 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InterSMeet.DAL.Repositories
 {
@@ -34,7 +28,13 @@ namespace InterSMeet.DAL.Repositories
                 var fromValue = propertyPair.Item2.GetValue(src, null);
                 if (fromValue != null && propertyPair.Item1.CanWrite)
                 {
-                    if ((propertyPair.Item1.PropertyType.Name == "Int32" && (int)fromValue == 0)) continue;
+                    if (propertyPair.Item1.PropertyType.Name == "Int32" && (Int32)fromValue == 0)
+                        continue;
+                    if (propertyPair.Item1.PropertyType.Name == "Double" && (Double)fromValue == 0)
+                        continue;
+                    if (propertyPair.Item1.PropertyType.Name == "DateTime" && (DateTime)fromValue == DateTime.MinValue)
+                        continue;
+
                     propertyPair.Item1.SetValue(dest, fromValue, null);
                 }
 

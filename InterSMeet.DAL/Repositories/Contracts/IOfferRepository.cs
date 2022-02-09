@@ -24,6 +24,7 @@ namespace InterSMeet.DAL.Repositories.Contracts
         Offer? Update(Offer offer, IEnumerable<int>? degrees);
         Offer? Delete(int offerId);
         // @ Applications
+        int ApplicationCount(int studentId);
         IEnumerable<Student> FindOfferApplicants(int offerId);
         ApplicationStatus? FindApplicationStatus(int offerId, int studentId);
         ApplicationStatus? FindApplicantStatus(int studentId, int offerId);

@@ -23,7 +23,7 @@ namespace InterSMeet.BLL.Contracts
         public LanguageDTO CreateLanguage(LanguageDTO languageDTO);
         void CheckCredential(string credential);
         void CheckEmail(string email);
-        void CheckUsername(string username);
+        void CheckUsername(string username, string? sessionUsername);
         // @ Email Verification
         void EmailVerification(string verificationCode, string username);
         void SendEmailVerification(string username);

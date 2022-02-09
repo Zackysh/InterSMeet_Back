@@ -12,12 +12,14 @@ namespace InterSMeet.BLL.Implementations
     {
         internal IStudentRepository StudentRepository;
         internal IUserRepository UserRepository;
+        internal IOfferRepository OfferRepository;
         internal IUserBL UserBL;
 
         internal IMapper Mapper;
         public StudentBL(
-            IStudentRepository studentRepository, IUserRepository userRepository, IUserBL userBL, IMapper mapper)
+            IStudentRepository studentRepository, IUserRepository userRepository, IOfferRepository offerRepository, IUserBL userBL, IMapper mapper)
         {
+            OfferRepository = offerRepository;
             Mapper = mapper;
             StudentRepository = studentRepository;
             UserRepository = userRepository;
@@ -30,29 +32,37 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<IEnumerable<Student>, IEnumerable<StudentDTO>>(stds);
         }
 
-        public StudentDTO Update(UpdateStudentDTO updateDTO, string username)
+        public StudentDTO Update(UpdateStudentDTO updateDto, string username)
         {
-            if (NullValidator.IsNullOrEmpty(updateDTO)) throw new BLBadRequestException("You should update at least one field");
+            if (updateDto is null || NullValidator.IsNullOrEmpty(updateDto)) throw new BLBadRequestException("You should update at least one field");
 
-            FindProfile(username); // check if student exists
+            var currentStudent = FindProfile(username); // check if student exists
 
-            if(updateDTO.DegreeId is not null) FindDegreeById((int)updateDTO.DegreeId);
-            if (updateDTO?.UpdateUserDto?.LanguageId is not null) UserBL.FindLanguageById((int)updateDTO.UpdateUserDto.LanguageId);
-            if (updateDTO?.UpdateUserDto?.ProvinceId is not null) UserBL.FindProvinceById((int)updateDTO.UpdateUserDto.ProvinceId);
+            // If username is provided and is different from current username, check if it's available
+            if (
+                updateDto?.UpdateUserDto?.Username is not null
+                && !username.Equals(updateDto.UpdateUserDto.Username)
+                && FindProfile_(updateDto.UpdateUserDto.Username) is not null
+            )
+                throw new BLConflictException("Provided username isn't available");
 
-            StudentRepository.Update(Mapper.Map<UpdateStudentDTO, Student>(updateDTO!));
-            return FindProfile(username);
-        }
+            if (updateDto?.DegreeId is not null) FindDegreeById((int)updateDto.DegreeId);
+            if (updateDto?.UpdateUserDto?.LanguageId is not null) UserBL.FindLanguageById((int)updateDto.UpdateUserDto.LanguageId);
+            if (updateDto?.UpdateUserDto?.ProvinceId is not null) UserBL.FindProvinceById((int)updateDto.UpdateUserDto.ProvinceId);
 
-        public StudentDTO FindProfile(string username)
-        {
-            var user = UserRepository.FindByUsername(username);
-            if (user is null) throw new BLNotFoundException($"Student not found with Username: {username}");
+            var newStudentData = Mapper.Map<UpdateStudentDTO, Student>(updateDto!);
+            var newUserData = updateDto?.UpdateUserDto is null ? null : Mapper.Map<UpdateUserDTO, User>(updateDto.UpdateUserDto);
 
-            var student = StudentRepository.FindById(user.UserId);
-            if (student is null) throw new BLConflictException($"It appears that the user isn't linked to a student");
+            if (newUserData is not null)
+            {
+                newUserData.UserId = currentStudent.StudentId;
+                newUserData.EmailVerified = currentStudent.EmailVerified;
+                UserRepository.Update(newUserData);
+            }
+            newStudentData.StudentId = currentStudent.StudentId;
+            StudentRepository.Update(newStudentData);
 
-            return Mapper.Map<Student, StudentDTO>(student);
+            return FindProfile(currentStudent.StudentId);
         }
 
         public StudentDTO Delete(int studentId)
@@ -98,6 +108,16 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<Degree, DegreeDTO>(degree);
         }
 
+        public int ApplicationCount(string username)
+        {
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new BLNotFoundException($"Student not found");
+            var student = StudentRepository.FindById(user.UserId);
+            if (student is null) throw new BLNotFoundException($"Student not found");
+
+            return OfferRepository.ApplicationCount(user.UserId);
+        }
+
         public ImageDTO DownloadAvatarByStudent(int studentId)
         {
             var student = StudentRepository.FindById(studentId);
@@ -128,6 +148,37 @@ namespace InterSMeet.BLL.Implementations
             var avatar = StudentRepository.DownloadAvatar(imageId);
             if (avatar is null) throw new BLNotFoundException($"Image not found with ID: {imageId}");
             return ImageDTO.FromImage(avatar);
+        }
+
+        // =============================================================================================
+        // @ Private Methods
+        // =============================================================================================
+
+        private StudentDTO FindProfile(int studentId)
+        {
+            var student = StudentRepository.FindById(studentId);
+            if (student is null) throw new BLConflictException($"It appears that the user isn't linked to a student");
+
+            return Mapper.Map<Student, StudentDTO>(student);
+        }
+
+        private StudentDTO FindProfile(string username)
+        {
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new BLNotFoundException($"Student not found with Username: {username}");
+
+            var student = StudentRepository.FindById(user.UserId);
+            if (student is null) throw new BLConflictException($"It appears that the user isn't linked to a student");
+
+            return Mapper.Map<Student, StudentDTO>(student);
+        }
+
+        private Student? FindProfile_(string username)
+        {
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) return null;
+
+            return StudentRepository.FindById(user.UserId);
         }
     }
 }

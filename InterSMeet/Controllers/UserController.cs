@@ -39,7 +39,7 @@ namespace InterSMeet.Controllers
         [AllowAnonymous]
         public ActionResult<StudentDTO> RefreshToken()
         {
-            return Ok(UserBL.RefreshToken(HttpContext.Request.Headers.First(x => x.Key == "refresh-token").Value));
+            return Ok(UserBL.RefreshToken(HttpContext.Request.Headers.First(x => x.Key.Equals("Authorization")).Value));
         }
 
         [HttpPost("check-access")]
@@ -116,8 +116,9 @@ namespace InterSMeet.Controllers
         [AllowAnonymous]
         public ActionResult<AuthenticatedDTO> CheckUsername(string username)
         {
-
-            UserBL.CheckUsername(username);
+            string? sessionUsername = null;
+            try { sessionUsername = ControllerUtils.GetUserIdentity(HttpContext); } catch { }
+            UserBL.CheckUsername(username, sessionUsername);
             return Ok();
         }
 

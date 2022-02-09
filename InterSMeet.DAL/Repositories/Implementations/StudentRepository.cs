@@ -41,6 +41,7 @@ namespace InterSMeet.DAL.Repositories.Implementations
         public Student Create(Student student)
         {
             var change = _context.Students.Add(student);
+            if (student.AverageGrades == -1) change.Entity.AverageGrades = 0;
             _context.SaveChanges();
             return FindById(change.Entity.StudentId)!;
         }
@@ -51,6 +52,7 @@ namespace InterSMeet.DAL.Repositories.Implementations
             if (existing is not null)
             {
                 existing = EntityPropertyMapper.InjectNonNull(existing, student);
+                if (student.AverageGrades == -1) existing.AverageGrades = 0;
                 _context.SaveChanges();
                 return FindById(existing.StudentId)!;
             }
