@@ -20,7 +20,8 @@ namespace InterSMeet.Core.MapperProfiles
                 Location = source.User.Location,
                 LanguageId = source.User.LanguageId,
                 RoleId = source.User.RoleId,
-                Address = source.Address,                
+                Address = source.Address,
+                CompanyName = source.CompanyName,
             };
         }
     }

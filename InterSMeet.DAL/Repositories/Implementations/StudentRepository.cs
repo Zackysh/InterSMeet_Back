@@ -12,6 +12,8 @@ namespace InterSMeet.DAL.Repositories.Implementations
             _context = context;
         }
 
+        // @ Student
+
         public IEnumerable<Student> FindAll()
         {
             var students = _context.Students
@@ -27,8 +29,6 @@ namespace InterSMeet.DAL.Repositories.Implementations
 
             return students.Select(full => full.student);
         }
-
-        // @ CRUD
 
         public Student? FindById(int studentId)
         {
@@ -76,11 +76,7 @@ namespace InterSMeet.DAL.Repositories.Implementations
             return _context.Images.FirstOrDefault(i => i.ImageData == img.ImageData);
         }
 
-        // @ Foreign
-
-        // ------------------------------------------------------------------------------
         // @ Degree
-        // -----------------------------------------------------------------------------
 
         public IEnumerable<Degree> FindAllDegrees()
         {
@@ -92,9 +88,21 @@ namespace InterSMeet.DAL.Repositories.Implementations
             return _context.Degrees.Find(degreeId);
         }
 
-        // ------------------------------------------------------------------------------
-        // @ Avatar (Image)
-        // -----------------------------------------------------------------------------
+        // @ Family
+
+        public IEnumerable<Family> FindAllFamilies()
+        {
+            return _context.Families.OrderBy(f => f.FamilyId);
+        }
+
+        // @ Level
+
+        public IEnumerable<Level> FindAllLevels()
+        {
+            return _context.Levels.OrderBy(l => l.LevelId);
+        }
+
+        // @ Avatar
 
         /// <summary>
         /// Store new avatar and associate it with a student.

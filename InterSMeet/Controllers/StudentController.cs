@@ -1,4 +1,5 @@
-﻿using InterSMeet.BLL.Contracts;
+﻿
+using InterSMeet.BLL.Contracts;
 using InterSMeet.BL.Exception;
 using InterSMeet.Core.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,18 @@ namespace InterSMeet.Controllers
         public ActionResult<List<DegreeDTO>> FindAllDegrees()
         {
             return Ok(StudentBL.FindAllDegrees());
+        }
+
+        [HttpGet("families")]
+        public ActionResult<List<FamilyDTO>> FindAllFamilies()
+        {
+            return Ok(StudentBL.FindAllFamilies());
+        }
+
+        [HttpGet("levels")]
+        public ActionResult<List<DegreeDTO>> FindAllLevels()
+        {
+            return Ok(StudentBL.FindAllLevels());
         }
 
         [HttpPut("update-profile")]

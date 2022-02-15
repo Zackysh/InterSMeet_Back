@@ -39,7 +39,7 @@ namespace InterSMeet.Controllers
         [AllowAnonymous]
         public ActionResult<StudentDTO> RefreshToken()
         {
-            return Ok(UserBL.RefreshToken(HttpContext.Request.Headers.First(x => x.Key.Equals("Authorization")).Value));
+            return Ok(UserBL.RefreshToken(HttpContext.Request.Headers.First(x => x.Key.Equals("refresh-token")).Value));
         }
 
         [HttpPost("check-access")]

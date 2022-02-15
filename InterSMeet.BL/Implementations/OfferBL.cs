@@ -76,11 +76,23 @@ namespace InterSMeet.BLL.Implementations
             return new()
             {
                 Pagination = pagination,
-                Offers = pagination.PrivateData
+                Total = OfferRepository.Pagination(
+                        null,
+                        null,
+                        pagination.Search,
+                        pagination.SkipExpired,
+                        pagination.CompanyId,
+                        findStudentApplicationsFlag ? user.UserId : null,
+                        pagination.DegreeId,
+                        pagination.FamilyId,
+                        pagination.LevelId,
+                        pagination.Min,
+                        pagination.Max).Count(),
+                Results = pagination.PrivateData
                     ? findStudentApplicationsFlag
                         ? Mapper.Map<IEnumerable<Offer>, IEnumerable<ApplicationDTO>>(offers).Select(o =>
                         {
-                            o.Status = OfferRepository.FindApplicationStatus(o.OfferId, user.UserId).ToString() ?? ApplicationStatus.Pending.ToString();
+                            o.Status = OfferRepository.FindApplicationStatus(o.OfferId, user.UserId) ?? 0;
                             return o;
                         })
                         : Mapper.Map<IEnumerable<Offer>, IEnumerable<PrivateOfferDTO>>(offers).Select(o =>

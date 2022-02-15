@@ -2,7 +2,6 @@
 using InterSMeet.BL.Exception;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
-using InterSMeet.Core.DTO.Validators;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
 
@@ -23,7 +22,12 @@ namespace InterSMeet.BLL.Implementations
             UserBL = userBL;
         }
 
-        public IEnumerable<CompanyDTO> FindAll()
+        public IEnumerable<PublicCompanyDTO> FindAll()
+        {
+            return Mapper.Map<IEnumerable<Company>, IEnumerable<PublicCompanyDTO>>(CompanyRepository.FindAll());
+        }
+
+        public IEnumerable<CompanyDTO> FindAllAdmin()
         {
             return Mapper.Map<IEnumerable<Company>, IEnumerable<CompanyDTO>>(CompanyRepository.FindAll());
         }

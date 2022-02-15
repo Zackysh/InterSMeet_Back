@@ -17,5 +17,7 @@ namespace InterSMeet.DAL.Repositories.Contracts
         Image? DownloadAvatar(int imageId);
         Degree? FindDegreeById(int degreeId);
         IEnumerable<Degree> FindAllDegrees();
+        IEnumerable<Family> FindAllFamilies();
+        IEnumerable<Level> FindAllLevels();
     }
 }

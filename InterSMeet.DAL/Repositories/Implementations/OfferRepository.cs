@@ -13,8 +13,8 @@ namespace InterSMeet.DAL.Repositories.Implementations
         }
 
         public IEnumerable<Offer> Pagination(
-            int page,
-            int size,
+            int? page,
+            int? size,
             string? search,
             bool skipExpired,
             int? companyId,
@@ -35,6 +35,9 @@ namespace InterSMeet.DAL.Repositories.Implementations
             else if (levelId is not null)
                 offers = FindOffersByLevel((int)levelId);
 
+            var a = page ?? 0;
+            var b = size ?? 0;
+
             // @ Apply other filters
             var pagination = offers
                 .OrderBy(o => o.OfferId)
@@ -42,8 +45,8 @@ namespace InterSMeet.DAL.Repositories.Implementations
                 .Where(o => search == null || (o.Name + o.Description).Contains(search))
                 .Where(o => companyId == null || o.CompanyId == companyId)
                 .Where(o => (minSalary == null || maxSalary == null) || (o.Salary >= minSalary && o.Salary <= maxSalary))
-                .Skip(page * size)
-                .Take(size);
+                .Skip((page ?? 0) * (size ?? 0))
+                .Take(size ?? _context.Offers.Count());
 
             // @ Filter By Student Applications
             return studentId == null
@@ -204,9 +207,16 @@ namespace InterSMeet.DAL.Repositories.Implementations
             return _context.Applications.FirstOrDefault(a => a.OfferId == offerId && a.StudentId == studentId);
         }
 
-        public ApplicationStatus? FindApplicationStatus(int offerId, int studentId)
+        public int? FindApplicationStatus(int offerId, int studentId)
         {
-            return FindApplication(offerId, studentId)?.Status;
+            var status = FindApplication(offerId, studentId)?.Status;
+            return status switch
+            {
+                ApplicationStatus.Accepted => 1,
+                ApplicationStatus.Pending => 0,
+                ApplicationStatus.Denied => 0,
+                _ => null,
+            };
         }
 
         public Application? UpdateApplicationStatus(int offerId, int studentId, ApplicationStatus status)

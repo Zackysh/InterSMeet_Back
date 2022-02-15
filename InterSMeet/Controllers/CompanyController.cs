@@ -2,10 +2,7 @@
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InterSMeet.Controllers
 {
@@ -20,15 +17,20 @@ namespace InterSMeet.Controllers
             CompanyBL = companyBL;
         }
 
-        // GET api/companies
-        [HttpGet]
+        [HttpGet("all")]
         [Authorize(Roles = "Admin")]
-        public ActionResult<IEnumerable<CompanyDTO>> FindAll()
+        public ActionResult<IEnumerable<CompanyDTO>> FindAllAdmin()
+        {
+            return Ok(CompanyBL.FindAllAdmin());
+        }
+        
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult<IEnumerable<PublicCompanyDTO>> FindAll()
         {
             return Ok(CompanyBL.FindAll());
         }
 
-        // GET api/students/:companyId
         [HttpGet("profile")]
         [Authorize]
         public ActionResult<StudentDTO> FindById()
@@ -37,7 +39,6 @@ namespace InterSMeet.Controllers
             return Ok(CompanyBL.FindProfile(username));
         }
 
-        // DELETE api/companies/:companyId
         [HttpDelete("{companyId}")]
         [Authorize]
         public ActionResult<CompanyDTO> Delete(int companyId)

@@ -179,9 +179,9 @@ namespace InterSMeet.BLL.Implementations
 
         public AuthenticatedDTO RefreshToken(string refreshToken)
         {
-            if (refreshToken.Contains("Bearer "))
-                refreshToken = refreshToken.Replace("Bearer ", "");
-            var principal = JwtService.GetRefreshTokenPrincipal(refreshToken);
+            ClaimsPrincipal? principal = null;
+            try { principal = JwtService.GetRefreshTokenPrincipal(refreshToken); } catch { }
+            
             if (principal?.Identity?.Name == null)
                 throw new BLUnauthorizedException("Invalid refresh token");
 

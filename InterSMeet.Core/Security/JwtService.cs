@@ -21,11 +21,11 @@ namespace InterSMeet.Core.Security
             if (roleClaim is not null)
                 claims = new Claim[] { roleClaim };
 
-            return GetJwtToken(username, Configuration["Jwt:AccessSecret"], TimeSpan.FromMinutes(15), claims);
+            return GetJwtToken(username, Configuration["Jwt:AccessSecret"], TimeSpan.FromMinutes(30), claims);
         }
         public string SignRefreshToken(string username)
         {
-            return GetJwtToken(username, Configuration["Jwt:RefreshSecret"], TimeSpan.FromSeconds(3));
+            return GetJwtToken(username, Configuration["Jwt:RefreshSecret"], TimeSpan.FromDays(7));
         }
 
         /// <summary>

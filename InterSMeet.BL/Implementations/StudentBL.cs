@@ -26,6 +26,8 @@ namespace InterSMeet.BLL.Implementations
             UserBL = userBL;
         }
 
+        // @ Student
+
         public IEnumerable<StudentDTO> FindAll()
         {
             var stds = StudentRepository.FindAll();
@@ -76,47 +78,7 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<Student, StudentDTO>(student);
         }
 
-        public int UploadAvatar(ImageDTO imgDto, string username)
-        {
-            if (imgDto == null) throw new();
-            if (username == null) throw new();
-
-            var user = UserRepository.FindByUsername(username);
-            if (user is null) throw new Exception("Token identity not found in DB");
-
-            // Check if image already exists - checking bytes
-            var image = Mapper.Map<ImageDTO, Image>(imgDto);
-            var exists = StudentRepository.Exists(image);
-
-            // If exists, link image with user
-            if (exists is not null) return StudentRepository.UploadAvatar(exists.ImageId, user.UserId).ImageId;
-
-            // If not, store and link
-            return StudentRepository.UploadAvatar(image, user.UserId).ImageId;
-        }
-
-        public IEnumerable<DegreeDTO> FindAllDegrees()
-        {
-            var res = StudentRepository.FindAllDegrees();
-            return Mapper.Map<IEnumerable<Degree>, IEnumerable<DegreeDTO>>(res);
-        }
-
-        public DegreeDTO FindDegreeById(int degreeId)
-        {
-            var degree = StudentRepository.FindDegreeById(degreeId);
-            if (degree is null) throw new BLNotFoundException("Specified degree doesn't exists");
-            return Mapper.Map<Degree, DegreeDTO>(degree);
-        }
-
-        public int ApplicationCount(string username)
-        {
-            var user = UserRepository.FindByUsername(username);
-            if (user is null) throw new BLNotFoundException($"Student not found");
-            var student = StudentRepository.FindById(user.UserId);
-            if (student is null) throw new BLNotFoundException($"Student not found");
-
-            return OfferRepository.ApplicationCount(user.UserId);
-        }
+        // @ Avatar
 
         public ImageDTO DownloadAvatarByStudent(int studentId)
         {
@@ -148,6 +110,68 @@ namespace InterSMeet.BLL.Implementations
             var avatar = StudentRepository.DownloadAvatar(imageId);
             if (avatar is null) throw new BLNotFoundException($"Image not found with ID: {imageId}");
             return ImageDTO.FromImage(avatar);
+        }
+
+        public int UploadAvatar(ImageDTO imgDto, string username)
+        {
+            if (imgDto == null) throw new();
+            if (username == null) throw new();
+
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new Exception("Token identity not found in DB");
+
+            // Check if image already exists - checking bytes
+            var image = Mapper.Map<ImageDTO, Image>(imgDto);
+            var exists = StudentRepository.Exists(image);
+
+            // If exists, link image with user
+            if (exists is not null) return StudentRepository.UploadAvatar(exists.ImageId, user.UserId).ImageId;
+
+            // If not, store and link
+            return StudentRepository.UploadAvatar(image, user.UserId).ImageId;
+        }
+
+        // @ Degree
+
+        public IEnumerable<DegreeDTO> FindAllDegrees()
+        {
+            var res = StudentRepository.FindAllDegrees();
+            return Mapper.Map<IEnumerable<Degree>, IEnumerable<DegreeDTO>>(res);
+        }
+
+        public DegreeDTO FindDegreeById(int degreeId)
+        {
+            var degree = StudentRepository.FindDegreeById(degreeId);
+            if (degree is null) throw new BLNotFoundException("Specified degree doesn't exists");
+            return Mapper.Map<Degree, DegreeDTO>(degree);
+        }
+
+        // @ Family
+
+        public IEnumerable<FamilyDTO> FindAllFamilies()
+        {
+            var res = StudentRepository.FindAllFamilies();
+            return Mapper.Map<IEnumerable<Family>, IEnumerable<FamilyDTO>>(res);
+        }
+
+        // @ Level
+
+        public IEnumerable<LevelDTO> FindAllLevels()
+        {
+            var res = StudentRepository.FindAllLevels();
+            return Mapper.Map<IEnumerable<Level>, IEnumerable<LevelDTO>>(res);
+        }
+
+        // @ Applications
+
+        public int ApplicationCount(string username)
+        {
+            var user = UserRepository.FindByUsername(username);
+            if (user is null) throw new BLNotFoundException($"Student not found");
+            var student = StudentRepository.FindById(user.UserId);
+            if (student is null) throw new BLNotFoundException($"Student not found");
+
+            return OfferRepository.ApplicationCount(user.UserId);
         }
 
         // =============================================================================================

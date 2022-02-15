@@ -3,6 +3,7 @@ using System;
 using InterSMeet.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InterSMeet.DAL.Migrations
 {
     [DbContext(typeof(InterSMeetDbContext))]
-    partial class InterSMeetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220210123151_add_company_name")]
+    partial class add_company_name
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +60,7 @@ namespace InterSMeet.DAL.Migrations
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("varchar(70)")
-                        .HasColumnName("company_name");
+                        .HasColumnType("longtext");
 
                     b.HasKey("CompanyId");
 

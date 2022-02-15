@@ -28,7 +28,7 @@ namespace InterSMeet.Controllers
         /// </summary>
         [HttpGet("pagination")]
         [Authorize]
-        public ActionResult<OfferPaginationResponseDTO> Pagination(OfferPaginationOptionsDTO paginationOptions)
+        public ActionResult<OfferPaginationResponseDTO> Pagination([FromQuery]OfferPaginationOptionsDTO paginationOptions)
         {
             var username = ControllerUtils.GetUserIdentity(HttpContext);
             return OfferBL.Pagination(paginationOptions, username);

@@ -6,8 +6,8 @@ namespace InterSMeet.DAL.Repositories.Contracts
     public interface IOfferRepository : IRepository<Offer>
     {
         IEnumerable<Offer> Pagination(
-            int page,
-            int size,
+            int? page,
+            int? size,
             string? search,
             bool skipExpired,
             int? companyId,
@@ -26,7 +26,7 @@ namespace InterSMeet.DAL.Repositories.Contracts
         // @ Applications
         int ApplicationCount(int studentId);
         IEnumerable<Student> FindOfferApplicants(int offerId);
-        ApplicationStatus? FindApplicationStatus(int offerId, int studentId);
+        int? FindApplicationStatus(int offerId, int studentId);
         ApplicationStatus? FindApplicantStatus(int studentId, int offerId);
         Application? FindApplication(int offerId, int studentId);
         Application CreateApplication(int offerId, int studentId, ApplicationStatus status);

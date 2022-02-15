@@ -20,6 +20,7 @@ namespace InterSMeet.Core.MapperProfiles
             CreateMap<UpdateStudentDTO, Student>();
             // @ Company
             CreateMap<Company, CompanyDTO>().ConvertUsing(new CompanyConverter());
+            CreateMap<Company, PublicCompanyDTO>();
             CreateMap<UpdateCompanyDTO, Company>();
             // @ Offer
             CreateMap<Offer, OfferDTO>();
@@ -31,6 +32,8 @@ namespace InterSMeet.Core.MapperProfiles
             CreateMap<CreateOfferDTO, Offer>();
             // @ Degree
             CreateMap<Degree, DegreeDTO>();
+            CreateMap<Family, FamilyDTO>();
+            CreateMap<Level, LevelDTO>();
             // @ Language
             CreateMap<LanguageDTO, Language>();
             CreateMap<Language, LanguageDTO>();
