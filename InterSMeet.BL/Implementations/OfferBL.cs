@@ -93,14 +93,16 @@ namespace InterSMeet.BLL.Implementations
                         ? Mapper.Map<IEnumerable<Offer>, IEnumerable<ApplicationDTO>>(offers).Select(o =>
                         {
                             o.Status = OfferRepository.FindApplicationStatus(o.OfferId, user.UserId) ?? 0;
+                            o.ApplicantCount = OfferRepository.FindOfferApplicants(o.OfferId).Count();
                             return o;
                         })
                         : Mapper.Map<IEnumerable<Offer>, IEnumerable<PrivateOfferDTO>>(offers).Select(o =>
                         {
                             o.Applicants = FindOfferApplicants(o.OfferId);
+                            o.ApplicantCount = OfferRepository.FindOfferApplicants(o.OfferId).Count();
                             return o;
                         })
-                    : Mapper.Map<IEnumerable<Offer>, IEnumerable<PublicOfferDTO>>(offers).Select(o =>
+                    : Mapper.Map<IEnumerable<Offer>, IEnumerable<OfferDTO>>(offers).Select(o =>
                     {
                         o.ApplicantCount = OfferRepository.FindOfferApplicants(o.OfferId).Count();
                         return o;
