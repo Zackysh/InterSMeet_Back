@@ -148,7 +148,6 @@ namespace InterSMeet.DAL.Repositories.Implementations
 
         public IEnumerable<Student> FindOfferApplicants(int offerId)
         {
-            // TODO implement when Application entity is ready
             // user, student, application - studentId, offerId
             var join = _context.Students
             .Join(

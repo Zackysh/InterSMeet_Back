@@ -21,7 +21,7 @@ namespace InterSMeet.Controllers
         /// <summary>
         ///     This method offer deep control over offer search and pagination.
         ///     Main features:
-        ///         - Filters & Search options.
+        ///         - Filters & Search options. 
         ///         - Students can retrieve their applications.
         ///         - Companies can retrieve their offers with additional applicant data.
         ///     Look at OfferPaginationOptionsDTO for more information.

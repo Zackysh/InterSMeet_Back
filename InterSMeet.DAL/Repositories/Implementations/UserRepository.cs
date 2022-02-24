@@ -44,9 +44,13 @@ namespace InterSMeet.DAL.Repositories.Implementations
         public User? Update(User user)
         {
             var existing = _context.Users.Find(user.UserId);
+
             if (existing is not null)
             {
+                bool emailVerified = existing.EmailVerified && existing.Email == user.Email;
+
                 existing = EntityPropertyMapper.InjectNonNull(existing, user);
+                existing.EmailVerified = emailVerified;
                 _context.SaveChanges();
                 return existing;
             }

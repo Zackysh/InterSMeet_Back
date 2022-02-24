@@ -32,14 +32,15 @@ namespace InterSMeet.Controllers
         [AllowAnonymous]
         public ActionResult<AuthenticatedDTO> SignInAsCompany(SignInDTO signInDto)
         {
-            return Ok(UserBL.SignIn(signInDto, "company"));
+            var res = Ok(UserBL.SignIn(signInDto, "company"));
+            return res;
         }
 
         [HttpPost("refresh")]
         [AllowAnonymous]
         public ActionResult<StudentDTO> RefreshToken()
         {
-            return Ok(UserBL.RefreshToken(HttpContext.Request.Headers.First(x => x.Key.Equals("refresh-token")).Value));
+            return Ok(UserBL.RefreshToken(HttpContext.Request.Headers.FirstOrDefault(x => x.Key.Equals("refresh-token")).Value));
         }
 
         [HttpPost("check-access")]
@@ -108,7 +109,9 @@ namespace InterSMeet.Controllers
         [AllowAnonymous]
         public ActionResult<AuthenticatedDTO> CheckEmail(string email)
         {
-            UserBL.CheckEmail(email);
+            string? username = null;
+            try { username = ControllerUtils.GetUserIdentity(HttpContext); } catch { }
+            UserBL.CheckEmail(email, username);
             return Ok();
         }
 

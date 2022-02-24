@@ -5,7 +5,7 @@ namespace InterSMeet.BLL.Contracts
     public interface IStudentBL
     {
         IEnumerable<StudentDTO> FindAll();
-        StudentDTO Update(UpdateStudentDTO updateDto, string username);
+        AuthenticatedDTO Update(UpdateStudentDTO updateDto, string username);
         StudentDTO Delete(int studentId);
         int UploadAvatar(ImageDTO img, string username);
         int ApplicationCount(string username);

@@ -14,11 +14,13 @@ namespace InterSMeet.BLL.Implementations
         internal IUserRepository UserRepository;
         internal IOfferRepository OfferRepository;
         internal IUserBL UserBL;
-
         internal IMapper Mapper;
+        internal IAuthBL AuthBL;
+
         public StudentBL(
-            IStudentRepository studentRepository, IUserRepository userRepository, IOfferRepository offerRepository, IUserBL userBL, IMapper mapper)
+            IStudentRepository studentRepository, IAuthBL authBl, IUserRepository userRepository, IOfferRepository offerRepository, IUserBL userBL, IMapper mapper)
         {
+            AuthBL = authBl;
             OfferRepository = offerRepository;
             Mapper = mapper;
             StudentRepository = studentRepository;
@@ -34,7 +36,7 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<IEnumerable<Student>, IEnumerable<StudentDTO>>(stds);
         }
 
-        public StudentDTO Update(UpdateStudentDTO updateDto, string username)
+        public AuthenticatedDTO Update(UpdateStudentDTO updateDto, string username)
         {
             if (updateDto is null || NullValidator.IsNullOrEmpty(updateDto)) throw new BLBadRequestException("You should update at least one field");
 
@@ -64,7 +66,7 @@ namespace InterSMeet.BLL.Implementations
             newStudentData.StudentId = currentStudent.StudentId;
             StudentRepository.Update(newStudentData);
 
-            return FindProfile(currentStudent.StudentId);
+            return AuthBL.SignAuthDTO(FindProfile(currentStudent.StudentId));
         }
 
         public StudentDTO Delete(int studentId)

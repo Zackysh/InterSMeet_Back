@@ -23,6 +23,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new AutoMapperProfile()));
 // Dependency injection
 // User (oder matters)
+builder.Services.AddScoped<IAuthBL, AuthBL>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IJwtService, JwtService>();

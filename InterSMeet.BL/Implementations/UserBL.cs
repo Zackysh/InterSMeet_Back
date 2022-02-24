@@ -14,6 +14,7 @@ namespace InterSMeet.BLL.Implementations
 {
     public class UserBL : IUserBL
     {
+        internal IAuthBL AuthBL;
         internal ICompanyRepository CompanyRepository;
         internal IUserRepository UserRepository;
         internal IPasswordService PasswordGenerator;
@@ -24,9 +25,10 @@ namespace InterSMeet.BLL.Implementations
         internal IEmailSender EmailSender;
 
         public UserBL(
-            IUserRepository userRepository, IStudentRepository studentRepository, ICompanyRepository companyRepository, IMapper mapper,
+            IUserRepository userRepository, IAuthBL authBl, IStudentRepository studentRepository, ICompanyRepository companyRepository, IMapper mapper,
             IPasswordService passwordGenerator, IJwtService jwtGenerator, IEmailSender emailSender, IConfiguration configuration)
         {
+            AuthBL = authBl;
             PasswordGenerator = passwordGenerator;
             JwtService = jwtGenerator;
             Mapper = mapper;
@@ -66,7 +68,7 @@ namespace InterSMeet.BLL.Implementations
             // Create student
             var student = StudentRepository.Create(StudentSignUpDTO.ToStudent(signUpDto, user));
 
-            return SignAuthDTO(Mapper.Map<Student, StudentDTO>(student));
+            return AuthBL.SignAuthDTO(Mapper.Map<Student, StudentDTO>(student));
         }
 
         public AuthenticatedDTO CompanySignUp(CompanySignUpDTO signUpDto)
@@ -89,7 +91,7 @@ namespace InterSMeet.BLL.Implementations
             // Create company
             var company = CompanyRepository.Create(CompanySignUpDTO.ToCompany(signUpDto, user));
 
-            return SignAuthDTO(Mapper.Map<Company, CompanyDTO>(company));
+            return AuthBL.SignAuthDTO(Mapper.Map<Company, CompanyDTO>(company));
         }
 
         // @ Email Verification
@@ -130,9 +132,10 @@ namespace InterSMeet.BLL.Implementations
                 throw new BLConflictException("Credential not available");
         }
 
-        public void CheckEmail(string email)
+        public void CheckEmail(string email, string? username)
         {
-            if (UserRepository.FindByEmail(email) is not null)
+            var existing = UserRepository.FindByEmail(email);
+            if (existing != null && existing.Username != username)
                 throw new BLConflictException("Email not available");
         }
 
@@ -162,7 +165,7 @@ namespace InterSMeet.BLL.Implementations
                     throw new BLUnauthorizedException("Wrong password");
                 var student = StudentRepository.FindById(user.UserId);
                 var std = Mapper.Map<Student, StudentDTO>(student!);
-                return SignAuthDTO(std);
+                return AuthBL.SignAuthDTO(std);
             }
             if (IsCompany(user.UserId))
             {
@@ -171,7 +174,7 @@ namespace InterSMeet.BLL.Implementations
                 if (!PasswordGenerator.CompareHash(signInDTO.Password, user.Password))
                     throw new BLUnauthorizedException("Wrong password");
                 var company = CompanyRepository.FindById(user.UserId);
-                return SignAuthDTO(Mapper.Map<Company, CompanyDTO>(company!));
+                return AuthBL.SignAuthDTO(Mapper.Map<Company, CompanyDTO>(company!));
             }
 
             throw new BLUnauthorizedException("Your user isn't a student or a company, administrator should solve this issue");
@@ -181,7 +184,7 @@ namespace InterSMeet.BLL.Implementations
         {
             ClaimsPrincipal? principal = null;
             try { principal = JwtService.GetRefreshTokenPrincipal(refreshToken); } catch { }
-            
+
             if (principal?.Identity?.Name == null)
                 throw new BLUnauthorizedException("Invalid refresh token");
 
@@ -190,7 +193,7 @@ namespace InterSMeet.BLL.Implementations
                 throw new BLUnauthorizedException("Invalid refresh token");
 
             var userDto = Mapper.Map<User, UserDTO>(user);
-            return SignAuthDTO(userDto, refreshToken);
+            return AuthBL.SignAuthDTO(userDto, refreshToken);
         }
 
         // @ Password
@@ -333,26 +336,6 @@ namespace InterSMeet.BLL.Implementations
         private bool IsCompany(int userId)
         {
             return CompanyRepository.FindById(userId) != null;
-        }
-
-        // @ Auth
-
-        private AuthenticatedDTO SignAuthDTO(UserDTO userDto, string? refreshToken = null)
-        {
-            Claim? roleClaim = null;
-            if (userDto.RoleId is not null)
-            {
-                var role = UserRepository.FindRoleById((int)userDto.RoleId);
-                if (role is null) throw new NullReferenceException(nameof(role));
-                roleClaim = new Claim(ClaimTypes.Role, role.Name);
-            }
-
-            return new()
-            {
-                User = userDto,
-                AccessToken = JwtService.SignAccessToken(userDto.Username, roleClaim),
-                RefreshToken = refreshToken ?? JwtService.SignRefreshToken(userDto.Username)
-            };
         }
     }
 }

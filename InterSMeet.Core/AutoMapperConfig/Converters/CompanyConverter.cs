@@ -22,6 +22,11 @@ namespace InterSMeet.Core.MapperProfiles
                 RoleId = source.User.RoleId,
                 Address = source.Address,
                 CompanyName = source.CompanyName,
+                EmailVerified = source.User.EmailVerified,
+                Description = source.Description,
+                Web = source.Web,
+                BackgroundUrl = source.BackgroundUrl,
+                LogoUrl = source.LogoUrl,
             };
         }
     }

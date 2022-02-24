@@ -1,4 +1,4 @@
-﻿using InterSMeet.ApiRest.Utils;
+﻿ using InterSMeet.ApiRest.Utils;
 using InterSMeet.BLL.Contracts;
 using InterSMeet.Core.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +17,23 @@ namespace InterSMeet.Controllers
             CompanyBL = companyBL;
         }
 
+        [Route("applicants/{companyId}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult<IEnumerable<CompanyDTO>> FindCompanyApplicants(int companyId)
+        {
+            return Ok(CompanyBL.CountCompanyApplicants(companyId));
+        }
+
+        [HttpPut("update-profile")]
+        [Authorize(Roles = "Company")]
+        public ActionResult<AuthenticatedDTO> Update(UpdateCompanyDTO updateDto)
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            return Ok(CompanyBL.Update(updateDto, username));
+        }
+
+
         [HttpGet("all")]
         [Authorize(Roles = "Admin")]
         public ActionResult<IEnumerable<CompanyDTO>> FindAllAdmin()
@@ -33,10 +50,17 @@ namespace InterSMeet.Controllers
 
         [HttpGet("profile")]
         [Authorize]
-        public ActionResult<StudentDTO> FindById()
+        public ActionResult<CompanyDTO> FindById()
         {
             var username = ControllerUtils.GetUserIdentity(HttpContext);
             return Ok(CompanyBL.FindProfile(username));
+        }
+
+        [HttpGet("profile/{username}")]
+        [AllowAnonymous]
+        public ActionResult<PublicCompanyDTO> FindPublicProfile(string username)
+        {
+            return Ok(CompanyBL.FindPublicProfile(username));
         }
 
         [HttpDelete("{companyId}")]

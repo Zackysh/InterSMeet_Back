@@ -7,6 +7,9 @@ namespace InterSMeet.Core.DTO
     {
         [MaxLength(40)]
         public string? Username { get; set; }
+
+        [MaxLength(255)]
+        public string Email { get; set; } = null!;
         [MaxLength(70)]
         public string? FirstName { get; set; }
         [MaxLength(70)]
