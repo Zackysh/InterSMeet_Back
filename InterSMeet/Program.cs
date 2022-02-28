@@ -42,6 +42,9 @@ builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 // Configure authentication
+
+var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("Jwt:AccessSecret").Value);
+
 builder.Services.AddAuthentication(auth =>
 {
     auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -57,7 +60,7 @@ builder.Services.AddAuthentication(auth =>
         ValidateAudience = true,
         ValidAudience = builder.Configuration["Jwt:Audience"],
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:AccessSecret"]))
+        IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
 
@@ -85,7 +88,7 @@ builder.Services.AddDbContext<InterSMeetDbContext>(
                 );
 
 var app = builder.Build();
-app.Urls.Add("http://0.0.0.0:5000");
+//app.Urls.Add("http://0.0.0.0:5000");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -96,7 +99,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowSetOrigins");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
