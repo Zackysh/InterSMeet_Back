@@ -43,7 +43,7 @@ builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 // Configure authentication
 
-var key = Encoding.ASCII.GetBytes("4F46925F8983C24B66C7431E5F26C");
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:AccessSecret"]);
 
 builder.Services.AddAuthentication(auth =>
 {
