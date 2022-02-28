@@ -21,11 +21,11 @@ namespace InterSMeet.Core.Security
             if (roleClaim is not null)
                 claims = new Claim[] { roleClaim };
 
-            return GetJwtToken(username, Configuration["Jwt:AccessSecret"], TimeSpan.FromMinutes(30), claims);
+            return GetJwtToken(username, "4F46925F8983C24B66C7431E5F26C", TimeSpan.FromMinutes(30), claims);
         }
         public string SignRefreshToken(string username)
         {
-            return GetJwtToken(username, Configuration["Jwt:RefreshSecret"], TimeSpan.FromDays(7));
+            return GetJwtToken(username, "CADF18992ADE1D471AA7179ED1B2C", TimeSpan.FromDays(7));
         }
 
         /// <summary>
@@ -62,8 +62,8 @@ namespace InterSMeet.Core.Security
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: Configuration["Jwt:Issuer"],
-                audience: Configuration["Jwt:Audience"],
+                issuer: "localhost:back",
+                audience: "localhost:front",
                 expires: DateTime.UtcNow.Add(expiration),
                 claims: claims,
                 signingCredentials: creds
@@ -81,7 +81,7 @@ namespace InterSMeet.Core.Security
                 ValidateIssuer = false,
                 RequireExpirationTime = true,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:RefreshSecret"])),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("CADF18992ADE1D471AA7179ED1B2C")),
                 ValidateLifetime = true
             };
             var tokenHandler = new JwtSecurityTokenHandler();

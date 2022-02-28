@@ -43,7 +43,7 @@ builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 // Configure authentication
 
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:AccessSecret"]);
+var key = Encoding.ASCII.GetBytes("4F46925F8983C24B66C7431E5F26C");
 
 builder.Services.AddAuthentication(auth =>
 {
@@ -56,9 +56,9 @@ builder.Services.AddAuthentication(auth =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidIssuer = "localhost:back",
         ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidAudience = "localhost:front",
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
@@ -80,7 +80,7 @@ builder.Services.AddCors(options =>
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
 builder.Services.AddDbContext<InterSMeetDbContext>(
             dbContextOptions => dbContextOptions
-                .UseMySql(builder.Configuration["ConnectionStrings:InterSMeetDb"], serverVersion)
+                .UseMySql("server=51.254.98.186;user=zack;password=.afGWw3mFD6xa#+;database=intersmeetdb", serverVersion)
                 // Disable on prod
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()

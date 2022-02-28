@@ -14,7 +14,7 @@ namespace InterSMeet.Core.Security
         public string Hash(string password)
         {
             // generate a 128-bit salt
-            byte[] salt = Encoding.UTF8.GetBytes(Configuration["Salt"]);
+            byte[] salt = Encoding.UTF8.GetBytes("dco21321");
 
             // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
