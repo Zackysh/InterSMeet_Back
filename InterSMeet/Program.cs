@@ -88,7 +88,7 @@ builder.Services.AddDbContext<InterSMeetDbContext>(
                 );
 
 var app = builder.Build();
-//app.Urls.Add("http://0.0.0.0:5000");
+app.Urls.Add("http://0.0.0.0:5000");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -99,7 +99,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowSetOrigins");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
