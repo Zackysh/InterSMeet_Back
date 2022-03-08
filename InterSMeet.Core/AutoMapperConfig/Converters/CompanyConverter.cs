@@ -27,6 +27,7 @@ namespace InterSMeet.Core.MapperProfiles
                 Web = source.Web,
                 BackgroundUrl = source.BackgroundUrl,
                 LogoUrl = source.LogoUrl,
+                IsPremium = source.StripeId is not null && source.StripeId.Length > 0,
             };
         }
     }

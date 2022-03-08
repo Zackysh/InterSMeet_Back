@@ -1,6 +1,5 @@
 ﻿using InterSMeet.ApiRest.Utils;
 using InterSMeet.BLL.Contracts;
-using InterSMeet.Core.DTO;
 using InterSMeet.Core.DTO.Offer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -104,7 +103,7 @@ namespace InterSMeet.Controllers
         /// <summary> Companies can update applications status </summary>
         [HttpPut("applications/update-status/{offerId}/{studentId}")]
         [Authorize(Roles = "Company")]
-        public ActionResult<ApplicantDTO> DeleteApplication(int offerId, int studentId, ApplicationStatusDTO status)
+        public ActionResult<ApplicantDTO> UpdateApplicationStatus(int offerId, int studentId, ApplicationStatusDTO status)
         {
             var username = ControllerUtils.GetUserIdentity(HttpContext);
             return Ok(OfferBL.UpdateApplicationStatus(offerId, studentId, username, status));

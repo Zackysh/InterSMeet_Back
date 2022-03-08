@@ -5,6 +5,7 @@ using InterSMeet.Core.DTO;
 using InterSMeet.Core.DTO.Validators;
 using InterSMeet.DAL.Entities;
 using InterSMeet.DAL.Repositories.Contracts;
+using Stripe;
 
 namespace InterSMeet.BLL.Implementations
 {
@@ -64,7 +65,7 @@ namespace InterSMeet.BLL.Implementations
             return Mapper.Map<Company, CompanyDTO>(company);
         }
 
-        public AuthenticatedDTO Update(UpdateCompanyDTO updateDto , string username)
+        public AuthenticatedDTO Update(UpdateCompanyDTO updateDto, string username)
         {
             if (updateDto is null || NullValidator.IsNullOrEmpty(updateDto)) throw new BLBadRequestException("You should update at least one field");
 
@@ -108,9 +109,51 @@ namespace InterSMeet.BLL.Implementations
             return total;
         }
 
+        /// <summary>
+        /// Toggle premium plan (placeholder for stripe)
+        /// </summary>
+        public void Premium(string username)
+        {
+            var company = FindProfile_(username);
+            if (company is null) throw new BLUnauthorizedException("Invalid access token");
+
+            if (company.StripeId is not null && company.StripeId.Length > 0)
+            {
+                company.StripeId = null;
+                CompanyRepository.Update(company);
+            }
+            else
+                AssignStripeId(company.CompanyId);
+
+        }
+
         // =============================================================================================
         // @ Private Methods
         // =============================================================================================
+
+        private CompanyDTO AssignStripeId(int companyId)
+        {
+            var company = CompanyRepository.FindById(companyId);
+
+            if (company is null)
+                throw new BLNotFoundException($"Company not found with ID: {companyId}");
+
+            StripeConfiguration.ApiKey = "sk_test_51KaLr9BtBI6klZnkTdelw4K3cFpKKIl8p7m2RNueRGgYkkRkZC2jZmCRhKnyfziR5bnbxJlrszO12gyG9XTh3cg800NFbz0je7";
+            if (company.StripeId is null || company.StripeId.Length <= 0)
+            {
+                var customerOptions = new CustomerCreateOptions
+                {
+                    Email = company.User.Email
+                };
+
+                var customerService = new CustomerService();
+                var customer = customerService.Create(customerOptions);
+                company.StripeId = customer.Id;
+                CompanyRepository.Update(company);
+            }
+
+            return Mapper.Map<Company, CompanyDTO>(company);
+        }
 
         private Company? FindProfile_(string username)
         {

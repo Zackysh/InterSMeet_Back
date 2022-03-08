@@ -107,6 +107,14 @@ namespace InterSMeet.BLL.Implementations
             return ImageDTO.FromImage(avatar);
         }
 
+        public ImageDTO DownloadAvatarById(int avatarId)
+        {
+            var avatar = StudentRepository.DownloadAvatar(avatarId);
+            if (avatar is null) throw new BLNotFoundException($"Avatar not found with ID {avatarId}");
+
+            return ImageDTO.FromImage(avatar);
+        }
+
         public ImageDTO DownloadAvatar(int imageId)
         {
             var avatar = StudentRepository.DownloadAvatar(imageId);

@@ -9,5 +9,6 @@
         public string? Web { get; set; }
         public string? BackgroundUrl { get; set; }
         public string? LogoUrl { get; set; }
+        public bool IsPremium { get; set; } = false;
     }
 }

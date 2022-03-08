@@ -7,6 +7,8 @@ namespace InterSMeet.DAL.Entities
     {
         [Key, Column("company_id"), ForeignKey("User")]
         public int CompanyId { get; set; }
+        [Column("stripe_id")]
+        public string? StripeId { get; set; }
         [Column("company_name"), MaxLength(70)]
         public string CompanyName { get; set; } = null!;
         public string Address { get; set; } = null!;

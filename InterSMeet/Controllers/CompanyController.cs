@@ -69,5 +69,16 @@ namespace InterSMeet.Controllers
         {
             return Ok(CompanyBL.Delete(companyId));
         }
+
+        [HttpPut("premium")]
+        [Authorize(Roles = "Company")]
+        public ActionResult<AuthenticatedDTO> Premium()
+        {
+            var username = ControllerUtils.GetUserIdentity(HttpContext);
+            CompanyBL.Premium(username);
+            return Ok();
+        }
+
+
     }
 }

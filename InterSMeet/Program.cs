@@ -80,7 +80,7 @@ builder.Services.AddCors(options =>
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
 builder.Services.AddDbContext<InterSMeetDbContext>(
             dbContextOptions => dbContextOptions
-                .UseMySql("server=51.254.98.186;user=zack;password=.afGWw3mFD6xa#+;database=intersmeetdb", serverVersion)
+                .UseMySql("server=localhost;user=root;password=;database=intersmeetdb", serverVersion)
                 // Disable on prod
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()

@@ -11,5 +11,6 @@ namespace InterSMeet.BLL.Contracts
         AuthenticatedDTO Update(UpdateCompanyDTO updateDto, string username);
         int CountCompanyApplicants(int companyId);
         PublicCompanyDTO FindPublicProfile(string username);
+        void Premium(string username);
     }
 }

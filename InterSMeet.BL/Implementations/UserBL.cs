@@ -159,7 +159,7 @@ namespace InterSMeet.BLL.Implementations
 
             if (IsStudent(user.UserId))
             {
-                if (!usertype.Equals("student")) throw new BLForbiddenException("You can't sign-in as a student");
+                if (!usertype.Equals("student")) throw new BLForbiddenException("You can't sign-in as a company");
                 // Check password
                 if (!PasswordGenerator.CompareHash(signInDTO.Password, user.Password))
                     throw new BLUnauthorizedException("Wrong password");
@@ -167,9 +167,9 @@ namespace InterSMeet.BLL.Implementations
                 var std = Mapper.Map<Student, StudentDTO>(student!);
                 return AuthBL.SignAuthDTO(std);
             }
-            if (IsCompany(user.UserId))
+            else if (IsCompany(user.UserId))
             {
-                if (!usertype.Equals("company")) throw new BLForbiddenException("You can't sign-in as a company");
+                if (!usertype.Equals("company")) throw new BLForbiddenException("You can't sign-in as a student");
                 // Check password
                 if (!PasswordGenerator.CompareHash(signInDTO.Password, user.Password))
                     throw new BLUnauthorizedException("Wrong password");

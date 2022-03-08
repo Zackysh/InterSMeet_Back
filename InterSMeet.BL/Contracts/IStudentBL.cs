@@ -10,6 +10,7 @@ namespace InterSMeet.BLL.Contracts
         int UploadAvatar(ImageDTO img, string username);
         int ApplicationCount(string username);
         ImageDTO DownloadAvatarByStudent(string username);
+        ImageDTO DownloadAvatarById(int avatarId);
         IEnumerable<DegreeDTO> FindAllDegrees();
         IEnumerable<FamilyDTO> FindAllFamilies();
         IEnumerable<LevelDTO> FindAllLevels();

@@ -80,6 +80,14 @@ namespace InterSMeet.Controllers
             return Ok(StudentBL.UploadAvatar(ImageDTO.FronIFormFile(image), username));
         }
 
+        [HttpGet("avatar/{avatarId}")]
+        [AllowAnonymous]
+        public IActionResult DownloadAvatar(int avatarId)
+        {
+            var avatar = StudentBL.DownloadAvatarById(avatarId);
+            return File(avatar.ImageData, "image/jpeg");
+        }
+
         [HttpGet("download-avatar")]
         [Authorize]
         public IActionResult DownloadAvatar()
