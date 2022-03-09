@@ -7150,19 +7150,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\adrig\\.nuget\\packages\\": {}
+    "C:\\Users\\AdriGB\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
+      "projectUniqueName": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
       "projectName": "InterSMeet.Core",
-      "projectPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
-      "packagesPath": "C:\\Users\\adrig\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\obj\\",
+      "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\InterSMeet.Core.csproj",
+      "packagesPath": "C:\\Users\\AdriGB\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\adrig\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\AdriGB\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7176,8 +7176,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
-              "projectPath": "C:\\Users\\adrig\\OneDrive\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
+            "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj": {
+              "projectPath": "C:\\Users\\AdriGB\\Documents\\GitHub\\InterSMeet_Back\\InterSMeet.DAL\\InterSMeet.DAL.csproj"
             }
           }
         }
@@ -7232,7 +7232,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

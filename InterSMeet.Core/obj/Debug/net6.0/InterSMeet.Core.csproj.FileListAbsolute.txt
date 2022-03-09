@@ -1,6 +1,5 @@
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\InterSMeet.Core.deps.json
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\InterSMeet.Core.dll
-C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\ref\InterSMeet.Core.dll
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\InterSMeet.Core.pdb
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\InterSMeet.DAL.dll
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\InterSMeet.DAL.pdb
@@ -49,3 +48,4 @@ C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Deb
 C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Debug\net6.0\InterSMeet.Core.genruntimeconfig.cache
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\bin\Debug\net6.0\InterSMeet.Core.runtimeconfig.json
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Debug\net6.0\InterSMeet.Core.genruntimeconfig.cache
+C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.Core\obj\Debug\net6.0\refint\InterSMeet.Core.dll

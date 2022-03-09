@@ -1,6 +1,5 @@
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.BLL.deps.json
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.BLL.dll
-C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\ref\InterSMeet.BLL.dll
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.BLL.pdb
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.Core.dll
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.DAL.dll
@@ -55,3 +54,4 @@ C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug
 C:\Users\adrig\OneDrive\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.genruntimeconfig.cache
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\bin\Debug\net6.0\InterSMeet.BLL.runtimeconfig.json
 C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\InterSMeet.BLL.genruntimeconfig.cache
+C:\Users\AdriGB\Documents\GitHub\InterSMeet_Back\InterSMeet.BL\obj\Debug\net6.0\refint\InterSMeet.BLL.dll
